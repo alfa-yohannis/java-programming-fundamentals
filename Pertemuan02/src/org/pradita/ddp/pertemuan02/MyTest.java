@@ -1,3 +1,4 @@
+package org.pradita.ddp.pertemuan02;
 
 public class MyTest {
 	public static void main(String[] args) {

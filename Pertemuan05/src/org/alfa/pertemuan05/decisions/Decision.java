@@ -8,28 +8,28 @@ public class Decision {
 
 		/** Decisions, Branching, Conditioning, Flow Control **/
 		Scanner scanner = new Scanner(System.in);
-		
+
 		System.out.print("Enter your score (0.0 - 100.0): ");
-		
+
 		double score = scanner.nextDouble();
-		
+
 		char mark = 'Z';
-		mark = getIfMark(score);
-		mark = getIfElseMark(score);
-		mark = getNestedIf(score);
+//		mark = getIfMark(score);
+//		mark = getIfElseMark(score);
+//		mark = getNestedIf(score);
 		mark = getIfMultipleConditionsMark(score);
-		
+
 		System.out.println("Your mark is '" + mark + "'");
-		
+
 		if (isExamPassed(mark)) {
 			System.out.println("You have passed the exam");
-		}else {
+		} else {
 			System.out.println("You failed the exam");
 		}
-		
+
 		if (isShortExamPassed(mark)) {
 			System.out.println("You have passed the exam");
-		}else {
+		} else {
 			System.out.println("You failed the exam");
 		}
 	}

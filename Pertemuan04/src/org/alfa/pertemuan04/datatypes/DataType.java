@@ -26,20 +26,22 @@ public class DataType {
 		
 		String q = "1";
 		
-		/** Advantages of using Wrapper Classes **/
+		/** (Auto)Boxing and (Auto)Unboxing **/
+		Integer r = new Integer(3); 
+		Integer s = 3;
+		int t = s;
 		
-		double[] primitives = {a, b, f, h};
+		/** Advantages of using Wrapper Classes **/
+	
+//		double[] primitives = {a, b, f, h};
 		
 		// treat the values as objects
 		Object[] boxedPrimitives = {i, l, n, p};
 
 		// values have methods
-		System.out.println(l.compareTo(d));
 		
-		/** (Auto)Boxing and (Auto)Unboxing **/
-		Integer r = new Integer(3); 
-		Integer s = 3;
-		int t = r;
+		System.out.println(l.compareTo(3));
+		
 	}
 
 }
