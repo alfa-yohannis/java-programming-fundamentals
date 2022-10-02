@@ -10,6 +10,7 @@ public class StringOperation {
 		System.out.println(a.replace("a", "o"));
 		System.out.println(a.contains("ada"));
 		System.out.println(a.concat(" lima ratus"));
+		
 	}
 
 }

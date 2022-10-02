@@ -5,6 +5,7 @@ public class TypeConversion {
 	public static void main(String[] args) {
 		
 //		float c = 4.5f;
+////		byte x = Byte.MIN_VALUE;
 //		int a = Byte.MAX_VALUE + 3;
 //		long b = 4;
 //		double d = a + b + c;
@@ -26,8 +27,7 @@ public class TypeConversion {
 		System.out.println(s);
 		int t = (int) 'a'; 
 		System.out.println(t);
-//		int u = Character.getNumericValue(s);
-//		System.out.println(u);
+
 	}
 
 }

@@ -36,11 +36,10 @@ public class DataType {
 //		double[] primitives = {a, b, f, h};
 		
 		// treat the values as objects
-		Object[] boxedPrimitives = {i, l, n, p};
+		Object[] boxedPrimitives = {i, l, n, p, q};
 
 		// values have methods
-		
-		System.out.println(l.compareTo(3));
+		System.out.println(l.compareTo(5));
 		
 	}
 
