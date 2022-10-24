@@ -22,6 +22,21 @@ public class ObjectLoop {
 		System.out.println();
 		executeForEach(accountList);
 		System.out.println();
+//		
+		System.out.println();
+//		
+		int i = 0;
+		while (i < accountList.size()) {
+			BankAccount ba = accountList.get(i);
+			System.out.println(ba.getName());
+			i++;
+		}
+		
+		System.out.println();
+		for (int k = 0; k < accountList.size(); k++) {
+			BankAccount ba = accountList.get(k);
+			System.out.println(ba.getName());
+		}
 
 	}
 

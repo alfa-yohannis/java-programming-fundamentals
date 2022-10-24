@@ -1,22 +1,19 @@
 package org.alfa.pertemuan07.looping;
 
-import java.util.Iterator;
-import java.util.List;
-
 public class PrimitiveLoop {
 
 	public static void main(String[] args) {
-		
-		executeWhileLoop(2, 1, 10);
-		System.out.println();
-		
-		executeDoWhile(3, 1, 10);
-		System.out.println();
-		
-		executeForLoop(4, 1, 10);
-		System.out.println();
-		
-		executeForIn(5, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+
+//		executeWhileLoop(2, 1, 10);
+//		System.out.println();
+
+//		executeDoWhile(3, 1, 10);
+//		System.out.println();
+////		
+//		executeForLoop(4, 1, 10);
+//		System.out.println();
+////		
+		executeForIn(5, new int[] { 1, 2, 3, 4, 100, 6, 7, 8, 9, 10 });
 	}
 
 	public static void executeWhileLoop(int value, int from, int to) {
@@ -30,7 +27,7 @@ public class PrimitiveLoop {
 		do {
 			System.out.println(value + " * " + from + " = " + (value * from));
 			from++;
-		} while (from < to);
+		} while (from <= to);
 	}
 
 	public static void executeForLoop(int value, int from, int to) {
@@ -41,7 +38,8 @@ public class PrimitiveLoop {
 
 	public static void executeForIn(int value, int[] array) {
 		for (int element : array) {
-			System.out.println(value + " * " + element + " = " + (value * element));
+			System.out.println(value + " * " + element + //
+					" = " + (value * element));
 		}
 	}
 

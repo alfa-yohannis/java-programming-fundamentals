@@ -21,12 +21,12 @@ public class Decision {
 
 		System.out.println("Your mark is '" + mark + "'");
 
-		if (isExamPassed(mark)) {
-			System.out.println("You have passed the exam");
-		} else {
-			System.out.println("You failed the exam");
-		}
-
+//		if (isExamPassed(mark)) {
+//			System.out.println("You have passed the exam");
+//		} else {
+//			System.out.println("You failed the exam");
+//		}
+//
 		if (isShortExamPassed(mark)) {
 			System.out.println("You have passed the exam");
 		} else {
