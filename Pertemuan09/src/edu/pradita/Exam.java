@@ -26,6 +26,7 @@ public class Exam {
 	}
 
 	public void start() {
+		System.out.println("Start Exam\n");
 		Scanner scanner = new Scanner(System.in);
 
 		for (int lineNum = 1; lineNum <= questions.size(); lineNum++) {
@@ -40,5 +41,7 @@ public class Exam {
 		}
 
 		scanner.close();
+		
+		System.out.println("\nFinished");
 	}
 }
