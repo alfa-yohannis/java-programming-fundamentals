@@ -1,0 +1,10 @@
+package edu.pradita.view;
+
+public enum ATMState {
+
+	ENTER_ACCOUNT_NUMBER,
+	ENTER_PIN,
+	MAIN_MENU,
+	CHECK_BALANCE, WITHDRAW,
+	DEPOSIT, TRANSFER
+}
