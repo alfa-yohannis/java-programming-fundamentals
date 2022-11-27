@@ -28,9 +28,10 @@ public class EnterButtonListener implements ActionListener {
 			MainApplication.setAtmState(ATMState.ENTER_PIN);
 			mainScreen.getBtnLeft1().setText("<html><center>Check<br/>Balance</center></html>");
 			mainScreen.getBtnLeft2().setText("<html><center>Withdraw</center></html>");
+			mainScreen.getBtnLeft3().setText("<html><center>Exit</center></html>");
 			mainScreen.getBtnRight1().setText("<html><center>Deposit</center></html>");
 			mainScreen.getBtnRight2().setText("<html><center>Transfer</center></html>");
-			mainScreen.getBtnLeft3().setText("<html><center>Exit</center></html>");
+			mainScreen.getBtnRight3().setText("<html><center>Data<br/>Transaksi</center></html>");
 			mainScreen.getLblTop().setText("Main Menu");
 			mainScreen.getLblMiddle().setText("");
 			mainScreen.getLblBottom().setText("");
