@@ -114,13 +114,13 @@ public class ItemForm extends JFrame {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if ("tableCellEditor".equals(evt.getPropertyName()) && evt.getNewValue() != null) {
+				if ("tableCellEditor".equals(evt.getPropertyName()) && table.isEditing()) {
 					int selectedRow = table.getSelectedRow();
 					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 					oldCode = (String) dtm.getValueAt(selectedRow, 0);
 				}
 				
-				if (!"tableCellEditor".equals(evt.getPropertyName()) || evt.getOldValue() == null) {
+				if (!"tableCellEditor".equals(evt.getPropertyName()) || table.isEditing()) {
 					return;
 				}
 

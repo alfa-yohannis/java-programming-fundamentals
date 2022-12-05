@@ -7,5 +7,19 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="database/mysql-connector-j-8.0.31.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.birt.runtime_4.12.0-20221128.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.core.runtime_3.26.0.v20220813-0916.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.equinox.common_3.16.200.v20220817-1601.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/com.ibm.icu_70.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.datatools.connectivity.oda_3.6.101.201811012051.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.mozilla.javascript_1.7.10.v20190430-1943.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.w3c.css.sac_1.3.1.v200903091627.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.apache.batik.css_1.14.0.v20210324-0332.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.apache.batik.i18n_1.14.0.v20210324-0332.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.apache.batik.util_1.14.0.v20210324-0332.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/com.github.librepdf.openpdf_1.3.26.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.datatools.connectivity.oda.consumer_3.4.101.201811012051.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.equinox.registry_3.11.200.v20220817-1601.jar"/>
+	<classpathentry kind="lib" path="C:/birt-runtime/ReportEngine/lib/org.eclipse.osgi_3.18.100.v20220817-1601.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

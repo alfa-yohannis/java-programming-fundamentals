@@ -7,6 +7,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportEngineFactory;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
+
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import javax.swing.JButton;
@@ -23,6 +31,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -43,6 +52,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.math.BigDecimal;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -434,6 +444,52 @@ public class OrderForm {
 
 		JMenuBar menuBar = new JMenuBar();
 		frmOrderForm.setJMenuBar(menuBar);
+		
+		JMenu menuFile = new JMenu("File");
+		menuFile.setMnemonic('F');
+		menuBar.add(menuFile);
+		
+		JMenuItem menuItemPrint = new JMenuItem("Print");
+		menuItemPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					EngineConfig config = new EngineConfig();
+					Platform.startup(config);
+					final IReportEngineFactory FACTORY = (IReportEngineFactory) Platform
+					    .createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+					IReportEngine engine = FACTORY.createReportEngine(config);
+
+					// Open the report design
+					IReportRunnable design = null;
+					design = engine.openReportDesign("reports/test.rptdesign");
+					IRunAndRenderTask task = engine.createRunAndRenderTask(design);
+					task.setParameterValue("order_code", txtCode.getText());
+					task.validateParameters();
+
+					PDFRenderOption options = new PDFRenderOption();
+					options.setOutputFileName("reports/test.pdf");
+					options.setOutputFormat("pdf");
+
+					task.setRenderOption(options);
+					task.run();
+					task.close();
+					engine.destroy();
+
+					if (Desktop.isDesktopSupported()) {
+						File myFile = new File("reports/test.pdf");
+						Desktop.getDesktop().open(myFile);
+					}
+
+				} catch (Exception EX) {
+					EX.printStackTrace();
+				} finally {
+					Platform.shutdown();
+				}
+				
+			}
+		});
+		menuFile.add(menuItemPrint);
 
 		JMenu menuMasterData = new JMenu("Master Data");
 		menuMasterData.setMnemonic('M');
