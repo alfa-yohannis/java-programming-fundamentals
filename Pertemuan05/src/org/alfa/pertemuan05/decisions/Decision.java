@@ -37,20 +37,24 @@ public class Decision {
 	/** If **/
 	public static char getIfMark(double score) {
 		char mark = 'E';
-		if (score >= 80) {
-			mark = 'A';
-		}
-		if (score < 80) {
-			mark = 'B';
-		}
-		if (score < 60) {
-			mark = 'C';
+		if (score < 10) {
+			mark = 'E';
+			return mark;
 		}
 		if (score < 20) {
 			mark = 'D';
+			return mark;
 		}
-		if (score < 10) {
-			mark = 'E';
+		if (score < 60) {
+			mark = 'C';
+			return mark;
+		}
+		if (score < 80) {
+			mark = 'B';
+			return mark;
+		}
+		if (score >= 80) {
+			mark = 'A';
 		}
 		return mark;
 	}
@@ -111,8 +115,9 @@ public class Decision {
 	public static boolean isExamPassed(char mark) {
 		boolean pass = false;
 		switch (mark) {
-		case 'A':
-			pass = true;
+		case 'A': {
+				pass = true;
+			}
 			break;
 		case 'B':
 			pass = true;
@@ -129,7 +134,9 @@ public class Decision {
 	/** short conditioning **/
 	public static boolean isShortExamPassed(char mark) {
 		boolean pass = false;
-		pass = (mark == 'A' || mark == 'B' || mark == 'C') ? true : false;
+//		pass = (mark == 'A' || mark == 'B' || mark == 'C') ? true : false;
+		pass = (mark == 'D' || mark == 'E') ? false : true;
+//		pass = (mark != 'A' && mark != 'B' && mark != 'C') ? false : true;
 		return pass;
 	}
 }

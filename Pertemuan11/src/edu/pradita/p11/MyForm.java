@@ -104,7 +104,7 @@ public class MyForm {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton.setBounds(114, 136, 85, 29);
+		btnNewButton.setBounds(114, 136, 237, 29);
 		frmExampleForm.getContentPane().add(btnNewButton);
 	}
 

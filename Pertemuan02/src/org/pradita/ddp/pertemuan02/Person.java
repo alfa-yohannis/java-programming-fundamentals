@@ -2,9 +2,9 @@ package org.pradita.ddp.pertemuan02;
 
 public class Person {
 
-	String name;
-	int age;
-	String lastName;
+	private String name, lastName;
+	private int age;
+//	private String lastName;
 
 	public Person() {
 		this.name = "Charlie";
