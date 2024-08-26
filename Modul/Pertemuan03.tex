@@ -8,9 +8,9 @@ Enkapsulasi adalah salah satu prinsip dasar pemrograman berorientasi objek (OOP)
 Dalam Java, enkapsulasi dicapai dengan menggunakan modifikator akses seperti \texttt{private}, \texttt{protected}, dan \texttt{public}. 
 
 \begin{itemize}
-	\item \textbf{Private:} Atribut atau metode yang dideklarasikan dengan \texttt{private} hanya dapat diakses dari dalam kelas itu sendiri. Ini adalah cara untuk melindungi data dari modifikasi langsung dari luar kelas.
-	\item \textbf{Protected:} Atribut atau metode yang dideklarasikan dengan \texttt{protected} dapat diakses oleh kelas yang berada dalam paket yang sama atau oleh subclass.
-	\item \textbf{Public:} Atribut atau metode yang dideklarasikan dengan \texttt{public} dapat diakses dari mana saja, baik dari dalam kelas, kelas lain dalam paket yang sama, maupun kelas yang berada di luar paket.
+\item \textbf{Private:} Atribut atau metode yang dideklarasikan dengan \texttt{private} hanya dapat diakses dari dalam kelas itu sendiri. Ini adalah cara untuk melindungi data dari modifikasi langsung dari luar kelas.
+\item \textbf{Protected:} Atribut atau metode yang dideklarasikan dengan \texttt{protected} dapat diakses oleh kelas yang berada dalam paket yang sama atau oleh subclass.
+\item \textbf{Public:} Atribut atau metode yang dideklarasikan dengan \texttt{public} dapat diakses dari mana saja, baik dari dalam kelas, kelas lain dalam paket yang sama, maupun kelas yang berada di luar paket.
 \end{itemize}
 
 
@@ -19,9 +19,9 @@ Dalam Java, enkapsulasi dicapai dengan menggunakan modifikator akses seperti \te
 Dokumentasi adalah bagian penting dari pemrograman yang membantu pengembang memahami kode dan cara menggunakannya. Dalam Java, dokumentasi biasanya dibuat menggunakan komentar dalam kode. Ada dua jenis komentar utama yang digunakan untuk dokumentasi:
 
 \begin{itemize}
-	\item \textbf{Komentar Baris Tunggal:} Dimulai dengan \texttt{//} dan digunakan untuk menjelaskan bagian-bagian kecil dari kode.
-	\item \textbf{Komentar Blok:} Dimulai dengan \texttt{/*} dan diakhiri dengan \texttt{*/}. Digunakan untuk menjelaskan bagian kode yang lebih besar atau memberikan informasi tambahan yang lebih mendetail.
-	\item \textbf{Komentar Dokumentasi:} Dimulai dengan \texttt{/**} dan diakhiri dengan \texttt{*/}. Digunakan untuk menghasilkan dokumentasi otomatis menggunakan alat seperti Javadoc. Komentar ini biasanya digunakan untuk mendokumentasikan kelas, metode, dan atribut.
+\item \textbf{Komentar Baris Tunggal:} Dimulai dengan \texttt{//} dan digunakan untuk menjelaskan bagian-bagian kecil dari kode.
+\item \textbf{Komentar Blok:} Dimulai dengan \texttt{/*} dan diakhiri dengan \texttt{*/}. Digunakan untuk menjelaskan bagian kode yang lebih besar atau memberikan informasi tambahan yang lebih mendetail.
+\item \textbf{Komentar Dokumentasi:} Dimulai dengan \texttt{/**} dan diakhiri dengan \texttt{*/}. Digunakan untuk menghasilkan dokumentasi otomatis menggunakan alat seperti Javadoc. Komentar ini biasanya digunakan untuk mendokumentasikan kelas, metode, dan atribut.
 \end{itemize}
 
 \section{Contoh Kasus}
@@ -31,131 +31,131 @@ Di bawah ini, kita akan membahas konsep enkapsulasi dan dokumentasi menggunakan 
 \subsection{Kode Kelas BankAccount.java}
 
 \begin{lstlisting}[style=JavaStyle, caption={Kode Java: BankAccount.java}]
-	package com.bank;
+package com.bank;
+
+public class BankAccount {
 	
-	public class BankAccount {
-		
-		private String accountNumber;
-		private double balance;
-		
-		public BankAccount(String accountNumber) {
-			this.accountNumber = accountNumber;
-		}
-		
-		public String getAccountNumber() {
-			return this.accountNumber;
-		}
-		
-		public double getBalance() {
-			return this.balance;
-		}
-		
-		public void save(double amount) {
-			this.balance = this.balance + amount;
-		}
-		
-		public void withdraw(double amount) {
-			this.balance = this.balance - amount;
-		}
-		
+	private String accountNumber;
+	private double balance;
+	
+	public BankAccount(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
+	
+	public String getAccountNumber() {
+		return this.accountNumber;
+	}
+	
+	public double getBalance() {
+		return this.balance;
+	}
+	
+	public void save(double amount) {
+		this.balance = this.balance + amount;
+	}
+	
+	public void withdraw(double amount) {
+		this.balance = this.balance - amount;
+	}
+	
+}
 \end{lstlisting}
 
 \subsection{Kode Kelas BetterBankAccount.java}
 
 \begin{lstlisting}[style=JavaStyle, caption={Kode Java: BetterBankAccount.java}]
-	package com.bank;
+package com.bank;
+
+/***
+* A class that represents the bank account in the real world.
+* @author Alice
+* 
+*/
+public class BetterBankAccount {
+	
+	private String accountNumber;
+	private double balance;
 	
 	/***
-	* A class that represents the bank account in the real world.
-	* @author Alice
 	* 
+	* @param accountNumber the account number.
 	*/
-	public class BetterBankAccount {
-		
-		private String accountNumber;
-		private double balance;
-		
-		/***
-		* 
-		* @param accountNumber the account number.
-		*/
-		public BetterBankAccount(String accountNumber) {
-			this.accountNumber = accountNumber;
-		}
-		
-		/***
-		* The method return the number of the bank account in String.
-		* @return The account number.
-		*/
-		public String getAccountNumber() {
-			return this.accountNumber;
-		}
-		
-		/***
-		* Get the balance of the bank account.
-		* @return The balance of the account.
-		*/
-		public double getBalance() {
-			return this.balance;
-		}
-		
-		/***
-		* Add amount to the balance.  
-		* @param amount The amount to be saved.
-		*/
-		public void save(double amount) {
-			this.balance = this.balance + amount;
-		}
-		
-		/***
-		* Withdraw amount from the balance.
-		* @param amount The amount to be withdrawn.
-		*/
-		public void withdraw(double amount) {
-			if (amount > 0) {
-				this.balance = this.balance - amount;
-			} else {
-				System.out.println("WARNING: Amount should be larger than zero!");
-			}
-		}
-		
+	public BetterBankAccount(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
+	
+	/***
+	* The method return the number of the bank account in String.
+	* @return The account number.
+	*/
+	public String getAccountNumber() {
+		return this.accountNumber;
+	}
+	
+	/***
+	* Get the balance of the bank account.
+	* @return The balance of the account.
+	*/
+	public double getBalance() {
+		return this.balance;
+	}
+	
+	/***
+	* Add amount to the balance.  
+	* @param amount The amount to be saved.
+	*/
+	public void save(double amount) {
+		this.balance = this.balance + amount;
+	}
+	
+	/***
+	* Withdraw amount from the balance.
+	* @param amount The amount to be withdrawn.
+	*/
+	public void withdraw(double amount) {
+		if (amount > 0) {
+			this.balance = this.balance - amount;
+		} else {
+			System.out.println("WARNING: Amount should be larger than zero!");
+		}
+	}
+	
+}
 \end{lstlisting}
 
 \subsection{Kode Kelas Main.java}
 
 \begin{lstlisting}[style=JavaStyle, caption={Kode Java: Main.java}]
-	package com.creditservice;
-	
-	import com.bank.BetterBankAccount;
+package com.creditservice;
+
+import com.bank.BetterBankAccount;
+
+/***
+* The Main class to launch the program.
+* 
+* @author Bob
+*/
+public class Main {
 	
 	/***
-	* The Main class to launch the program.
+	* The main method to launch the program.
 	* 
-	* @author Bob
+	* @param args Parameters for the main method.
 	*/
-	public class Main {
+	public static void main(String[] args) {
+		BetterBankAccount account1 = new BetterBankAccount("ABC123");
+		System.out.println("Account number: " + account1.getAccountNumber());
 		
-		/***
-		* The main method to launch the program.
-		* 
-		* @param args Parameters for the main method.
-		*/
-		public static void main(String[] args) {
-			BetterBankAccount account1 = new BetterBankAccount("ABC123");
-			System.out.println("Account number: " + account1.getAccountNumber());
-			
-			System.out.println("Initial: " + account1.getBalance());
-			
-			account1.save(100.0);
-			System.out.println("After Saving: " + account1.getBalance());
-			
-			account1.withdraw(-0.5);
-			System.out.println("After Withdrawal: " + account1.getBalance());
-		}
+		System.out.println("Initial: " + account1.getBalance());
 		
+		account1.save(100.0);
+		System.out.println("After Saving: " + account1.getBalance());
+		
+		account1.withdraw(-0.5);
+		System.out.println("After Withdrawal: " + account1.getBalance());
 	}
+	
+}
 \end{lstlisting}
 
 \subsection{Penjelasan Kode}
@@ -163,15 +163,303 @@ Di bawah ini, kita akan membahas konsep enkapsulasi dan dokumentasi menggunakan 
 Program ini terdiri dari tiga bagian utama:
 
 \begin{itemize}
-	\item \textbf{Kelas BankAccount:} Kelas ini mengilustrasikan konsep enkapsulasi dengan mendeklarasikan atribut \texttt{accountNumber} dan \texttt{balance} sebagai \texttt{private}. Hal ini memastikan bahwa atribut-atribut ini tidak dapat diakses langsung dari luar kelas, dan hanya dapat dimodifikasi melalui metode yang disediakan. Metode \texttt{save()} dan \texttt{withdraw()} mengubah saldo, namun tidak memeriksa apakah jumlah yang ditarik valid atau tidak.
-	\item \textbf{Kelas BetterBankAccount:} Kelas ini merupakan perbaikan dari \texttt{BankAccount}. Kelas ini juga menggunakan enkapsulasi dengan atribut yang dideklarasikan sebagai \texttt{private}. Selain itu, \texttt{BetterBankAccount} menyertakan validasi dalam metode \texttt{withdraw()} untuk memastikan bahwa jumlah yang ditarik lebih besar dari nol. Dokumentasi dengan komentar \texttt{/*** ... */} juga ditambahkan untuk menjelaskan fungsi kelas, metode, dan parameter.
-	\item \textbf{Kelas Main:} Kelas ini berfungsi sebagai titik masuk program. Objek \texttt{BetterBankAccount} dibuat dan digunakan untuk melakukan operasi perbankan seperti menyimpan dan menarik uang. Kelas ini menunjukkan penggunaan metode \texttt{save()} dan \texttt{withdraw()}, serta bagaimana informasi tentang akun ditampilkan ke konsol.
+\item \textbf{Kelas BankAccount:} Kelas ini mengilustrasikan konsep enkapsulasi dengan mendeklarasikan atribut \texttt{accountNumber} dan \texttt{balance} sebagai \texttt{private}. Hal ini memastikan bahwa atribut-atribut ini tidak dapat diakses langsung dari luar kelas, dan hanya dapat dimodifikasi melalui metode yang disediakan. Metode \texttt{save()} dan \texttt{withdraw()} mengubah saldo, namun tidak memeriksa apakah jumlah yang ditarik valid atau tidak.
+\item \textbf{Kelas BetterBankAccount:} Kelas ini merupakan perbaikan dari \texttt{BankAccount}. Kelas ini juga menggunakan enkapsulasi dengan atribut yang dideklarasikan sebagai \texttt{private}. Selain itu, \texttt{BetterBankAccount} menyertakan validasi dalam metode \texttt{withdraw()} untuk memastikan bahwa jumlah yang ditarik lebih besar dari nol. Dokumentasi dengan komentar \texttt{/*** ... */} juga ditambahkan untuk menjelaskan fungsi kelas, metode, dan parameter.
+\item \textbf{Kelas Main:} Kelas ini berfungsi sebagai titik masuk program. Objek \texttt{BetterBankAccount} dibuat dan digunakan untuk melakukan operasi perbankan seperti menyimpan dan menarik uang. Kelas ini menunjukkan penggunaan metode \texttt{save()} dan \texttt{withdraw()}, serta bagaimana informasi tentang akun ditampilkan ke konsol.
 \end{itemize}
 
-\subsection{Enkapsulasi}
+\subsection{Enkapsulasi pada Kode}
 
 Enkapsulasi dalam kode ini dicapai dengan mendeklarasikan atribut \texttt{accountNumber} dan \texttt{balance} sebagai \texttt{private} pada kedua kelas \texttt{BankAccount} dan \texttt{BetterBankAccount}. Hal ini menghindari akses langsung ke atribut-atribut ini dari luar kelas, sehingga melindungi integritas data dan memastikan bahwa perubahan pada data hanya dapat dilakukan melalui metode yang dikendalikan. Ini membantu mengurangi risiko kesalahan dan meningkatkan keamanan kode.
 
-\subsection{Dokumentasi}
+\subsection{Dokumentasi pada Kode}
 
 Dokumentasi dalam kode ini dibuat menggunakan komentar dokumentasi dengan format \texttt{/*** ... */}. Komentar ini menjelaskan tujuan kelas dan metode, serta parameter dan nilai kembaliannya. Dokumentasi ini memberikan informasi penting tentang bagaimana kelas dan metode berfungsi, serta panduan tentang cara menggunakan kelas tersebut. Misalnya, komentar dokumentasi pada metode \texttt{withdraw()} di \texttt{BetterBankAccount} memberikan peringatan jika jumlah yang ditarik tidak valid, meningkatkan pemahaman dan penggunaan kode yang lebih aman.
+
+\section{Cara Menggenerate Javadoc}
+
+Dokumentasi yang baik adalah bagian penting dari pengembangan perangkat lunak, dan Javadoc adalah alat di Java yang digunakan untuk menghasilkan dokumentasi API dalam format HTML dari kode sumber yang beranotasi dengan komentar khusus. Berikut adalah panduan untuk menghasilkan Javadoc menggunakan Eclipse dan Command Line.
+
+\subsection{Menggenerate Javadoc Menggunakan Eclipse}
+
+Eclipse menyediakan fitur bawaan untuk menghasilkan Javadoc dengan mudah:
+
+\begin{enumerate} \item Buka proyek Java Anda di Eclipse. \item Klik kanan pada proyek di \textit{Package Explorer}, pilih \textit{Export}. \item Di jendela \textit{Export}, pilih \textit{Javadoc} di bawah kategori \textit{Java} dan klik \textit{Next}. \item Pilih proyek atau paket yang ingin Anda sertakan dalam Javadoc. \item Tentukan lokasi di mana Javadoc akan disimpan. \item Anda bisa mengatur berbagai opsi Javadoc seperti tingkat visibilitas dan apakah akan menyertakan \textit{source code} atau tidak. \item Klik \textit{Finish} untuk memulai proses. Setelah selesai, Anda bisa melihat hasilnya di direktori yang telah Anda tentukan. \end{enumerate}
+
+\subsection{Menggenerate Javadoc Menggunakan Command Line}
+
+Anda juga bisa menghasilkan Javadoc langsung dari command line jika Anda bekerja di luar IDE atau mengotomatisasi proses dengan skrip.
+%
+\begin{enumerate} \item Pastikan Anda berada di direktori proyek Java Anda. \item Gunakan perintah berikut untuk menghasilkan Javadoc:
+%
+\begin{lstlisting}[style=JavaStyle]
+javadoc -d doc -sourcepath src -subpackages com.bank 
+\end{lstlisting}
+
+\item Dalam perintah ini:
+\begin{itemize}
+\item \texttt{-d doc} menentukan direktori output untuk file HTML yang dihasilkan.
+\item \texttt{-sourcepath src} menunjukkan lokasi kode sumber Anda.
+\item \texttt{-subpackages com.bank} memberitahu Javadoc untuk memproses semua paket di bawah \texttt{com.bank}.
+\end{itemize}
+\item Setelah perintah dijalankan, Javadoc akan dihasilkan di direktori \texttt{doc}.
+\end{enumerate}
+%
+Dengan menggunakan kedua metode ini, Anda dapat dengan mudah membuat dokumentasi profesional untuk proyek Java Anda.
+
+
+\section{Latihan Enkapsulasi}
+
+Berikut adalah beberapa latihan yang dapat Anda gunakan untuk mempraktikkan konsep enkapsulasi dalam Java. Setiap latihan mencakup sebuah skenario yang membutuhkan pembuatan kelas dengan atribut yang dienkapsulasi menggunakan modifikator \texttt{private} dan akses melalui metode \texttt{getter} dan \texttt{setter}.
+
+\subsection{Latihan 1: Kelas \texttt{Student}}
+
+Buatlah sebuah kelas \texttt{Student} yang memiliki atribut \texttt{name} (String), \texttt{studentId} (String), dan \texttt{gpa} (double). Semua atribut harus dienkapsulasi dengan modifikator \texttt{private}. Sediakan konstruktor untuk menginisialisasi nilai-nilai atribut tersebut, dan buat metode \texttt{getter} dan \texttt{setter} untuk setiap atribut. Buatlah kelas \texttt{Main} yang membuat objek dari kelas \texttt{Student}, mengubah nilai GPA, dan mencetak informasi mahasiswa. Kemudian, cobalah untuk menghasilkan Jadadoc-nya.
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Student.java}]
+package com.university;
+
+/***
+* The Student class represents a student with a name, student ID, and GPA.
+* It provides methods to get and set these values.
+* 
+* @author [Your Name]
+*/
+public class Student {
+	
+	private String name;
+	private String studentId;
+	private double gpa;
+	
+	/***
+	* Constructor for the Student class. Initializes the student's name, student ID, and GPA.
+	* 
+	* @param name The name of the student.
+	* @param studentId The student ID.
+	* @param gpa The GPA of the student.
+	*/
+	public Student(String name, String studentId, double gpa) {
+		this.name = name;
+		this.studentId = studentId;
+		this.gpa = gpa;
+	}
+	
+	/***
+	* Get the name of the student.
+	* 
+	* @return The name of the student.
+	*/
+	public String getName() {
+		return name;
+	}
+	
+	/***
+	* Set the name of the student.
+	* 
+	* @param name The new name of the student.
+	*/
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/***
+	* Get the student ID.
+	* 
+	* @return The student ID.
+	*/
+	public String getStudentId() {
+		return studentId;
+	}
+	
+	/***
+	* Set the student ID.
+	* 
+	* @param studentId The new student ID.
+	*/
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+	
+	/***
+	* Get the GPA of the student.
+	* 
+	* @return The GPA of the student.
+	*/
+	public double getGpa() {
+		return gpa;
+	}
+	
+	/***
+	* Set the GPA of the student.
+	* 
+	* @param gpa The new GPA of the student.
+	*/
+	public void setGpa(double gpa) {
+		this.gpa = gpa;
+	}
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Main.java}]
+package com.university;
+
+/***
+* The Main class is the entry point of the program. It demonstrates the usage
+* of the Student class by creating an instance, displaying its details, and updating the GPA.
+* 
+* @author [Your Name]
+*/
+public class Main {
+	
+	/***
+	* The main method that launches the program.
+	* 
+	* @param args Command-line arguments (not used in this program).
+	*/
+	public static void main(String[] args) {
+		Student student1 = new Student("Alice", "S12345", 3.5);
+		
+		System.out.println("Student Name: " + student1.getName());
+		System.out.println("Student ID: " + student1.getStudentId());
+		System.out.println("GPA: " + student1.getGpa());
+		
+		// Update GPA
+		student1.setGpa(3.8);
+		System.out.println("Updated GPA: " + student1.getGpa());
+	}
+}
+\end{lstlisting}
+
+
+\subsection{Latihan 2: Kelas \texttt{Car}}
+
+Buatlah kelas \texttt{Car} yang memiliki atribut \texttt{brand} (String), \texttt{model} (String), dan \texttt{fuelLevel} (double). Atribut \texttt{fuelLevel} menunjukkan jumlah bahan bakar dalam liter dan harus dienkapsulasi dengan \texttt{private}. Buat metode untuk mengisi bahan bakar dan mengemudi yang mengurangi tingkat bahan bakar. Implementasikan juga metode \texttt{getter} untuk mendapatkan informasi mobil. Kemudian, cobalah untuk menghasilkan Jadadoc-nya.
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Car.java}]
+package com.vehicle;
+
+/***
+* The Car class represents a car with a specific brand, model, and fuel level.
+* It provides methods to refuel the car and drive it, which consumes fuel.
+* 
+* @author [Your Name]
+*/
+public class Car {
+	
+	private String brand;
+	private String model;
+	private double fuelLevel;
+	
+	/***
+	* Constructor for the Car class. Initializes the car's brand, model, and sets the fuel level to 0.
+	* 
+	* @param brand The brand of the car.
+	* @param model The model of the car.
+	*/
+	public Car(String brand, String model) {
+		this.brand = brand;
+		this.model = model;
+		this.fuelLevel = 0.0; // Default fuel level is 0
+	}
+	
+	/***
+	* Get the brand of the car.
+	* 
+	* @return The brand of the car.
+	*/
+	public String getBrand() {
+		return brand;
+	}
+	
+	/***
+	* Get the model of the car.
+	* 
+	* @return The model of the car.
+	*/
+	public String getModel() {
+		return model;
+	}
+	
+	/***
+	* Get the current fuel level of the car.
+	* 
+	* @return The fuel level in liters.
+	*/
+	public double getFuelLevel() {
+		return fuelLevel;
+	}
+	
+	/***
+	* Refuel the car by adding a specified amount of liters to the fuel level.
+	* 
+	* @param liters The amount of fuel to add in liters.
+	*/
+	public void refuel(double liters) {
+		this.fuelLevel += liters;
+	}
+	
+	/***
+	* Drive the car for a specified number of kilometers, consuming fuel in the process.
+	* Assumes that 1 km consumes 0.1 liter of fuel.
+	* 
+	* @param kilometers The distance to drive in kilometers.
+	*/
+	public void drive(double kilometers) {
+		double fuelConsumed = kilometers * 0.1; // Assume 1 km consumes 0.1 liter
+		if (fuelConsumed <= this.fuelLevel) {
+			this.fuelLevel -= fuelConsumed;
+		} else {
+			System.out.println("Not enough fuel to drive!");
+		}
+	}
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Main.java}]
+package com.vehicle;
+
+/***
+* The Main class is the entry point of the program. It demonstrates the usage
+* of the Car class by creating an instance, refueling it, and driving it.
+* 
+* @author [Your Name]
+*/
+public class Main {
+	
+	/***
+	* The main method that launches the program.
+	* 
+	* @param args Command-line arguments (not used in this program).
+	*/
+	public static void main(String[] args) {
+		Car car1 = new Car("Toyota", "Corolla");
+		
+		System.out.println("Car Brand: " + car1.getBrand());
+		System.out.println("Car Model: " + car1.getModel());
+		System.out.println("Fuel Level: " + car1.getFuelLevel() + " liters");
+		
+		// Refuel the car
+		car1.refuel(50.0);
+		System.out.println("After Refueling: " + car1.getFuelLevel() + " liters");
+		
+		// Drive the car
+		car1.drive(100.0);
+		System.out.println("After Driving: " + car1.getFuelLevel() + " liters");
+	}
+}
+\end{lstlisting}
+
+
+\section{Soal}
+
+Untuk melatih pemahaman Anda tentang enkapsulasi dan dokumentasi dalam pemrograman berorientasi objek dengan Java, selesaikan soal-soal berikut ini:
+
+\subsection{Soal 1: Kelas \texttt{Vehicle}}
+
+Buatlah kelas \texttt{Vehicle} yang mewakili kendaraan. Kelas ini harus memiliki atribut seperti \texttt{make}, \texttt{model}, dan \texttt{fuelLevel}. Terapkan enkapsulasi dengan memastikan bahwa atribut-atribut ini tidak dapat diakses langsung dari luar kelas. Tambahkan metode untuk mengisi bahan bakar dan mengecek level bahan bakar. Pastikan kendaraan tidak dapat memiliki level bahan bakar yang melebihi kapasitas maksimum. Kemudian, cobalah untuk menghasilkan Jadadoc-nya.
+
+\subsection{Soal 2: Kelas \texttt{Employee}}
+
+Buatlah kelas \texttt{Employee} yang digunakan untuk menyimpan data karyawan. Kelas ini harus memiliki atribut seperti \texttt{employeeID}, \texttt{name}, dan \texttt{salary}. Implementasikan metode untuk menghitung bonus berdasarkan persentase tertentu dari \texttt{salary} dan metode untuk menampilkan informasi karyawan. Pastikan semua atribut terenkapsulasi dengan baik dan hanya dapat diakses melalui metode getter dan setter. Kemudian, cobalah untuk menghasilkan Jadadoc-nya.
+
+
