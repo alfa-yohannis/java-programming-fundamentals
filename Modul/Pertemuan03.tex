@@ -1,0 +1,177 @@
+
+\chapter{Enkapsulasi dan Dokumentasi}
+
+\section{Enkapsulasi}
+
+Enkapsulasi adalah salah satu prinsip dasar pemrograman berorientasi objek (OOP) yang bertujuan untuk menyembunyikan detail implementasi internal suatu kelas dan hanya menyediakan akses melalui metode yang telah ditentukan. Konsep ini membantu dalam mengatur kompleksitas dengan mengisolasi bagian-bagian dari kode dan membatasi akses langsung ke data sensitif.
+
+Dalam Java, enkapsulasi dicapai dengan menggunakan modifikator akses seperti \texttt{private}, \texttt{protected}, dan \texttt{public}. 
+
+\begin{itemize}
+	\item \textbf{Private:} Atribut atau metode yang dideklarasikan dengan \texttt{private} hanya dapat diakses dari dalam kelas itu sendiri. Ini adalah cara untuk melindungi data dari modifikasi langsung dari luar kelas.
+	\item \textbf{Protected:} Atribut atau metode yang dideklarasikan dengan \texttt{protected} dapat diakses oleh kelas yang berada dalam paket yang sama atau oleh subclass.
+	\item \textbf{Public:} Atribut atau metode yang dideklarasikan dengan \texttt{public} dapat diakses dari mana saja, baik dari dalam kelas, kelas lain dalam paket yang sama, maupun kelas yang berada di luar paket.
+\end{itemize}
+
+
+\section{Dokumentasi}
+
+Dokumentasi adalah bagian penting dari pemrograman yang membantu pengembang memahami kode dan cara menggunakannya. Dalam Java, dokumentasi biasanya dibuat menggunakan komentar dalam kode. Ada dua jenis komentar utama yang digunakan untuk dokumentasi:
+
+\begin{itemize}
+	\item \textbf{Komentar Baris Tunggal:} Dimulai dengan \texttt{//} dan digunakan untuk menjelaskan bagian-bagian kecil dari kode.
+	\item \textbf{Komentar Blok:} Dimulai dengan \texttt{/*} dan diakhiri dengan \texttt{*/}. Digunakan untuk menjelaskan bagian kode yang lebih besar atau memberikan informasi tambahan yang lebih mendetail.
+	\item \textbf{Komentar Dokumentasi:} Dimulai dengan \texttt{/**} dan diakhiri dengan \texttt{*/}. Digunakan untuk menghasilkan dokumentasi otomatis menggunakan alat seperti Javadoc. Komentar ini biasanya digunakan untuk mendokumentasikan kelas, metode, dan atribut.
+\end{itemize}
+
+\section{Contoh Kasus}
+
+Di bawah ini, kita akan membahas konsep enkapsulasi dan dokumentasi menggunakan kode contoh dari kelas \texttt{BankAccount} dan \texttt{BetterBankAccount}.
+
+\subsection{Kode Kelas BankAccount.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: BankAccount.java}]
+	package com.bank;
+	
+	public class BankAccount {
+		
+		private String accountNumber;
+		private double balance;
+		
+		public BankAccount(String accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+		
+		public String getAccountNumber() {
+			return this.accountNumber;
+		}
+		
+		public double getBalance() {
+			return this.balance;
+		}
+		
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+		
+		public void withdraw(double amount) {
+			this.balance = this.balance - amount;
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Kode Kelas BetterBankAccount.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: BetterBankAccount.java}]
+	package com.bank;
+	
+	/***
+	* A class that represents the bank account in the real world.
+	* @author Alice
+	* 
+	*/
+	public class BetterBankAccount {
+		
+		private String accountNumber;
+		private double balance;
+		
+		/***
+		* 
+		* @param accountNumber the account number.
+		*/
+		public BetterBankAccount(String accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+		
+		/***
+		* The method return the number of the bank account in String.
+		* @return The account number.
+		*/
+		public String getAccountNumber() {
+			return this.accountNumber;
+		}
+		
+		/***
+		* Get the balance of the bank account.
+		* @return The balance of the account.
+		*/
+		public double getBalance() {
+			return this.balance;
+		}
+		
+		/***
+		* Add amount to the balance.  
+		* @param amount The amount to be saved.
+		*/
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+		
+		/***
+		* Withdraw amount from the balance.
+		* @param amount The amount to be withdrawn.
+		*/
+		public void withdraw(double amount) {
+			if (amount > 0) {
+				this.balance = this.balance - amount;
+			} else {
+				System.out.println("WARNING: Amount should be larger than zero!");
+			}
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Kode Kelas Main.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Main.java}]
+	package com.creditservice;
+	
+	import com.bank.BetterBankAccount;
+	
+	/***
+	* The Main class to launch the program.
+	* 
+	* @author Bob
+	*/
+	public class Main {
+		
+		/***
+		* The main method to launch the program.
+		* 
+		* @param args Parameters for the main method.
+		*/
+		public static void main(String[] args) {
+			BetterBankAccount account1 = new BetterBankAccount("ABC123");
+			System.out.println("Account number: " + account1.getAccountNumber());
+			
+			System.out.println("Initial: " + account1.getBalance());
+			
+			account1.save(100.0);
+			System.out.println("After Saving: " + account1.getBalance());
+			
+			account1.withdraw(-0.5);
+			System.out.println("After Withdrawal: " + account1.getBalance());
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Penjelasan Kode}
+
+Program ini terdiri dari tiga bagian utama:
+
+\begin{itemize}
+	\item \textbf{Kelas BankAccount:} Kelas ini mengilustrasikan konsep enkapsulasi dengan mendeklarasikan atribut \texttt{accountNumber} dan \texttt{balance} sebagai \texttt{private}. Hal ini memastikan bahwa atribut-atribut ini tidak dapat diakses langsung dari luar kelas, dan hanya dapat dimodifikasi melalui metode yang disediakan. Metode \texttt{save()} dan \texttt{withdraw()} mengubah saldo, namun tidak memeriksa apakah jumlah yang ditarik valid atau tidak.
+	\item \textbf{Kelas BetterBankAccount:} Kelas ini merupakan perbaikan dari \texttt{BankAccount}. Kelas ini juga menggunakan enkapsulasi dengan atribut yang dideklarasikan sebagai \texttt{private}. Selain itu, \texttt{BetterBankAccount} menyertakan validasi dalam metode \texttt{withdraw()} untuk memastikan bahwa jumlah yang ditarik lebih besar dari nol. Dokumentasi dengan komentar \texttt{/*** ... */} juga ditambahkan untuk menjelaskan fungsi kelas, metode, dan parameter.
+	\item \textbf{Kelas Main:} Kelas ini berfungsi sebagai titik masuk program. Objek \texttt{BetterBankAccount} dibuat dan digunakan untuk melakukan operasi perbankan seperti menyimpan dan menarik uang. Kelas ini menunjukkan penggunaan metode \texttt{save()} dan \texttt{withdraw()}, serta bagaimana informasi tentang akun ditampilkan ke konsol.
+\end{itemize}
+
+\subsection{Enkapsulasi}
+
+Enkapsulasi dalam kode ini dicapai dengan mendeklarasikan atribut \texttt{accountNumber} dan \texttt{balance} sebagai \texttt{private} pada kedua kelas \texttt{BankAccount} dan \texttt{BetterBankAccount}. Hal ini menghindari akses langsung ke atribut-atribut ini dari luar kelas, sehingga melindungi integritas data dan memastikan bahwa perubahan pada data hanya dapat dilakukan melalui metode yang dikendalikan. Ini membantu mengurangi risiko kesalahan dan meningkatkan keamanan kode.
+
+\subsection{Dokumentasi}
+
+Dokumentasi dalam kode ini dibuat menggunakan komentar dokumentasi dengan format \texttt{/*** ... */}. Komentar ini menjelaskan tujuan kelas dan metode, serta parameter dan nilai kembaliannya. Dokumentasi ini memberikan informasi penting tentang bagaimana kelas dan metode berfungsi, serta panduan tentang cara menggunakan kelas tersebut. Misalnya, komentar dokumentasi pada metode \texttt{withdraw()} di \texttt{BetterBankAccount} memberikan peringatan jika jumlah yang ditarik tidak valid, meningkatkan pemahaman dan penggunaan kode yang lebih aman.

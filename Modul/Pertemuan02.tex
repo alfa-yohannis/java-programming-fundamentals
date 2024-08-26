@@ -1,0 +1,354 @@
+
+\chapter{Struktur Program, Kelas, Objek, Atribut, dan Metode}
+
+\section{Struktur Kode Program Java}
+
+Kode program Java terdiri dari beberapa komponen utama yang membentuk struktur sebuah aplikasi. Berikut adalah penjelasan mengenai struktur dasar kode program Java:
+
+\subsection{Kelas (Class)}
+
+Semua kode Java harus didefinisikan dalam kelas. Kelas adalah blueprint atau template untuk objek yang akan dibuat. Berikut adalah contoh deklarasi kelas:
+
+\begin{lstlisting}[style=JavaStyle]
+public class MyClass {
+// Kode kelas di sini
+}
+\end{lstlisting}
+
+\subsection{Metode Utama (Main Method)}
+
+Metode utama adalah titik masuk program Java. Program mulai dieksekusi dari metode ini. Berikut adalah sintaks untuk metode utama:
+
+\begin{lstlisting}[style=JavaStyle]
+public static void main(String[] args) {
+// Kode program di sini
+}
+\end{lstlisting}
+
+\subsection{Deklarasi Variabel}
+
+Variabel digunakan untuk menyimpan data. Variabel harus dideklarasikan dengan tipe data sebelum digunakan. Berikut adalah contoh deklarasi variabel:
+
+\begin{lstlisting}[style=JavaStyle]
+int age = 30;
+String name = "John";
+\end{lstlisting}
+
+\subsection{Metode (Methods)}
+
+Metode adalah blok kode yang melakukan tugas tertentu dan dapat dipanggil dari bagian lain program. Berikut adalah contoh metode:
+
+\begin{lstlisting}[style=JavaStyle]
+public void greet() {
+System.out.println("Hello!");
+}
+\end{lstlisting}
+
+\subsection{Komentar}
+
+Komentar digunakan untuk menjelaskan kode dan tidak dieksekusi. Ada dua jenis komentar dalam Java:
+
+\begin{itemize}
+\item \texttt{// Ini adalah komentar satu baris}
+\item \texttt{/* Ini adalah komentar multi-baris */}
+\end{itemize}
+
+\begin{lstlisting}[style=JavaStyle]
+// Ini adalah komentar satu baris
+/*
+Ini adalah komentar multi-baris
+*/
+\end{lstlisting}
+
+\subsection{Import}
+
+Pernyataan \texttt{import} digunakan untuk memasukkan kelas dari paket lain ke dalam program. Berikut adalah contoh pernyataan import:
+
+\begin{lstlisting}[style=JavaStyle]
+import java.util.Scanner;
+\end{lstlisting}
+
+\section{Contoh Kasus Sederhana: Program HelloWorld}
+
+Untuk memberikan gambaran lengkap tentang struktur kode program Java, mari kita lihat sebuah contoh kasus sederhana: program "Hello World" yang telah dibahas sebelumnya. Program ini akan menunjukkan bagaimana semua komponen yang telah dibahas bekerja bersama.
+
+\begin{lstlisting}[style=JavaStyle, caption={Contoh Program HelloWorld.java}]
+package hello;
+
+import java.util.Scanner; // Mengimpor kelas Scanner
+
+public class HelloWorld {
+// Metode utama: Titik masuk program
+public static void main(String[] args) {
+	// Deklarasi variabel
+	String name;
+	
+	// Membuat objek Scanner untuk menerima input dari pengguna
+	Scanner scanner = new Scanner(System.in);
+	
+	// Meminta input dari pengguna
+	System.out.print("Masukkan nama Anda: ");
+	name = scanner.nextLine();  // Membaca input nama dari pengguna
+	
+	// Menampilkan output dengan input pengguna
+	System.out.println("Hello " + name + "!");
+	
+	// Menutup objek Scanner
+	scanner.close();
+}
+}
+\end{lstlisting}
+
+
+\begin{itemize}
+\item \texttt{package hello;} - Mendeklarasikan paket tempat kelas ini berada. Paket membantu dalam mengorganisir kode.
+\item \texttt{import java.util.Scanner;} - Mengimpor kelas \texttt{Scanner} dari paket \texttt{java.util} untuk menerima input dari pengguna.
+\item \texttt{public class HelloWorld \{ \}} - Mendefinisikan kelas publik \texttt{HelloWorld}. Kelas ini berfungsi sebagai blueprint untuk objek.
+\item \texttt{public static void main(String[] args) \{ \}} - Metode utama yang dieksekusi pertama kali. Kode program dimulai dari sini.
+\item \texttt{String name;} - Deklarasi variabel \texttt{name} yang akan menyimpan input nama pengguna.
+\item \texttt{Scanner scanner = new Scanner(System.in);} - Membuat objek \texttt{Scanner} untuk membaca input dari konsol.
+\item \texttt{System.out.print("Masukkan nama Anda: ");} - Mencetak pesan ke konsol meminta pengguna untuk memasukkan nama.
+\item \texttt{name = scanner.nextLine();} - Membaca input nama dari pengguna dan menyimpannya dalam variabel \texttt{name}.
+\item \texttt{System.out.println("Hello " + name + "!");} - Mencetak pesan "Hello [Nama]!" ke konsol dengan nama yang dimasukkan oleh pengguna.
+\item \texttt{scanner.close();} - Menutup objek \texttt{Scanner} untuk menghindari kebocoran sumber daya.
+\end{itemize}
+
+Program ini merupakan contoh sederhana yang mencakup semua komponen dasar dari sebuah aplikasi Java. Anda dapat mengubah dan memperluas program ini dengan menambahkan lebih banyak logika, metode, dan fitur lainnya sesuai dengan kebutuhan aplikasi Anda.
+
+\section{Kode Java: Menghitung Panjang Hipotenusa}
+
+Kode berikut merupakan contoh program Java sederhana untuk menghitung panjang hipotenusa dari sebuah segitiga siku-siku menggunakan rumus Pythagoras. Program ini menghitung panjang hipotenusa berdasarkan panjang kedua sisi segitiga yang diketahui.
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: MyTest.java}]
+package org.pradita.ddp.pertemuan02;
+
+public class MyTest {
+public static void main(String[] args) {
+	double a, b;
+	a = 3.0;
+	b = 4.0;
+	double c = Math.sqrt(a * a + b * b);
+	System.out.println(c);
+}
+}
+\end{lstlisting}
+
+Kode di atas merupakan program Java yang menghitung panjang hipotenusa segitiga siku-siku. Berikut adalah penjelasan dari setiap bagian kode tersebut:
+
+\begin{itemize}
+\item \texttt{package org.pradita.ddp.pertemuan02;} - Mendeklarasikan paket tempat kelas ini berada. Paket membantu dalam mengorganisir dan mengelompokkan kelas.
+\item \texttt{public class MyTest \{ \}} - Mendefinisikan kelas publik \texttt{MyTest}. Kelas ini adalah blueprint dari objek yang akan dibuat.
+\item \texttt{public static void main(String[] args) \{ \}} - Metode utama yang dijalankan pertama kali ketika program dieksekusi. Ini adalah titik masuk dari aplikasi Java.
+\item \texttt{double a, b;} - Mendeklarasikan dua variabel bertipe \texttt{double} yang akan menyimpan nilai panjang sisi segitiga.
+\item \texttt{a = 3.0;} - Menginisialisasi variabel \texttt{a} dengan nilai 3.0.
+\item \texttt{b = 4.0;} - Menginisialisasi variabel \texttt{b} dengan nilai 4.0.
+\item \texttt{double c = Math.sqrt(a * a + b * b);} - Menghitung panjang hipotenusa \texttt{c} menggunakan rumus Pythagoras dan fungsi \texttt{Math.sqrt()} untuk menghitung akar kuadrat dari hasil penjumlahan kuadrat \texttt{a} dan \texttt{b}.
+\item \texttt{System.out.println(c);} - Mencetak hasil perhitungan panjang hipotenusa ke konsol.
+\end{itemize}
+
+Program ini adalah contoh sederhana yang mendemonstrasikan penggunaan operasi matematika dan metode dari kelas \texttt{Math} di Java untuk menyelesaikan masalah geometris. Anda dapat mengubah nilai dari \texttt{a} dan \texttt{b} untuk menghitung panjang hipotenusa dari segitiga dengan sisi yang berbeda.
+
+\section{Kode Java: Kelas Person dan Penggunaannya}
+
+Di bawah ini adalah contoh program Java yang mendemonstrasikan penggunaan kelas dan metode dalam Java. Program ini terdiri dari dua kelas: \texttt{Person} dan \texttt{Main}. Kelas \texttt{Person} mengilustrasikan konsep enkapsulasi dengan menggunakan metode getter dan setter, serta konstruktor. Kelas \texttt{Main} menunjukkan cara membuat dan menggunakan objek dari kelas \texttt{Person}.
+
+\subsection{Kode Kelas Person.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Person.java}]
+package org.pradita.ddp.pertemuan02;
+
+public class Person {
+
+private String name, lastName;
+private int age;
+
+public Person() {
+	this.name = "Charlie";
+	this.age = 17;
+	this.lastName = "Chaplin";
+}
+
+public Person(String name, String lastName, int age) {
+	this.name = name;
+	this.age = age;
+	this.lastName = lastName;
+}
+
+public String getFullName() {
+	return name + " " + lastName;
+}
+
+public void introduceMyself() {
+	System.out.println("My name is " + this.getFullName() + " and my age is " + this.getAge());
+}
+
+public String getName() {
+	return this.name;
+}
+
+public int getAge() {
+	return this.age;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public void setAge(int age) {
+	this.age = age;
+}
+}
+\end{lstlisting}
+
+\subsection{Kode Kelas Main.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: Main.java}]
+package org.pradita.ddp.pertemuan02;
+
+public class Main {
+
+public static void main(String[] args) {
+	
+	Person person1 = new Person();
+	Person person2 = new Person("Alice", "Wonderland", 31);
+	
+	System.out.println("Person1's name is " + person1.getName() + ", age " + person1.getAge());
+	System.out.println("Person2's name is " + person2.getName() + ", age " + person2.getAge());
+	
+	System.out.println("Person1's fullname is " + person1.getFullName() + ", age " + person1.getAge());
+	System.out.println("Person2's fullname is " + person2.getFullName() + ", age " + person2.getAge());
+	
+	person1.introduceMyself();
+	
+	person2.setName("Bob");
+	person2.introduceMyself();
+}
+
+}
+\end{lstlisting}
+
+\subsection{Penjelasan Kode}
+
+\subsubsection{Kelas dan Objek}
+
+Dalam Java, sebuah \textbf{kelas} adalah blueprint atau template yang digunakan untuk membuat objek. Kelas mendefinisikan atribut dan metode yang dimiliki oleh objek. 
+
+\textbf{Objek} adalah instansi dari kelas. Ketika Anda membuat objek dari kelas, Anda dapat menggunakan atribut dan metode yang didefinisikan dalam kelas tersebut.
+
+\subsubsection{Atribut}
+
+\textbf{Atribut} adalah variabel yang dideklarasikan di dalam kelas dan digunakan untuk menyimpan data tentang objek. Dalam contoh kode di atas, atribut dari kelas \texttt{Person} termasuk \texttt{name}, \texttt{lastName}, dan \texttt{age}. Atribut ini menyimpan informasi tentang seseorang.
+
+\subsubsection{Metode}
+
+\textbf{Metode} adalah fungsi yang dideklarasikan di dalam kelas dan dapat melakukan operasi pada atribut atau melakukan tindakan tertentu. Misalnya, metode \texttt{getFullName()} di kelas \texttt{Person} mengembalikan nama lengkap seseorang dengan menggabungkan \texttt{name} dan \texttt{lastName}. Metode \texttt{introduceMyself()} mencetak informasi pribadi ke konsol.
+
+Program ini terdiri dari dua bagian utama:
+
+\begin{itemize}
+\item \textbf{Kelas Person:} Kelas ini mendefinisikan atribut pribadi \texttt{name}, \texttt{lastName}, dan \texttt{age} untuk menyimpan informasi tentang seseorang. Terdapat dua konstruktor: satu konstruktor default dan satu konstruktor dengan parameter untuk menginisialisasi atribut. Metode \texttt{getFullName()} mengembalikan nama lengkap, dan \texttt{introduceMyself()} mencetak informasi pribadi ke konsol.
+\item \textbf{Kelas Main:} Kelas ini berfungsi sebagai titik masuk program. Di sini, dua objek \texttt{Person} dibuat menggunakan kedua konstruktor yang tersedia. Program mencetak nama dan umur dari kedua objek, nama lengkap, serta menggunakan metode \texttt{introduceMyself()}. Selain itu, nama dari objek \texttt{person2} diubah dan diperkenalkan kembali.
+\end{itemize}
+
+\section{Latihan}
+
+Berikut adalah beberapa latihan yang menggabungkan konsep-konsep yang telah dibahas dalam kelas yang berbeda, serta perhitungan menggunakan metode matematika.
+
+\begin{enumerate}
+\item \textbf{Latihan 1:} Tambahkan metode baru pada kelas \texttt{Rectangle} untuk menghitung dan mengembalikan keliling dari sebuah rectangle berdasarkan panjang dan lebar. Buatlah objek \texttt{Rectangle} dalam kelas \texttt{Main}, gunakan metode tersebut, dan cetak hasil kelilingnya.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 1}]
+package org.pradita.ddp.pertemuan02;
+
+public class Rectangle {
+	private double length, width;
+	
+	public Rectangle(double length, double width) {
+		this.length = length;
+		this.width = width;
+	}
+	
+	public double calculatePerimeter() {
+		return 2 * (length + width);
+	}
+}
+
+package org.pradita.ddp.pertemuan02;
+
+public class Main {
+	public static void main(String[] args) {
+		Rectangle rectangle = new Rectangle(5.0, 3.0);
+		System.out.println("The perimeter of the rectangle is " + rectangle.calculatePerimeter() + " units.");
+	}
+}
+\end{lstlisting}
+
+\item \textbf{Latihan 2:} Buatlah kelas \texttt{Student} yang memiliki atribut \texttt{name}, \texttt{grade}, dan \texttt{id}. Tambahkan metode untuk menampilkan informasi student, termasuk ID dan grade. Modifikasi kelas \texttt{Main} untuk membuat objek \texttt{Student} dan menampilkan informasinya dengan format seperti “ID: [ID], Name: [Name], Grade: [Grade]”.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 2}]
+package org.pradita.ddp.pertemuan02;
+
+public class Student {
+	private String name;
+	private int grade;
+	private String id;
+	
+	public Student(String name, int grade, String id) {
+		this.name = name;
+		this.grade = grade;
+		this.id = id;
+	}
+	
+	public void displayInfo() {
+		System.out.println("ID: " + id + ", Name: " + name + ", Grade: " + grade);
+	}
+}
+
+package org.pradita.ddp.pertemuan02;
+
+public class Main {
+	public static void main(String[] args) {
+		Student student = new Student("Bob", 90, "S12345");
+		student.displayInfo();
+	}
+}
+\end{lstlisting}
+
+\item \textbf{Latihan 3:} Tambahkan metode dalam kelas \texttt{Circle} yang menghitung luas lingkaran berdasarkan jari-jari yang diberikan. Buatlah objek \texttt{Circle} dalam kelas \texttt{Main} dengan jari-jari tertentu, dan cetak luas lingkaran tersebut.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 3}]
+package org.pradita.ddp.pertemuan02;
+
+public class Circle {
+	private double radius;
+	
+	public Circle(double radius) {
+		this.radius = radius;
+	}
+	
+	public double calculateArea() {
+		return Math.PI * radius * radius;
+	}
+}
+
+package org.pradita.ddp.pertemuan02;
+
+public class Main {
+	public static void main(String[] args) {
+		Circle circle = new Circle(7.0);
+		System.out.println("The area of the circle is " + circle.calculateArea() + " square units.");
+	}
+}
+\end{lstlisting}
+\end{enumerate}
+
+\section{Soal}
+
+Berikut adalah beberapa latihan yang berkaitan dengan pembuatan dan penggunaan kelas di Java:
+
+\begin{enumerate}
+\item \textbf{Soal 1:} Buatlah kelas \texttt{Rectangle} yang memiliki atribut \texttt{width} dan \texttt{height}. Tambahkan metode untuk menghitung luas dan keliling dari rectangle. Implementasikan kelas \texttt{Main} untuk membuat objek \texttt{Rectangle}, menghitung luas dan keliling, dan tampilkan hasilnya.
+
+\item \textbf{Soal 2:} Buatlah kelas \texttt{BankAccount} dengan atribut \texttt{accountNumber}, \texttt{balance}, dan \texttt{accountHolder}. Tambahkan metode untuk menyetor dan menarik uang dari akun, serta menampilkan informasi akun dalam format "Account Holder: [Account Holder], Account Number: [Account Number], Balance: [Balance]". Implementasikan kelas \texttt{Main} untuk membuat objek \texttt{BankAccount}, lakukan beberapa transaksi, dan tampilkan informasi akun.
+\end{enumerate}
+
