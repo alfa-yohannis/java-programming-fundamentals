@@ -1,0 +1,302 @@
+
+\chapter{Pendahuluan}
+
+\section{Sejarah Pemrograman dan Java}
+
+Pemrograman komputer dimulai pada abad ke-19 dengan penemuan mesin analitik oleh Charles Babbage dan program pertama yang ditulis oleh Ada Lovelace. Sejak itu, pemrograman telah berkembang pesat dengan munculnya bahasa-bahasa pemrograman awal seperti Fortran, COBOL, dan Lisp pada tahun 1950-an. Pada tahun 1970-an dan 1980-an, bahasa pemrograman seperti C, Pascal, dan Basic memperkenalkan konsep-konsep baru dalam pemrograman. Kini, berbagai bahasa pemrograman modern seperti Python, JavaScript, dan Rust digunakan dalam berbagai aplikasi.
+
+Java adalah bahasa pemrograman yang dikembangkan oleh Sun Microsystems pada tahun 1995. Java dirancang dengan prinsip "Write Once, Run Anywhere" yang memungkinkan program Java untuk berjalan di berbagai platform tanpa perlu diubah. Java terkenal karena kemampuannya dalam pengembangan aplikasi web, aplikasi mobile, dan aplikasi desktop. Versi terbaru dari Java terus dikembangkan untuk memperkenalkan fitur-fitur baru dan meningkatkan kinerja.
+
+\section{Instalasi di Windows}
+
+Untuk menginstal Java di Windows, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+\item Unduh installer JDK terbaru dari situs resmi Oracle atau OpenJDK.
+\item Jalankan file installer dan ikuti petunjuk untuk menyelesaikan instalasi.
+\item Tambahkan direktori `bin` dari JDK ke variabel lingkungan `PATH`. Anda dapat melakukannya melalui Control Panel > System > Advanced system settings > Environment Variables.
+\item Verifikasi instalasi dengan membuka Command Prompt dan mengetik `java -version` dan `javac -version`.
+\end{enumerate}
+
+\section{Instalasi di macOS}
+
+Untuk menginstal Java di macOS, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+\item Unduh installer JDK terbaru dari situs resmi Oracle atau OpenJDK.
+\item Jalankan file installer `.dmg` dan ikuti petunjuk untuk menyelesaikan instalasi.
+\item Setelah instalasi selesai, verifikasi instalasi dengan membuka Terminal dan mengetik `java -version` dan `javac -version`.
+\end{enumerate}
+
+\section{Instalasi di Linux}
+
+Untuk menginstal Java di Linux, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+\item Buka terminal dan jalankan perintah berikut untuk menginstal JDK:
+\begin{verbatim}
+	sudo apt update
+	sudo apt install default-jdk
+\end{verbatim}
+\item Verifikasi instalasi dengan mengetik `java -version` dan `javac -version` di terminal.
+\end{enumerate}
+
+\section{IDE dan Penggunaan Eclipse}
+
+\subsection{Apa Itu IDE?}
+
+Integrated Development Environment (IDE) adalah perangkat lunak yang menyediakan fasilitas lengkap untuk pengembangan perangkat lunak. IDE umumnya mencakup editor kode, kompiler atau interpreter, debugger, dan alat manajemen proyek. IDE dirancang untuk mempermudah proses pengembangan perangkat lunak dengan menyediakan antarmuka pengguna yang terintegrasi dan alat-alat yang mendukung pengkodean, pengujian, dan debugging.
+
+\subsection{Cara Menginstal Eclipse}
+
+Untuk menginstal Eclipse, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+	\item Unduh installer Eclipse dari situs resminya \url{https://www.eclipse.org/downloads/}.
+	\item Pilih versi Eclipse yang sesuai dengan kebutuhan Anda, seperti Eclipse IDE for Java Developers.
+	\item Jalankan file installer yang telah diunduh.
+	\item Pilih direktori instalasi dan klik `Install`.
+	\item Setelah instalasi selesai, buka Eclipse dari direktori instalasi.
+\end{enumerate}
+
+\subsection{Cara Membuat Proyek Java Baru di Eclipse}
+
+Untuk membuat proyek Java baru di Eclipse, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+	\item Buka Eclipse dan pilih workspace tempat Anda ingin menyimpan proyek.
+	\item Pilih menu `File` > `New` > `Java Project`.
+	\item Masukkan nama proyek di kotak `Project Name`.
+	\item Klik `Finish` untuk membuat proyek baru.
+	\item Untuk menambahkan file Java, klik kanan pada folder `src` di proyek Anda, pilih `New` > `Class`, masukkan nama kelas, dan klik `Finish`.
+	\item Mulai menulis kode Java di editor yang muncul.
+\end{enumerate}
+
+\section{Kode Java: HelloWorld.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: HelloWorld.java}]
+package hello;
+
+public class HelloWorld {
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+	}
+}
+\end{lstlisting}
+
+Kode di atas merupakan program Java sederhana yang mencetak "Hello World!" ke konsol. Berikut penjelasan dari setiap bagian kode tersebut:
+
+\begin{itemize}
+\item \texttt{package hello;} - Mendeklarasikan bahwa kelas ini berada dalam paket \texttt{hello}. Paket membantu dalam mengelompokkan kelas yang berhubungan.
+\item \texttt{public class HelloWorld \{\}} - Mendefinisikan kelas publik \texttt{HelloWorld}. Kelas adalah template atau blueprint dari objek.
+\item \texttt{public static void main(String[] args) \{\}} - Fungsi utama (\texttt{main}) yang akan dijalankan pertama kali ketika program dieksekusi. Kata kunci \texttt{public} membuatnya dapat diakses dari luar, \texttt{static} membuatnya dapat dipanggil tanpa harus membuat objek, \texttt{void} menunjukkan bahwa fungsi ini tidak mengembalikan nilai, dan \texttt{String[] args} adalah parameter untuk mengambil argumen dari command line.
+\item \texttt{System.out.println("Hello World!");} - Perintah ini mencetak teks "Hello World!" ke konsol. \texttt{System.out} adalah objek output standar, dan \texttt{println} adalah metode untuk mencetak dengan baris baru.
+\end{itemize}
+
+\section{Panduan Kompilasi dan Menjalankan Program}
+
+Untuk mengkompilasi dan menjalankan program Java di atas, ikuti langkah-langkah berikut:
+
+\begin{enumerate}
+\item \textbf{Kompilasi Program:}
+\begin{itemize}
+	\item Buka terminal atau command prompt.
+	\item Navigasikan ke direktori tempat file `HelloWorld.java` disimpan.
+	\item Jalankan perintah berikut untuk mengkompilasi program:
+	\begin{verbatim}
+		javac HelloWorld.java
+	\end{verbatim}
+	\item Jika tidak ada error, file bytecode bernama `HelloWorld.class` akan dihasilkan.
+\end{itemize}
+
+\item \textbf{Menjalankan Program:}
+\begin{itemize}
+	\item Setelah kompilasi berhasil, jalankan program dengan perintah berikut:
+	\begin{verbatim}
+		java hello.HelloWorld
+	\end{verbatim}
+	\item Output "Hello World!" akan muncul di konsol.
+\end{itemize}
+\end{enumerate}
+
+\section{Kode Java: HelloWorldWithInput.java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: HelloWorldWithInput.java}]
+package hello;
+
+import java.util.Scanner;  // Import kelas Scanner
+
+public class HelloWorldWithInput {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);  // Membuat objek Scanner
+		
+		System.out.print("Masukkan nama Anda: ");
+		String name = scanner.nextLine();  // Menerima input dari pengguna
+		
+		System.out.println("Hello " + name + "!");  // Menampilkan output dengan input pengguna
+		
+		scanner.close();  // Menutup Scanner untuk menghindari kebocoran sumber daya
+	}
+}
+\end{lstlisting}
+
+Kode di atas merupakan program Java yang meminta input nama dari pengguna dan mencetak pesan "Hello [Nama]!" ke konsol. Berikut penjelasan dari setiap bagian kode tersebut:
+
+\begin{itemize}
+\item \texttt{import java.util.Scanner;} - Mengimpor kelas \texttt{Scanner} dari paket \texttt{java.util} untuk membaca input dari pengguna.
+\item \texttt{Scanner scanner = new Scanner(System.in);} - Membuat objek \texttt{Scanner} yang akan digunakan untuk membaca input dari konsol.
+\item \texttt{String name = scanner.nextLine();} - Menerima input nama dari pengguna dan menyimpannya dalam variabel \texttt{name}.
+\item \texttt{System.out.println("Hello " + name + "!");} - Mencetak pesan "Hello [Nama]!" ke konsol, di mana \texttt{name} adalah input dari pengguna.
+\item \texttt{scanner.close();} - Menutup objek \texttt{Scanner} setelah digunakan untuk menghindari kebocoran sumber daya.
+\end{itemize}
+
+\section{Latihan}
+
+Berikut adalah beberapa latihan yang dapat Anda coba untuk memperdalam pemahaman tentang program Java yang telah dibahas:
+
+\begin{enumerate}
+\item \textbf{Latihan 1:} Modifikasi kode \texttt{HelloWorld.java} untuk mencetak "Hello, [Nama Anda]!" menggunakan argumen command line. Program harus menerima nama dari argumen dan menampilkannya.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 1}]
+	package hello;
+	
+	public class HelloWorldWithArgs {
+		public static void main(String[] args) {
+			if (args.length > 0) {
+				System.out.println("Hello, " + args[0] + "!");
+			} else {
+				System.out.println("Hello World!");
+			}
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 2:} Tambahkan validasi input pada kode \texttt{HelloWorldWithInput.java} untuk memastikan bahwa nama yang dimasukkan tidak kosong. Jika nama kosong, program harus meminta input ulang.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 2}]
+	package hello;
+	
+	import java.util.Scanner;
+	
+	public class HelloWorldWithValidatedInput {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			String name = "";
+			
+			while (name.isEmpty()) {
+				System.out.print("Masukkan nama Anda: ");
+				name = scanner.nextLine();
+				
+				if (name.isEmpty()) {
+					System.out.println("Nama tidak boleh kosong. Silakan coba lagi.");
+				}
+			}
+			
+			System.out.println("Hello " + name + "!");
+			scanner.close();
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 3:} Ubah kode \texttt{HelloWorldWithInput.java} sehingga menampilkan waktu saat ini setelah nama. Misalnya, "Hello [Nama]! Saat ini adalah [Waktu]."
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 3}]
+	package hello;
+	
+	import java.util.Scanner;
+	import java.time.LocalTime;
+	
+	public class HelloWorldWithTime {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan nama Anda: ");
+			String name = scanner.nextLine();
+			
+			LocalTime now = LocalTime.now();
+			System.out.println("Hello " + name + "! Saat ini adalah " + now + ".");
+			
+			scanner.close();
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 4:} Modifikasi kode \texttt{HelloWorldWithInput.java} untuk menambahkan fitur yang memungkinkan pengguna memilih bahasa, misalnya "English" atau "Indonesian", dan mencetak pesan yang sesuai.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 4}]
+	package hello;
+	
+	import java.util.Scanner;
+	
+	public class HelloWorldWithLanguage {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan nama Anda: ");
+			String name = scanner.nextLine();
+			
+			System.out.print("Pilih bahasa (English/Indonesian): ");
+			String language = scanner.nextLine();
+			
+			if (language.equalsIgnoreCase("English")) {
+				System.out.println("Hello " + name + "!");
+			} else if (language.equalsIgnoreCase("Indonesian")) {
+				System.out.println("Halo " + name + "!");
+			} else {
+				System.out.println("Bahasa tidak dikenal. Hello " + name + "!");
+			}
+			
+			scanner.close();
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 5:} Buatlah program yang mirip dengan \texttt{HelloWorldWithInput.java}, tetapi program ini harus menyimpan semua nama yang dimasukkan dalam sebuah list dan menampilkannya setelah beberapa nama telah dimasukkan.
+
+\begin{lstlisting}[style=JavaStyle, caption={Latihan 5}]
+	package hello;
+	
+	import java.util.ArrayList;
+	import java.util.List;
+	import java.util.Scanner;
+	
+	public class HelloWorldWithList {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			List<String> names = new ArrayList<>();
+			String name = "";
+			
+			while (true) {
+				System.out.print("Masukkan nama Anda (ketik 'exit' untuk berhenti): ");
+				name = scanner.nextLine();
+				
+				if (name.equalsIgnoreCase("exit")) {
+					break;
+				}
+				
+				names.add(name);
+			}
+			
+			System.out.println("Nama-nama yang telah dimasukkan:");
+			for (String n : names) {
+				System.out.println("Hello " + n + "!");
+			}
+			
+			scanner.close();
+		}
+	}
+\end{lstlisting}
+\end{enumerate}
+
+\section{Soal Latihan}
+
+Berikut adalah beberapa soal latihan tambahan untuk menguji pemahaman Anda mengenai konsep yang telah dipelajari:
+
+\begin{enumerate}
+\item \textbf{Soal 1:} Modifikasi program \texttt{HelloWorldWithInput.java} sehingga program akan menampilkan teks yang dimasukkan sebanyak 3 kali. Misalnya, jika pengguna memasukkan "Java", program harus mencetak "Java Java Java".
+
+\item \textbf{Soal 2:} Buatlah program yang menampilkan teks yang dimasukkan oleh pengguna, tetapi setiap kali teks baru dimasukkan, teks tersebut selalu ditambahkan ke teks sebelumnya. Sebagai contoh, jika pengguna memasukkan "Hello", kemudian "World", program harus mencetak "Hello World".
+
+\item \textbf{Soal 3:} Modifikasi program sehingga hanya menyimpan dua input terakhir dari pengguna. Ketika pengguna memasukkan teks baru, teks yang dimasukkan sebelumnya harus dihapus dari tampilan. Misalnya, jika pengguna memasukkan "First", "Second", dan "Third", program hanya akan menampilkan "Second Third".
+\end{enumerate}
+
