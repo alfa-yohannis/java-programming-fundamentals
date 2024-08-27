@@ -1,0 +1,382 @@
+\chapter{Array dan ArrayList}
+
+\section{Array dan ArrayList di Java}
+
+\subsection{Array}
+
+Array adalah struktur data yang menyimpan sekumpulan elemen dengan tipe yang sama dalam urutan tertentu. Array memiliki ukuran tetap yang ditentukan saat deklarasi. Beberapa karakteristik array di Java adalah:
+
+\begin{itemize}
+	\item \textbf{Deklarasi dan Inisialisasi:} Array dapat dideklarasikan dengan menyebutkan tipe data diikuti oleh nama array dan ukuran array. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		int[] numbers = new int[5];
+	\end{lstlisting}
+	Array dapat diinisialisasi dengan nilai-nilai pada saat deklarasi:
+	\begin{lstlisting}[style=JavaStyle]
+		int[] numbers = {1, 2, 3, 4, 5};
+	\end{lstlisting}
+	\item \textbf{Akses Elemen:} Elemen array diakses menggunakan indeks, yang dimulai dari 0:
+	\begin{lstlisting}[style=JavaStyle]
+		int firstNumber = numbers[0]; // Mengakses elemen pertama
+	\end{lstlisting}
+	\item \textbf{Ukuran Array:} Ukuran array tetap dan dapat diakses dengan menggunakan \texttt{length}:
+	\begin{lstlisting}[style=JavaStyle]
+		int size = numbers.length;
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{ArrayList}
+
+`ArrayList` adalah implementasi dari interface `List` yang menggunakan array dinamis untuk menyimpan elemen. Beberapa karakteristik `ArrayList` di Java adalah:
+
+\begin{itemize}
+	\item \textbf{Deklarasi dan Inisialisasi:} `ArrayList` dapat dideklarasikan dan diinisialisasi dengan tipe data generik. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		ArrayList<Integer> list = new ArrayList<>();
+	\end{lstlisting}
+	\item \textbf{Menambahkan dan Mengakses Elemen:} Elemen dapat ditambahkan dengan metode \texttt{add} dan diakses dengan metode \texttt{get}:
+	\begin{lstlisting}[style=JavaStyle]
+		list.add(10);
+		int element = list.get(0);
+	\end{lstlisting}
+	\item \textbf{Menghapus Elemen:} Elemen dapat dihapus dengan metode \texttt{remove}:
+	\begin{lstlisting}[style=JavaStyle]
+		list.remove(0); // Menghapus elemen pada indeks 0
+	\end{lstlisting}
+	\item \textbf{Ukuran ArrayList:} Ukuran `ArrayList` dapat diakses dengan menggunakan metode \texttt{size}:
+	\begin{lstlisting}[style=JavaStyle]
+		int size = list.size();
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Konversi Antara Array dan ArrayList}
+
+Mengonversi antara `Array` dan `ArrayList` memungkinkan fleksibilitas dalam manipulasi data. Berikut adalah metode umum untuk konversi:
+
+\begin{itemize}
+	\item \textbf{ArrayList ke Array:} Gunakan metode \texttt{toArray(T[] a)} atau stream untuk mengonversi `ArrayList` menjadi array:
+	\begin{lstlisting}[style=JavaStyle]
+		Integer[] array = list.toArray(new Integer[0]);
+		Integer[] array2 = list.stream().toArray(Integer[]::new);
+	\end{lstlisting}
+	\item \textbf{Array ke ArrayList:} Gunakan metode \texttt{Arrays.asList(T... a)} untuk mengonversi array menjadi `ArrayList`:
+	\begin{lstlisting}[style=JavaStyle]
+		ArrayList<Integer> newList = new ArrayList<>(Arrays.asList(array));
+	\end{lstlisting}
+\end{itemize}
+
+\section{Penggunaan Array di Java}
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan06.arrayandlist;
+	
+	import java.util.Arrays;
+	
+	public class ArrayDemo {
+		public static void main(String[] args) {
+			int[] a = null;
+			int[] b = new int[] {};
+			int[] c = { 1, 2, 3 };
+			double[] d = new double[] { 1, 2, 3, 4 };
+			double[] e = Arrays.copyOfRange(d, 1, 4);
+			
+			System.out.println(Arrays.toString(a));
+			System.out.println(Arrays.toString(b));
+			System.out.println(Arrays.toString(c));
+			System.out.println(Arrays.toString(d));
+			System.out.println(Arrays.toString(e));
+			
+			System.out.print(d[0]);
+			System.out.print(", " + d[1]);
+			System.out.print(", " + d[3]);
+			
+			int[] f = new int[3];
+			f[2] = 99;
+			f[1] = 100;
+			f[0] = 31;
+			
+			System.out.print(f[0]);
+			System.out.print(", " + f[1]);
+			System.out.print(", " + f[2]);
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+
+\subsubsection{Deklarasi dan Inisialisasi Array}
+
+Dalam kode di atas, beberapa array dideklarasikan dan diinisialisasi dengan cara yang berbeda:
+
+\begin{itemize}
+	\item \textbf{Array \texttt{a}:} Dideklarasikan tetapi tidak diinisialisasi, sehingga nilainya \texttt{null}.
+	\item \textbf{Array \texttt{b}:} Dideklarasikan dan diinisialisasi sebagai array kosong. \texttt{b.length} akan mengembalikan \texttt{0}.
+	\item \textbf{Array \texttt{c}:} Dideklarasikan dan diinisialisasi dengan tiga elemen \{1, 2, 3\}.
+	\item \textbf{Array \texttt{d}:} Dideklarasikan dan diinisialisasi dengan empat elemen \{1, 2, 3, 4\}.
+	\item \textbf{Array \texttt{e}:} Dibuat dengan menggunakan metode \texttt{Arrays.copyOfRange()} untuk menyalin elemen dari indeks 1 hingga 3 dari array \texttt{d}. Ini akan menghasilkan array \{2, 3, 4\}.
+\end{itemize}
+
+\subsubsection{Pencetakan Array}
+
+Kode diatas menunjukkan beberapa cara untuk mencetak elemen array:
+\begin{itemize}
+	\item \texttt{System.out.println(Arrays.toString(array))}: Digunakan untuk mencetak elemen array dalam format string yang terpisah oleh koma.
+	\item \texttt{System.out.print()}: Digunakan untuk mencetak elemen array satu per satu dengan pemisah yang ditentukan.
+\end{itemize}
+
+\subsubsection{Inisialisasi dan Pencetakan Array Baru}
+
+\begin{itemize}
+	\item \textbf{Array \texttt{f}:} Dideklarasikan dengan ukuran 3 dan diinisialisasi dengan nilai \{31, 100, 99\}.
+	\item \texttt{System.out.print(f[0]); System.out.print(", " + f[1]); System.out.print(", " + f[2]);}: Digunakan untuk mencetak elemen-elemen array \texttt{f} dengan pemisah koma.
+\end{itemize}
+
+\section{Penggunaan ArrayList di Java}
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan06.arrayandlist;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	
+	public class ArrayListDemo {
+		public static void main(String[] args) {
+			ArrayList<Integer> a = null;
+			ArrayList<Integer> b = new ArrayList<Integer>();
+			ArrayList<Integer> c = 
+			new ArrayList<>(Arrays.asList(73, 101, 6));
+			
+			b.add(99);
+			System.out.println(b);
+			b.add(97);
+			b.add(0, 98);
+			System.out.println(b);
+			b.add(97);
+			System.out.println(b);
+			
+			System.out.println("b's Size = " + b.size());
+			
+			b.remove(0);
+			System.out.println(b);
+			
+			b.remove(97);
+			Integer z = 97;
+			b.remove(z);
+			System.out.println(b);
+			
+			System.out.println("c(0) = " + c.get(0));
+			System.out.println("c(2) = " + c.get(c.size() - 1));
+			
+			System.out.println(c);
+			c.add(1, 999);
+			System.out.println("c(0) = " + c.get(0));
+			System.out.println("c(1) = " + c.get(1));
+			System.out.println(c);
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+
+\subsubsection{Deklarasi dan Inisialisasi ArrayList}
+
+Dalam kode di atas, beberapa `ArrayList` dideklarasikan dan diinisialisasi dengan cara yang berbeda:
+
+\begin{itemize}
+	\item \textbf{ArrayList \texttt{a}:} Dideklarasikan tetapi tidak diinisialisasi, sehingga nilainya \texttt{null}.
+	\item \textbf{ArrayList \texttt{b}:} Dideklarasikan dan diinisialisasi sebagai `ArrayList` kosong.
+	\item \textbf{ArrayList \texttt{c}:} Dideklarasikan dan diinisialisasi dengan tiga elemen \{73, 101, 6\} menggunakan metode \texttt{Arrays.asList()}.
+\end{itemize}
+
+\subsubsection{Operasi pada ArrayList}
+
+Kode diatas menunjukkan beberapa operasi dasar dengan `ArrayList`:
+
+\begin{itemize}
+	\item \texttt{add(element)}: Menambahkan elemen ke dalam `ArrayList`. Misalnya, \texttt{b.add(99)} menambahkan nilai 99 ke dalam `b`.
+	\item \texttt{add(index, element)}: Menambahkan elemen pada posisi tertentu. Misalnya, \texttt{b.add(0, 98)} menambahkan nilai 98 di posisi indeks 0.
+	\item \texttt{remove(index)}: Menghapus elemen pada posisi tertentu. Misalnya, \texttt{b.remove(0)} menghapus elemen pada indeks 0.
+	\item \texttt{remove(element)}: Menghapus elemen yang spesifik. Misalnya, \texttt{b.remove(z)} menghapus nilai yang sama dengan nilai variabel \texttt{z}.
+	\item \texttt{size()}: Mengembalikan jumlah elemen dalam `ArrayList`. Misalnya, \texttt{b.size()} mengembalikan ukuran dari `b`.
+\end{itemize}
+
+\subsubsection{Mengakses dan Memodifikasi Elemen}
+
+\begin{itemize}
+	\item \textbf{Mengakses Elemen:} Elemen `ArrayList` dapat diakses menggunakan metode \texttt{get(index)}. Misalnya, \texttt{c.get(0)} mengakses elemen pertama dari `c`.
+	\item \textbf{Modifikasi Elemen:} Elemen `ArrayList` dapat dimodifikasi menggunakan metode \texttt{add(index, element)}. Misalnya, \texttt{c.add(1, 999)} menambahkan nilai 999 di posisi indeks 1.
+\end{itemize}
+
+\subsubsection{Array of Objects}
+
+Bagian kode yang dikomentari juga menunjukkan penggunaan array objek. `Object[]` dapat digunakan untuk menyimpan berbagai tipe objek:
+
+\begin{itemize}
+	\item \textbf{Array \texttt{person}:} Dideklarasikan dengan ukuran 10 dan diisi dengan nilai yang berbeda, termasuk `String` dan `Double`.
+	\item \textbf{Array \texttt{people}:} Dideklarasikan dengan ukuran 100 dan diisi dengan array \texttt{person}.
+\end{itemize}
+
+\section{Konversi Antara Array dan ArrayList di Java}
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan06.arrayandlist;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	
+	public class Coversion {
+		public static void main(String[] args) {
+			ArrayList<Integer> list = new ArrayList<>();
+			list.add(3);
+			list.add(2);
+			list.add(1);
+			System.out.println("List: " + list);
+			
+			Integer[] array = list.toArray(new Integer[0]);
+			System.out.println("Array 1: " + Arrays.toString(array));
+			
+			Integer[] array2 = list.stream().toArray(Integer[]::new);
+			System.out.println("Array 2: " + Arrays.toString(array2));
+			
+			ArrayList<Integer> newList = new ArrayList<>(Arrays.asList(array));
+			System.out.println("New List: " + newList);
+			
+			int[] a = new int[list.size()];
+			a[2] = list.get(0); 
+			a[1] = list.get(1); 
+			a[0] = list.get(2);
+			System.out.println("Array a: " + Arrays.toString(a));
+			
+			ArrayList<Integer> l = new ArrayList<>();
+			l.add(a[2]);
+			l.add(a[1]);
+			l.add(a[0]);
+			System.out.println("List l: " + l.toString());
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+
+\subsubsection{Konversi dari ArrayList ke Array}
+
+Beberapa metode untuk mengonversi `ArrayList` ke array ditunjukkan dalam kode:
+
+\begin{itemize}
+	\item \textbf{Metode \texttt{toArray(T[] a)}:} Mengonversi `ArrayList` menjadi array dengan jenis yang sama. Misalnya, \texttt{list.toArray(new Integer[0])} mengonversi `list` menjadi array \texttt{Integer}.
+	\item \textbf{Metode Stream \texttt{toArray()} :} Menggunakan stream untuk mengonversi `ArrayList` menjadi array. Misalnya, \texttt{list.stream().toArray(Integer[]::new)} mengonversi `list` menjadi array \texttt{Integer[]}.
+\end{itemize}
+
+\subsubsection{Konversi dari Array ke ArrayList}
+
+\begin{itemize}
+	\item \textbf{Metode \texttt{Arrays.asList(T... a)}:} Mengonversi array menjadi `ArrayList`. Misalnya, \texttt{new ArrayList<>(Arrays.asList(array))} mengonversi array \texttt{array} menjadi `ArrayList`.
+\end{itemize}
+
+\subsubsection{Manipulasi Array dan ArrayList}
+
+\begin{itemize}
+	\item \textbf{Array dari List:} Membuat array \texttt{int} dan menyalin elemen dari `ArrayList` ke array tersebut. Misalnya, \texttt{a[2] = list.get(0)} menyalin elemen pertama dari `list` ke posisi ketiga dari array \texttt{a}.
+	\item \textbf{List dari Array:} Membuat `ArrayList` baru dari array \texttt{int}. Misalnya, \texttt{l.add(a[2])} menambahkan elemen array ke dalam `ArrayList`.
+\end{itemize}
+
+\section{Latihan dan Contoh Kode}
+
+Berikut adalah beberapa latihan untuk membantu Anda memahami penggunaan Array, ArrayList, dan konversi di Java.
+
+\begin{enumerate}
+	
+	\item \textbf{Latihan 1: Mengelola Data Mahasiswa}
+	
+	Tugas: Buatlah sebuah program yang mengelola data mahasiswa dengan menggunakan \texttt{ArrayList}. Tambahkan nama mahasiswa ke dalam list, cetak semua nama, hapus nama tertentu, dan cetak ukuran list setelah penghapusan.
+	
+	\begin{lstlisting}[style=JavaStyle]
+		package org.alfa.pertemuan06.arrayandlist;
+		
+		import java.util.ArrayList;
+		
+		public class StudentListDemo {
+			
+			public static void main(String[] args) {
+				ArrayList<String> students = new ArrayList<>();
+				students.add("Alice");
+				students.add("Bob");
+				students.add("Charlie");
+				
+				System.out.println("Students: " + students);
+				
+				students.remove("Bob");
+				System.out.println("Students after removal: " + students);
+				System.out.println("Number of students: " + students.size());
+			}
+		}
+	\end{lstlisting}
+	
+	\item \textbf{Latihan 2: Konversi Array ke ArrayList dan Sebaliknya}
+	
+	Tugas: Buatlah program yang mengonversi array string menjadi \texttt{ArrayList}, tambahkan beberapa elemen ke \texttt{ArrayList}, konversi kembali ke array, dan cetak hasilnya.
+	
+	\begin{lstlisting}[style=JavaStyle]
+		package org.alfa.pertemuan06.arrayandlist;
+		
+		import java.util.ArrayList;
+		import java.util.Arrays;
+		
+		public class ConversionDemo {
+			
+			public static void main(String[] args) {
+				String[] array = {"Red", "Green", "Blue"};
+				ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
+				
+				list.add("Yellow");
+				list.add("Purple");
+				
+				String[] newArray = list.toArray(new String[0]);
+				System.out.println("New Array: " + Arrays.toString(newArray));
+			}
+		}
+	\end{lstlisting}
+	
+	\item \textbf{Latihan 3: Array Multi-Dimensi dan ArrayList}
+	
+	Tugas: Buatlah program yang menggunakan array dua dimensi untuk menyimpan nilai integer. Konversikan baris pertama dari array dua dimensi ke dalam \texttt{ArrayList}, kemudian cetak hasilnya.
+	
+	\begin{lstlisting}[style=JavaStyle]
+		package org.alfa.pertemuan06.arrayandlist;
+		
+		import java.util.ArrayList;
+		import java.util.Arrays;
+		
+		public class MultiDimArrayDemo {
+			
+			public static void main(String[] args) {
+				int[][] matrix = {
+					{1, 2, 3},
+					{4, 5, 6},
+					{7, 8, 9}
+				};
+				
+				ArrayList<Integer> firstRow = new ArrayList<>();
+				for (int num : matrix[0]) {
+					firstRow.add(num);
+				}
+				
+				System.out.println("First Row as ArrayList: " + firstRow); // First Row as ArrayList: [1, 2, 3]
+			}
+		}
+	\end{lstlisting}
+\end{enumerate}
+
+\section{Soal}
+
+Berikut adalah beberapa latihan yang berkaitan dengan penggunaan Array dan ArrayList di Java:
+
+\begin{enumerate}
+	
+	\item \textbf{Soal 1:} Tulis program yang mengelola daftar tugas menggunakan \texttt{ArrayList}. Tambahkan beberapa tugas ke dalam daftar, tandai tugas sebagai selesai dengan menghapusnya dari daftar, dan cetak daftar tugas yang tersisa setelah beberapa tugas dihapus.
+	
+	\item \textbf{Soal 2:} Tulis program yang menginisialisasi array dua dimensi dengan nilai acak antara 1 hingga 100. Konversikan setiap baris dari array dua dimensi ke dalam \texttt{ArrayList}, lalu cetak \texttt{ArrayList} dari setiap baris.
+	
+	\item \textbf{Soal 3:} Tulis program yang mengelola daftar nilai siswa menggunakan \texttt{ArrayList} dengan tipe data \texttt{Double}. Tambahkan beberapa nilai ke dalam daftar, hitung rata-rata nilai, dan cetak daftar nilai yang lebih besar dari rata-rata tersebut.
+	
+\end{enumerate}
