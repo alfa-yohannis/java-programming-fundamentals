@@ -1,0 +1,633 @@
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+	language=Java,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{red},
+	breaklines=true,
+	showstringspaces=false,
+	tabsize=2,
+	captionpos=b,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{gray}\ttfamily,
+	string=[s]{'}{'},
+	morestring=[s]{"}{"},
+	%	stringstyle=\color{teal}\ttfamily,
+	%	showstringspaces=false
+}
+
+\chapter{Tipe Data}
+ 
+\section{Tipe Data di Java}
+
+Tipe data adalah sebuah konsep dalam pemrograman yang menentukan jenis nilai yang dapat disimpan dan operasi yang dapat dilakukan pada data tersebut. Dalam konteks Java, tipe data mengacu pada berbagai kategori data yang dapat digunakan dalam program, seperti bilangan bulat, bilangan desimal, karakter, dan nilai boolean.
+
+Tipe data berfungsi sebagai kontrak antara programmer dan bahasa pemrograman yang menentukan bagaimana data harus diperlakukan oleh program. Misalnya, tipe data \texttt{int} digunakan untuk menyimpan bilangan bulat, sementara tipe data \texttt{double} digunakan untuk menyimpan bilangan desimal. Memahami tipe data sangat penting karena setiap tipe data memiliki batasan tertentu, serta operasi dan metode yang berlaku khusus untuk tipe tersebut.
+
+\subsection{Tipe Data Primitif}
+Java menyediakan delapan tipe data primitif yang mewakili nilai-nilai dasar:
+
+\begin{itemize}
+	\item \textbf{boolean}: Menyimpan nilai \texttt{true} atau \texttt{false}.
+	\item \textbf{byte}: Menyimpan bilangan bulat 8-bit.
+	\item \textbf{short}: Menyimpan bilangan bulat 16-bit.
+	\item \textbf{int}: Menyimpan bilangan bulat 32-bit.
+	\item \textbf{long}: Menyimpan bilangan bulat 64-bit.
+	\item \textbf{float}: Menyimpan bilangan desimal 32-bit.
+	\item \textbf{double}: Menyimpan bilangan desimal 64-bit.
+	\item \textbf{char}: Menyimpan satu karakter dalam format 16-bit Unicode.
+\end{itemize}
+
+\subsection{Kelas Pembungkus (Wrapper Classes)}
+Selain tipe data primitif, Java juga menyediakan kelas pembungkus yang memungkinkan tipe data primitif untuk diperlakukan sebagai objek:
+
+\begin{itemize}
+	\item \textbf{Boolean}: Membungkus tipe data \texttt{boolean}.
+	\item \textbf{Byte}: Membungkus tipe data \texttt{byte}.
+	\item \textbf{Short}: Membungkus tipe data \texttt{short}.
+	\item \textbf{Integer}: Membungkus tipe data \texttt{int}.
+	\item \textbf{Long}: Membungkus tipe data \texttt{long}.
+	\item \textbf{Float}: Membungkus tipe data \texttt{float}.
+	\item \textbf{Double}: Membungkus tipe data \texttt{double}.
+	\item \textbf{Character}: Membungkus tipe data \texttt{char}.
+\end{itemize}
+
+\subsection{String}
+Tipe data \texttt{String} di Java digunakan untuk menyimpan serangkaian karakter. Meskipun bukan tipe data primitif, \texttt{String} sering digunakan dan memiliki banyak metode yang memungkinkan manipulasi teks secara mudah.
+
+\subsection{Autoboxing dan Unboxing}
+Autoboxing adalah proses otomatis di mana nilai tipe data primitif dikonversi menjadi objek dari kelas pembungkusnya, sedangkan unboxing adalah proses sebaliknya. Ini memungkinkan tipe data primitif digunakan dalam konteks yang membutuhkan objek, seperti dalam koleksi objek (\texttt{ArrayList<Integer>}) atau ketika menggunakan metode yang disediakan oleh kelas pembungkus.
+
+\section{Primitive Types, Wrapper Classes, and Autoboxing in Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Primitive Types, Wrapper Classes, and Autoboxing in Java}]
+package org.alfa.pertemuan04.datatypes;
+
+public class DataType {
+	
+	public static void main(String[] args) {
+		
+		/** Primitive Types **/
+		boolean a = false;
+		byte b = 1;
+		short c = 1;
+		int d = 1;
+		long e = 1;
+		float f = 1f;
+		double g = 1d;
+		char h = '1';
+		
+		/** Wrapper Classes **/
+		Boolean i = false;
+		Byte j = 1;
+		Short k = 2;
+		Integer l = 3;
+		Long m = 4l;
+		Float n = 5.9f;
+		Double o = 6.9d;
+		Character p = '1';
+		
+		String q = "1";
+		
+		/** (Auto)Boxing and (Auto)Unboxing **/
+		Integer r = new Integer(3); 
+		Integer s = 3;
+		int t = s;
+		
+		/** Advantages of using Wrapper Classes **/
+		
+		//      double[] primitives = {a, b, f, h};
+		
+		// treat the values as objects
+		Object[] boxedPrimitives = {i, l, n, p, q};
+		
+		// values have methods
+		System.out.println(l.compareTo(5));
+	}
+}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas memperlihatkan berbagai tipe data dalam Java, mulai dari tipe primitif hingga kelas pembungkus (\textit{wrapper classes}), serta konsep autoboxing dan unboxing.
+
+\subsubsection{Tipe Primitif}
+Tipe primitif seperti \texttt{boolean}, \texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double}, dan \texttt{char} digunakan untuk menyimpan nilai-nilai dasar yang tidak memiliki metode atau atribut.
+
+\subsubsection{Kelas Pembungkus}
+Java menyediakan kelas pembungkus seperti \texttt{Boolean}, \texttt{Byte}, \texttt{Short}, \texttt{Integer}, \texttt{Long}, \texttt{Float}, \texttt{Double}, dan \texttt{Character} yang memungkinkan nilai-nilai primitif untuk diperlakukan sebagai objek. Kelas pembungkus ini menyediakan metode yang berguna untuk operasi tambahan, seperti \texttt{compareTo} yang digunakan dalam kode.
+
+\subsubsection{Autoboxing dan Unboxing}
+\textit{Autoboxing} adalah proses otomatis di mana nilai tipe primitif secara otomatis dikonversi menjadi objek dari kelas pembungkusnya. Sebagai contoh, \texttt{Integer s = 3;} secara otomatis mengonversi nilai int \texttt{3} menjadi objek \texttt{Integer}. \textit{Unboxing} adalah proses kebalikannya, di mana objek kelas pembungkus dikonversi kembali menjadi nilai primitif, seperti pada \texttt{int t = s;}.
+
+\subsubsection{Keuntungan Menggunakan Kelas Pembungkus}
+Kelas pembungkus memungkinkan kita untuk memperlakukan nilai primitif sebagai objek, yang bermanfaat dalam konteks seperti penyimpanan di koleksi objek (seperti array \texttt{Object[] boxedPrimitives}) dan pemanfaatan metode bawaan, misalnya \texttt{compareTo} yang membandingkan dua nilai \texttt{Integer}.
+
+Dalam kode di atas, kita juga melihat bahwa kelas pembungkus memungkinkan penggunaan nilai primitif dalam konteks yang membutuhkan objek, seperti dalam array \texttt{boxedPrimitives}, di mana kita tidak bisa menyimpan tipe primitif langsung.
+
+\section{Menentukan Rentang Nilai Tipe Data Primitif di Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Displaying Range of Primitive Data Types}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	public class Range {
+		
+		public static void main(String[] args) {
+			
+			System.out.println(Byte.TYPE + " MIN: " + Byte.MIN_VALUE + ", MAX: " + Byte.MAX_VALUE);
+			System.out.println(Short.TYPE + " MIN: " + Short.MIN_VALUE + ", MAX: " + Short.MAX_VALUE);
+			System.out.println(Integer.TYPE + " MIN: " + Integer.MIN_VALUE + ", MAX: " + Integer.MAX_VALUE);
+			System.out.println(Long.TYPE + " MIN: " + Long.MIN_VALUE + ", MAX: " + Long.MAX_VALUE);
+			System.out.println(Float.TYPE + " MIN: " + Float.MIN_VALUE + ", MAX: \u00B1 " + Float.MAX_VALUE);
+			System.out.println(Double.TYPE + " MIN: " + Double.MIN_VALUE + ", MAX: \u00B1 " + Double.MAX_VALUE);
+			
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas bertujuan untuk menampilkan rentang nilai minimum dan maksimum yang dapat disimpan oleh tipe data primitif di Java. Setiap tipe data primitif memiliki ukuran bit yang berbeda, sehingga memiliki batasan nilai yang berbeda pula. Berikut penjelasan dari hasil keluaran kode tersebut:
+
+\begin{itemize}
+	\item \textbf{Byte}: Sebagai tipe data 8-bit, \texttt{byte} memiliki rentang nilai dari -128 hingga 127.
+	\item \textbf{Short}: Tipe data \texttt{short} menggunakan 16-bit dan memiliki rentang nilai dari -32,768 hingga 32,767.
+	\item \textbf{Integer}: Tipe data \texttt{int} menggunakan 32-bit, dengan rentang nilai dari -2,147,483,648 hingga 2,147,483,647.
+	\item \textbf{Long}: Tipe data \texttt{long} adalah 64-bit, dengan rentang nilai dari -9,223,372,036,854,775,808 hingga 9,223,372,036,854,775,807.
+	\item \textbf{Float}: Tipe data \texttt{float} menggunakan 32-bit dan dapat menyimpan nilai desimal dengan rentang sekitar \texttt{3.4e-038} hingga \texttt{3.4e+038}. Perlu diperhatikan bahwa \texttt{Float.MAX\_VALUE} ditampilkan sebagai $\pm$ nilai maksimum, yang berarti dapat menyimpan nilai positif dan negatif dalam rentang tersebut.
+	\item \textbf{Double}: Tipe data \texttt{double} menggunakan 64-bit dan dapat menyimpan nilai desimal dengan rentang sekitar \texttt{1.7e-308} hingga \texttt{1.7e+308}, baik positif maupun negatif.
+\end{itemize}
+
+Dengan menampilkan rentang nilai ini, kita bisa memahami batasan dari setiap tipe data primitif di Java, yang penting untuk memastikan bahwa data yang disimpan tidak melebihi kapasitas yang diizinkan oleh tipe data tersebut.
+
+\section{Konversi Tipe Data dan Casting di Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Type Conversion and Casting}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	public class TypeConversion {
+		
+		public static void main(String[] args) {
+			
+			float c = 4.5f;
+			byte x = Byte.MIN_VALUE;
+			int a = Byte.MAX_VALUE + 3;
+			long b = 4;
+			double d = a + b + c;
+			
+			System.out.println("d = " + d);
+			System.out.println("d = " + String.valueOf(d));
+			System.out.println("d = " + (int) d);
+			
+			System.out.println("a = " + a);
+			System.out.println("a = " + (byte) a);
+			
+			int x = Integer.parseInt("31");
+			System.out.println(x);
+			String y = String.valueOf(x);
+			
+			int r = 49;
+			System.out.println(r);
+			char s = (char) 49; // s = '1' 
+			System.out.println(s);
+			int t = (int) 'a'; 
+			System.out.println(t);
+			
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas mendemonstrasikan berbagai bentuk konversi tipe data dan casting di Java. Berikut adalah penjelasan dari beberapa bagian penting kode ini:
+
+\begin{itemize}
+	\item \textbf{Implicit Conversion:} Konversi tipe data yang terjadi secara otomatis ketika tipe data yang lebih kecil dikonversi ke tipe data yang lebih besar. Contohnya, penjumlahan antara \texttt{int} (\texttt{a}), \texttt{long} (\texttt{b}), dan \texttt{float} (\texttt{c}) menghasilkan nilai \texttt{double} (\texttt{d}) tanpa perlu casting eksplisit.
+	
+	\item \textbf{Explicit Conversion (Casting):} Pada beberapa kasus, konversi tipe data perlu dilakukan secara eksplisit untuk menghindari kehilangan data atau kesalahan kompilasi.
+	\begin{itemize}
+		\item \texttt{System.out.println("d = " + (int) d);} mengonversi nilai \texttt{double} menjadi \texttt{int}, yang akan membulatkan nilai desimal ke bawah.
+		\item \texttt{System.out.println("a = " + (byte) a);} mengonversi \texttt{int} \texttt{a} ke \texttt{byte}. Perlu diperhatikan bahwa karena rentang \texttt{byte} terbatas, hasil konversi dapat menyebabkan \textit{overflow} atau perubahan nilai.
+	\end{itemize}
+	
+	\item \textbf{Parsing String ke Tipe Data Primitif:} 
+	\begin{itemize}
+		\item \texttt{int x = Integer.parseInt("31");} mengonversi \texttt{String} \texttt{"31"} menjadi \texttt{int}.
+		\item \texttt{String y = String.valueOf(x);} mengonversi nilai \texttt{int} \texttt{x} kembali menjadi \texttt{String}.
+	\end{itemize}
+	
+	\item \textbf{Character to Integer Conversion:} 
+	\begin{itemize}
+		\item \texttt{char s = (char) 49;} mengonversi nilai \texttt{int} 49 ke karakter \texttt{'1'} berdasarkan kode ASCII.
+		\item \texttt{int t = (int) 'a';} mengonversi karakter \texttt{'a'} menjadi nilai \texttt{int} 97 berdasarkan kode ASCII.
+	\end{itemize}
+\end{itemize}
+
+Pemahaman tentang konversi tipe data sangat penting untuk memastikan bahwa operasi aritmatika dan manipulasi data berjalan dengan benar tanpa kesalahan atau kehilangan data yang tidak diinginkan.
+
+
+\section{Operasi pada String di Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for String Operations}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	public class StringOperation {
+		
+		public static void main(String[] args) {
+			
+			String a = "Balonku ada seribu";
+			System.out.println(a.substring(0, 3));
+			System.out.println(a.toUpperCase());
+			System.out.println(a.replace("a", "o"));
+			System.out.println(a.contains("ada"));
+			System.out.println(a.concat(" lima ratus"));
+			
+		}
+		
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas menunjukkan berbagai operasi umum yang dapat dilakukan pada objek \texttt{String} di Java. Berikut adalah penjelasan dari setiap operasi yang dilakukan pada string \texttt{a}:
+
+\begin{itemize}
+	\item \textbf{\texttt{substring(int beginIndex, int endIndex)}:} 
+	\begin{itemize}
+		\item Baris \texttt{System.out.println(a.substring(0, 3));} akan mengambil substring dari karakter ke-0 hingga ke-2 (indeks ke-3 tidak termasuk). Hasilnya adalah \texttt{"Bal"}.
+	\end{itemize}
+	
+	\item \textbf{\texttt{toUpperCase()}:}
+	\begin{itemize}
+		\item Baris \texttt{System.out.println(a.toUpperCase());} akan mengubah semua karakter dalam string \texttt{a} menjadi huruf besar, menghasilkan \texttt{"BALONKU ADA SERIBU"}.
+	\end{itemize}
+	
+	\item \textbf{\texttt{replace(CharSequence target, CharSequence replacement)}:}
+	\begin{itemize}
+		\item Baris \texttt{System.out.println(a.replace("a", "o"));} akan mengganti setiap kemunculan karakter \texttt{'a'} dalam string \texttt{a} dengan karakter \texttt{'o'}, menghasilkan \texttt{"Bolonku odo seribu"}.
+	\end{itemize}
+	
+	\item \textbf{\texttt{contains(CharSequence s)}:}
+	\begin{itemize}
+		\item Baris \texttt{System.out.println(a.contains("ada"));} akan memeriksa apakah string \texttt{a} mengandung substring \texttt{"ada"}. Hasilnya adalah \texttt{true} karena substring tersebut ada dalam string \texttt{a}.
+	\end{itemize}
+	
+	\item \textbf{\texttt{concat(String str)}:}
+	\begin{itemize}
+		\item Baris \texttt{System.out.println(a.concat(" lima ratus"));} akan menambahkan string \texttt{" lima ratus"} di akhir string \texttt{a}, menghasilkan \texttt{"Balonku ada seribu lima ratus"}.
+	\end{itemize}
+\end{itemize}
+
+Dengan memahami berbagai operasi ini, kita dapat memanipulasi dan memproses string di Java dengan cara yang lebih efektif dan efisien.
+
+\section{Operator Aritmatika di Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Arithmetic Operations}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	public class Operator {
+		public static void main(String[] args) {
+			
+			double x = 9;
+			double y = 2;
+			System.out.println("z = " + (x + y));
+			System.out.println("z = " + (x / y));
+			System.out.println("z = " + (x * y));
+			System.out.println("z = " + (x % y));
+			System.out.println("z = " + (x - y));
+			System.out.println("z = " + (++x));
+			System.out.println("z = " + (--x));
+			
+			System.out.println("z = " + Math.pow(x, y));    
+			System.out.println("z = " + Math.ceil(4.99));    
+			
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas mendemonstrasikan berbagai operasi aritmatika yang dapat dilakukan di Java, baik menggunakan operator bawaan maupun metode dari kelas \texttt{Math}. Berikut adalah penjelasan dari setiap operasi:
+
+\begin{itemize}
+	\item \textbf{Penjumlahan (\texttt{+}):} 
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x + y));} menghasilkan penjumlahan dari \texttt{x} dan \texttt{y}, yang dalam hal ini adalah \texttt{9 + 2 = 11}.
+	\end{itemize}
+	
+	\item \textbf{Pembagian (\texttt{/}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x / y));} membagi \texttt{x} dengan \texttt{y}, yang dalam hal ini adalah \texttt{9 / 2 = 4.5}.
+	\end{itemize}
+	
+	\item \textbf{Perkalian (\texttt{*}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x * y));} mengalikan \texttt{x} dengan \texttt{y}, menghasilkan \texttt{9 * 2 = 18}.
+	\end{itemize}
+	
+	\item \textbf{Modulo (\texttt{\%}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x \% y));} menghasilkan sisa pembagian dari \texttt{x} oleh \texttt{y}, yaitu \texttt{9 \% 2 = 1}.
+	\end{itemize}
+	
+	\item \textbf{Pengurangan (\texttt{-}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x - y));} mengurangi \texttt{y} dari \texttt{x}, yang menghasilkan \texttt{9 - 2 = 7}.
+	\end{itemize}
+	
+	\item \textbf{Increment (\texttt{++}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (++x));} menambahkan 1 ke \texttt{x}, sehingga \texttt{x} menjadi \texttt{10}.
+	\end{itemize}
+	
+	\item \textbf{Decrement (\texttt{--}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (--x));} mengurangi 1 dari \texttt{x}, mengembalikannya ke \texttt{9}.
+	\end{itemize}
+	
+	\item \textbf{Pangkat (\texttt{Math.pow}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + Math.pow(x, y));} menghitung \texttt{x} pangkat \texttt{y}, yaitu \texttt{9} pangkat \texttt{2}, yang hasilnya adalah \texttt{81.0}.
+	\end{itemize}
+	
+	\item \textbf{Pembulatan ke Atas (\texttt{Math.ceil}):}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + Math.ceil(4.99));} membulatkan nilai \texttt{4.99} ke atas menjadi \texttt{5.0}.
+	\end{itemize}
+	
+\end{itemize}
+
+Dengan memahami operator-operator ini, kita dapat melakukan operasi aritmatika dasar dan lanjutan dalam pemrograman Java dengan lebih efektif.
+
+\section{Input dan Output di Java}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Input and Output Operations}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class InputOutput {
+		
+		public static void main(String[] args) {
+			
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Type your name: ");
+			String input = scanner.nextLine();
+			System.out.println("Your name is " + input);
+			
+			System.out.print("x = ");
+			int x = scanner.nextInt();
+			System.out.print("y = ");
+			int y = scanner.nextInt();
+			System.out.println("y + x = " + (y + x));
+			
+			boolean quit = false;
+			String input = null;
+			while(!quit) {
+				System.out.print("Do you want to quit? (y/n) ");
+				input = scanner.nextLine();
+				if ("y".equals(input)) {
+					quit = true;
+				}
+			}
+			System.out.println("You have logged out!");
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kode di atas menunjukkan berbagai operasi dasar untuk input dan output di Java menggunakan kelas \texttt{Scanner}. Berikut adalah penjelasan dari setiap bagian kode:
+
+\begin{itemize}
+	\item \textbf{Membaca Input dari Pengguna:}
+	\begin{itemize}
+		\item \texttt{Scanner scanner = new Scanner(System.in);} membuat objek \texttt{Scanner} untuk membaca input dari konsol.
+		\item \texttt{System.out.print("Type your name: ");} menampilkan pesan kepada pengguna untuk mengetikkan nama mereka.
+		\item \texttt{String input = scanner.nextLine();} membaca input dari pengguna sebagai \texttt{String}.
+		\item \texttt{System.out.println("Your name is " + input);} menampilkan nama yang dimasukkan oleh pengguna.
+	\end{itemize}
+	
+	\item \textbf{Membaca Input Numerik:}
+	\begin{itemize}
+		\item \texttt{System.out.print("x = ");} meminta pengguna untuk memasukkan nilai untuk \texttt{x}.
+		\item \texttt{int x = scanner.nextInt();} membaca nilai \texttt{x} dari input pengguna.
+		\item \texttt{System.out.print("y = ");} meminta pengguna untuk memasukkan nilai untuk \texttt{y}.
+		\item \texttt{int y = scanner.nextInt();} membaca nilai \texttt{y} dari input pengguna.
+		\item \texttt{System.out.println("y + x = " + (y + x));} menampilkan hasil penjumlahan \texttt{x} dan \texttt{y}.
+	\end{itemize}
+	
+	\item \textbf{Pengulangan Berdasarkan Input Pengguna:}
+	\begin{itemize}
+		\item \texttt{boolean quit = false;} dan \texttt{String input = null;} digunakan untuk mengatur kondisi loop dan menyimpan input pengguna.
+		\item \texttt{while(!quit)} menjalankan loop selama \texttt{quit} bernilai \texttt{false}.
+		\item \texttt{System.out.print("Do you want to quit? (y/n) ");} meminta pengguna untuk menentukan apakah mereka ingin keluar.
+		\item \texttt{input = scanner.nextLine();} membaca jawaban pengguna.
+		\item \texttt{if ("y".equals(input)) \{ quit = true; \}} memeriksa apakah jawaban adalah \texttt{"y"} untuk mengubah nilai \texttt{quit} menjadi \texttt{true}, yang akan menghentikan loop.
+	\end{itemize}
+	
+	\item \textbf{Menampilkan Pesan Keluar:}
+	\begin{itemize}
+		\item \texttt{System.out.println("You have logged out!");} menampilkan pesan setelah loop berhenti.
+	\end{itemize}
+\end{itemize}
+
+Dengan menggunakan kelas \texttt{Scanner}, kita dapat membaca input dari pengguna dan memprosesnya dalam program Java. Kode ini juga menunjukkan penggunaan loop untuk berinteraksi dengan pengguna sampai mereka memilih untuk berhenti.
+
+\section{Latihan dan Contoh Kode}
+
+\subsection{Latihan 1: Kalkulator Sederhana}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Simple Calculator}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class SimpleCalculator {
+		
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Enter first number: ");
+			double num1 = scanner.nextDouble();
+			System.out.print("Enter second number: ");
+			double num2 = scanner.nextDouble();
+			scanner.nextLine();  // Consume newline left-over
+			
+			System.out.print("Enter operator (+, -, *, /): ");
+			String operator = scanner.nextLine();
+			
+			double result;
+			switch (operator) {
+				case "+":
+				result = num1 + num2;
+				break;
+				case "-":
+				result = num1 - num2;
+				break;
+				case "*":
+				result = num1 * num2;
+				break;
+				case "/":
+				result = num1 / num2;
+				break;
+				default:
+				System.out.println("Invalid operator");
+				return;
+			}
+			
+			System.out.println("Result: " + result);
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 2: Konversi Tipe dan Operasi String}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Type Conversion and String Operation}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class TypeConversionAndStringOperation {
+		
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Enter a number: ");
+			int num = scanner.nextInt();
+			scanner.nextLine();  // Consume newline left-over
+			
+			System.out.print("Enter another number: ");
+			int anotherNum = scanner.nextInt();
+			scanner.nextLine();  // Consume newline left-over
+			
+			String numStr = String.valueOf(num);
+			String result = numStr + anotherNum;
+			
+			System.out.println("Concatenated result: " + result);
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 3: Operasi Matematika dan Pengulangan}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Math Operations and Loop}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class MathOperationsAndLoop {
+		
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			boolean continueLoop = true;
+			while (continueLoop) {
+				System.out.print("Enter a base number: ");
+				double base = scanner.nextDouble();
+				System.out.print("Enter an exponent: ");
+				double exponent = scanner.nextDouble();
+				scanner.nextLine();  // Consume newline left-over
+				
+				double powerResult = Math.pow(base, exponent);
+				System.out.println("Power result: " + powerResult);
+				
+				System.out.print("Enter a number to round up: ");
+				double numberToRound = scanner.nextDouble();
+				scanner.nextLine();  // Consume newline left-over
+				
+				double roundedResult = Math.ceil(numberToRound);
+				System.out.println("Rounded result: " + roundedResult);
+				
+				System.out.print("Do you want to continue? (y/n): ");
+				String userChoice = scanner.nextLine();
+				if ("n".equalsIgnoreCase(userChoice)) {
+					continueLoop = false;
+				}
+			}
+			
+			System.out.println("Program terminated.");
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 4: Konversi Tipe dan Operator}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for Arithmetic and Type Conversion}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class ArithmeticAndTypeConversion {
+		
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Enter first integer: ");
+			int num1 = scanner.nextInt();
+			System.out.print("Enter second integer: ");
+			int num2 = scanner.nextInt();
+			
+			double divisionResult = (double) num1 / num2;
+			int roundedResult = (int) divisionResult;
+			
+			System.out.println("Division result (double): " + divisionResult);
+			System.out.println("Rounded result (int): " + roundedResult);
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 5: Manipulasi String dengan Input Pengguna}
+
+\begin{lstlisting}[style=JavaStyle, caption={Java Code for String Manipulation}]
+	package org.alfa.pertemuan04.datatypes;
+	
+	import java.util.Scanner;
+	
+	public class StringManipulation {
+		
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Enter a sentence: ");
+			String sentence = scanner.nextLine();
+			
+			System.out.println("Substring (first 5 characters): " + sentence.substring(0, 5));
+			System.out.println("Uppercase: " + sentence.toUpperCase());
+			System.out.println("Replace 'a' with 'o': " + sentence.replace("a", "o"));
+		}
+	}
+\end{lstlisting}
+
+\section{Soal}
+
+\subsection{Soal 1: Program Pengolahan Data Penjualan}
+
+\begin{quote}
+	Tulis program yang meminta pengguna untuk memasukkan jumlah barang terjual dan harga satuan dari beberapa barang. Program harus menghitung total penjualan, rata-rata harga barang, dan menampilkan hasilnya dalam format yang terformat dengan baik.
+\end{quote}
+
+\subsection{Soal 2: Aplikasi Pembayaran Elektronik}
+
+\begin{quote}
+	Buat aplikasi sederhana yang memungkinkan pengguna untuk memasukkan jumlah uang yang akan dibayar dan jenis pembayaran (misalnya, kartu kredit atau debit). Aplikasi harus menghitung dan menampilkan jumlah total yang harus dibayar, termasuk pajak dan biaya transaksi jika menggunakan kartu kredit.
+\end{quote}
+
+\subsection{Soal 3: Konversi Mata Uang}
+
+\begin{quote}
+	Kembangkan aplikasi yang meminta pengguna untuk memasukkan jumlah uang dalam satu mata uang dan kemudian mengonversinya ke mata uang lain dengan menggunakan nilai tukar yang diberikan. Program harus menampilkan hasil konversi dengan dua desimal.
+\end{quote}
+
+\subsection{Soal 4: Program Notasi Waktu}
+
+\begin{quote}
+	Buat program yang meminta pengguna untuk memasukkan waktu dalam format 24 jam (misalnya, 13:45) dan mengonversinya ke format 12 jam dengan AM/PM. Program harus menampilkan waktu yang dikonversi dengan format yang benar.
+\end{quote}
+
+\subsection{Soal 5: Kalkulator BMI (Body Mass Index)}
+
+\begin{quote}
+	Tulis program yang meminta pengguna untuk memasukkan berat badan (dalam kilogram) dan tinggi badan (dalam meter). Program harus menghitung dan menampilkan indeks massa tubuh (BMI) dan memberikan kategori berat badan berdasarkan nilai BMI (misalnya, kurang berat badan, normal, atau kelebihan berat badan).
+\end{quote}
+
