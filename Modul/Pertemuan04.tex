@@ -1,25 +1,3 @@
-% Define Java language style for listings
-\lstdefinestyle{JavaStyle}{
-	language=Java,
-	basicstyle=\ttfamily\footnotesize,
-	keywordstyle=\color{blue},
-	commentstyle=\color{gray},
-	stringstyle=\color{red},
-	breaklines=true,
-	showstringspaces=false,
-	tabsize=2,
-	captionpos=b,
-	numbers=left,
-	numberstyle=\tiny\color{gray},
-	comment=[l]{//},
-	morecomment=[s]{/*}{*/},
-	commentstyle=\color{gray}\ttfamily,
-	string=[s]{'}{'},
-	morestring=[s]{"}{"},
-	%	stringstyle=\color{teal}\ttfamily,
-	%	showstringspaces=false
-}
-
 \chapter{Tipe Data}
  
 \section{Tipe Data di Java}
@@ -40,6 +18,85 @@ Java menyediakan delapan tipe data primitif yang mewakili nilai-nilai dasar:
 	\item \textbf{float}: Menyimpan bilangan desimal 32-bit.
 	\item \textbf{double}: Menyimpan bilangan desimal 64-bit.
 	\item \textbf{char}: Menyimpan satu karakter dalam format 16-bit Unicode.
+\end{itemize}
+
+\subsection{Operator Aritmatika di Java}
+
+Operator aritmatika adalah simbol yang digunakan untuk melakukan operasi matematika dasar pada operand. Dalam Java, operator aritmatika digunakan untuk melakukan perhitungan seperti penjumlahan, pengurangan, perkalian, pembagian, dan modulus. Berikut adalah operator aritmatika yang tersedia di Java:
+
+\begin{itemize}
+	\item \textbf{Penjumlahan (+)}: Menambahkan dua nilai. Contoh: \texttt{a + b}.
+	\item \textbf{Pengurangan (-)}: Mengurangi satu nilai dari nilai lainnya. Contoh: \texttt{a - b}.
+	\item \textbf{Perkalian (*):} Mengalikan dua nilai. Contoh: \texttt{a * b}.
+	\item \textbf{Pembagian (/):} Membagi satu nilai dengan nilai lainnya. Contoh: \texttt{a / b}. Perhatikan bahwa jika kedua operand adalah bilangan bulat, hasil pembagian juga akan berupa bilangan bulat, dan sisa pembagian akan diabaikan.
+	\item \textbf{Modulus (\%):} Menghitung sisa dari pembagian dua nilai. Contoh: \texttt{a \% b}. Ini berguna untuk menentukan apakah sebuah angka habis dibagi oleh angka lainnya.
+\end{itemize}
+
+\subsubsection{Contoh Penggunaan Operator Aritmatika}
+
+Berikut adalah beberapa contoh penggunaan operator aritmatika dalam Java:
+
+\begin{itemize}
+	\item \textbf{Penjumlahan:} \texttt{int hasil = 5 + 3;} // hasil adalah 8
+	\item \textbf{Pengurangan:} \texttt{int hasil = 10 - 4;} // hasil adalah 6
+	\item \textbf{Perkalian:} \texttt{int hasil = 7 * 2;} // hasil adalah 14
+	\item \textbf{Pembagian:} \texttt{int hasil = 8 / 2;} // hasil adalah 4
+	\item \textbf{Modulus:} \texttt{int hasil = 10 \% 3;} // hasil adalah 1
+\end{itemize}
+
+\subsubsection{Prioritas Operator Aritmatika}
+
+Dalam ekspresi yang melibatkan beberapa operator, Java mengikuti aturan prioritas operator untuk menentukan urutan evaluasi. Operator aritmatika memiliki prioritas yang lebih tinggi dibandingkan dengan operator lainnya seperti \texttt{==}, \texttt{!=}, \texttt{\&\&}, dan \texttt{||}. Untuk memastikan urutan evaluasi yang diinginkan, Anda dapat menggunakan tanda kurung.
+
+\begin{itemize}
+	\item \textbf{Prioritas Operator Tinggi:} \texttt{*, /, \%}
+	\item \textbf{Prioritas Operator Rendah:} \texttt{+, -}
+\end{itemize}
+
+\subsection{Increment dan Decrement}
+
+Operator increment dan decrement digunakan untuk menambah atau mengurangi nilai variabel sebesar satu. Mereka sangat berguna dalam loop dan iterasi.
+
+\begin{itemize}
+	\item \textbf{Increment (\texttt{++})}: Menambahkan satu ke nilai variabel. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		int a = 5;
+		a++; // a sekarang bernilai 6
+	\end{lstlisting}
+	\item \textbf{Decrement (\texttt{--})}: Mengurangi satu dari nilai variabel. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		int b = 10;
+		b--; // b sekarang bernilai 9
+	\end{lstlisting}
+\end{itemize}
+
+Operator increment dan decrement dapat digunakan dalam dua bentuk:
+\begin{itemize}
+	\item \textbf{Pre-increment/Decrement:} \texttt{++a} atau \texttt{--b} – nilai variabel diubah sebelum digunakan dalam ekspresi.
+	\item \textbf{Post-increment/Decrement:} \texttt{a++} atau \texttt{b--} – nilai variabel diubah setelah digunakan dalam ekspresi.
+\end{itemize}
+
+\subsection{Pangkat}
+
+Java tidak memiliki operator pangkat bawaan, tetapi pangkat dapat dihitung menggunakan metode \texttt{Math.pow(base, exponent)} dari kelas \texttt{Math}.
+
+\begin{itemize}
+	\item \textbf{Metode \texttt{Math.pow()}:} Menghitung nilai pangkat dari basis. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		double result = Math.pow(2, 3); // result adalah 8.0
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Pembulatan ke Atas}
+
+Java menyediakan metode untuk pembulatan angka, termasuk pembulatan ke atas menggunakan metode \texttt{Math.ceil()}.
+
+\begin{itemize}
+	\item \textbf{Metode \texttt{Math.ceil()}:} Mengembalikan nilai double yang lebih besar atau sama dengan angka yang diberikan, dibulatkan ke atas. Contoh:
+	\begin{lstlisting}[style=JavaStyle]
+		double number = 4.3;
+		double rounded = Math.ceil(number); // rounded adalah 5.0
+	\end{lstlisting}
 \end{itemize}
 
 \subsection{Kelas Pembungkus (Wrapper Classes)}
