@@ -1,0 +1,497 @@
+\chapter{Decision / Pengkondisian}
+
+\section{Pengkondisian di Java}
+
+Pengkondisian adalah konsep penting dalam pemrograman yang memungkinkan pengambilan keputusan berdasarkan kondisi tertentu. Dalam Java, pengkondisian diimplementasikan menggunakan beberapa struktur dasar seperti \texttt{if}, \texttt{if-else}, \texttt{switch-case}, dan operator ternary. 
+
+\subsection{Struktur If}
+
+Struktur \texttt{if} digunakan untuk mengeksekusi blok kode tertentu hanya jika kondisi yang diberikan bernilai \texttt{true}. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+	if (kondisi) {
+		// kode yang akan dieksekusi jika kondisi benar
+	}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+	int nilai = 75;
+	if (nilai >= 70) {
+		System.out.println("Lulus");
+	}
+\end{lstlisting}
+
+\subsection{Struktur If-Else}
+
+Struktur \texttt{if-else} memungkinkan kita untuk menentukan blok kode alternatif yang akan dijalankan jika kondisi tidak terpenuhi. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+	if (kondisi) {
+		// kode yang akan dieksekusi jika kondisi benar
+	} else {
+		// kode yang akan dieksekusi jika kondisi salah
+	}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+	int nilai = 65;
+	if (nilai >= 70) {
+		System.out.println("Lulus");
+	} else {
+		System.out.println("Tidak Lulus");
+	}
+\end{lstlisting}
+
+\subsection{Struktur Nested If}
+
+Struktur \texttt{nested if} atau \texttt{if} bersarang adalah \texttt{if} di dalam \texttt{if}, yang memungkinkan pemeriksaan kondisi tambahan di dalam kondisi utama.
+
+\begin{lstlisting}[style=JavaStyle]
+	if (kondisi1) {
+		if (kondisi2) {
+			// kode yang akan dieksekusi jika kedua kondisi benar
+		}
+	}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+	int nilai = 85;
+	if (nilai >= 70) {
+		if (nilai >= 80) {
+			System.out.println("Lulus dengan predikat baik");
+		} else {
+			System.out.println("Lulus");
+		}
+	}
+\end{lstlisting}
+
+\subsection{Struktur Switch-Case}
+
+Struktur \texttt{switch-case} adalah alternatif untuk \texttt{if-else} yang digunakan ketika ada beberapa kemungkinan nilai untuk satu variabel dan masing-masing nilai tersebut memerlukan tindakan berbeda.
+
+\begin{lstlisting}[style=JavaStyle]
+	switch (variabel) {
+		case nilai1:
+		// kode untuk nilai1
+		break;
+		case nilai2:
+		// kode untuk nilai2
+		break;
+		default:
+		// kode untuk semua nilai yang tidak tercantum
+	}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+	char grade = 'B';
+	
+	switch (grade) {
+		case 'A':
+		System.out.println("Luar Biasa");
+		break;
+		case 'B':
+		System.out.println("Baik");
+		break;
+		case 'C':
+		System.out.println("Cukup");
+		break;
+		default:
+		System.out.println("Nilai tidak valid");
+	}
+\end{lstlisting}
+
+\subsection{Operator Ternary}
+
+Operator ternary adalah cara singkat untuk menulis pernyataan \texttt{if-else} sederhana dalam satu baris kode. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+	variabel = (kondisi) ? nilaiJikaTrue : nilaiJikaFalse;
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+	int nilai = 75;
+	String hasil = (nilai >= 70) ? "Lulus" : "Tidak Lulus";
+	System.out.println(hasil);
+\end{lstlisting}
+
+\section{Kode Program Penentuan Nilai dan Kelulusan}
+
+\begin{lstlisting}[style=JavaStyle, caption={Kode Program Penentuan Nilai dan Kelulusan}]
+	package org.alfa.pertemuan05.decisions;
+	
+	import java.util.Scanner;
+	
+	public class Decision {
+		
+		public static void main(String[] args) {
+			
+			/** Decisions, Branching, Conditioning, Flow Control **/
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Enter your score (0.0 - 100.0): ");
+			
+			double score = scanner.nextDouble();
+			
+			char mark = 'Z';
+			mark = getIfMultipleConditionsMark(score);
+			
+			System.out.println("Your mark is '" + mark + "'");
+			
+			if (isShortExamPassed(mark)) {
+				System.out.println("You have passed the exam");
+			} else {
+				System.out.println("You failed the exam");
+			}
+		}
+		
+		/** If **/
+		public static char getIfMark(double score) {
+			char mark = 'E';
+			if (score < 10) {
+				mark = 'E';
+				return mark;
+			}
+			if (score < 20) {
+				mark = 'D';
+				return mark;
+			}
+			if (score < 60) {
+				mark = 'C';
+				return mark;
+			}
+			if (score < 80) {
+				mark = 'B';
+				return mark;
+			}
+			if (score >= 80) {
+				mark = 'A';
+			}
+			return mark;
+		}
+		
+		/** If Else **/
+		public static char getIfElseMark(double score) {
+			char mark = 'E';
+			if (score >= 80) {
+				mark = 'A';
+			} else if (score >= 60) {
+				mark = 'B';
+			} else if (score >= 40) {
+				mark = 'C';
+			} else if (score >= 20) {
+				mark = 'D';
+			} else {
+				mark = 'E';
+			}
+			return mark;
+		}
+		
+		/** Nested if **/
+		public static char getNestedIf(double score) {
+			char mark = 'E';
+			if (score >= 20) {
+				mark = 'D';
+				if (score >= 40) {
+					mark = 'C';
+					if (score >= 60) {
+						mark = 'B';
+						if (score >= 80) {
+							mark = 'A';
+						}
+					}
+				}
+			}
+			return mark;
+		}
+		
+		/** If with multiple conditions and return **/
+		public static char getIfMultipleConditionsMark(double score) {
+			if (score >= 80) {
+				return 'A';
+			}
+			if (score >= 60 && score < 80) {
+				return 'B';
+			}
+			if (score >= 40 && score < 60) {
+				return 'C';
+			}
+			if (score >= 20 && score < 40) {
+				return 'D';
+			}
+			return 'E';
+		}
+		
+		/** switch-case decision **/
+		public static boolean isExamPassed(char mark) {
+			boolean pass = false;
+			switch (mark) {
+				case 'A': {
+					pass = true;
+				}
+				break;
+				case 'B':
+				pass = true;
+				break;
+				case 'C':
+				pass = true;
+				break;
+				default:
+				break;
+			}
+			return pass;
+		}
+		
+		/** short conditioning **/
+		public static boolean isShortExamPassed(char mark) {
+			boolean pass = false;
+			pass = (mark == 'D' || mark == 'E') ? false : true;
+			return pass;
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+
+Kode di atas bertujuan untuk menentukan nilai (dalam bentuk karakter) berdasarkan skor yang diinput oleh pengguna, kemudian mengevaluasi apakah pengguna lulus ujian atau tidak.
+
+\subsubsection{Bagian \texttt{main}}
+
+Metode \texttt{main} dimulai dengan meminta input dari pengguna berupa skor, yang merupakan nilai dalam rentang 0.0 hingga 100.0. Kemudian, kode tersebut memanggil salah satu dari beberapa metode untuk menentukan nilai (mark) berdasarkan skor yang diinput. Dalam contoh di atas, metode yang digunakan adalah \texttt{getIfMultipleConditionsMark}, yang menentukan nilai dengan beberapa kondisi \texttt{if} yang mengevaluasi rentang skor.
+
+Setelah nilai ditentukan, kode mencetak nilai tersebut dan memanggil metode \texttt{isShortExamPassed} untuk mengevaluasi apakah nilai tersebut cukup untuk lulus ujian. Penentuan kelulusan menggunakan kondisi pendek (short conditioning) yang mengevaluasi apakah nilai tersebut bukan \texttt{D} atau \texttt{E}, sehingga dapat disimpulkan apakah pengguna lulus ujian atau tidak.
+
+\subsubsection{Metode Penentuan Nilai}
+
+Kode ini menyediakan beberapa metode untuk menentukan nilai berdasarkan skor, yaitu:
+
+\begin{itemize}
+	\item \texttt{getIfMark}: Menggunakan beberapa pernyataan \texttt{if} untuk menentukan nilai.
+	\item \texttt{getIfElseMark}: Menggunakan pernyataan \texttt{if-else} untuk menentukan nilai, yang lebih efisien dibandingkan \texttt{getIfMark}.
+	\item \texttt{getNestedIf}: Menggunakan \texttt{if} bersarang untuk menentukan nilai, yang memberikan struktur berjenjang dalam penentuan nilai.
+	\item \texttt{getIfMultipleConditionsMark}: Menggunakan beberapa kondisi \texttt{if} dengan syarat ganda untuk menentukan nilai. Metode ini lebih kompak dan sering digunakan dalam praktik nyata.
+\end{itemize}
+
+\subsubsection{Metode Penentuan Kelulusan}
+
+Terdapat dua metode utama yang digunakan untuk mengevaluasi apakah pengguna lulus ujian atau tidak:
+
+\begin{itemize}
+	\item \texttt{isExamPassed}: Menggunakan \texttt{switch-case} untuk menentukan kelulusan berdasarkan nilai.
+	\item \texttt{isShortExamPassed}: Menggunakan kondisi pendek (short conditioning) dengan operator ternary untuk mengevaluasi kelulusan. Kode ini menunjukkan beberapa versi pendekatan yang dapat dipilih sesuai kebutuhan.
+\end{itemize}
+
+Kode ini menggambarkan berbagai cara untuk menangani pengambilan keputusan dalam pemrograman Java, terutama yang berkaitan dengan penentuan nilai dan kelulusan ujian. Dengan menggunakan berbagai pendekatan, seperti \texttt{if}, \texttt{if-else}, \texttt{nested if}, \texttt{switch-case}, dan operator ternary, kode ini menunjukkan fleksibilitas dalam menentukan alur logika dan pengendalian kondisi dalam program.
+
+
+\section {Latihan dan Contoh Kode}
+
+Berikut adalah beberapa latihan untuk membantu Anda memahami konsep pengkondisian dalam Java.
+
+\begin{enumerate}
+	\item \textbf{Latihan 1:} Tulis program yang meminta pengguna untuk memasukkan usia mereka, dan program akan menentukan apakah mereka masih anak-anak (0-12 tahun), remaja (13-17 tahun), dewasa muda (18-30 tahun), dewasa (31-59 tahun), atau lansia (60 tahun ke atas).
+
+
+\begin{lstlisting}[style=JavaStyle]
+	import java.util.Scanner;
+	
+	public class AgeCategory {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan usia Anda: ");
+			int usia = scanner.nextInt();
+			
+			if (usia >= 0 && usia <= 12) {
+				System.out.println("Anda adalah anak-anak.");
+			} else if (usia >= 13 && usia <= 17) {
+				System.out.println("Anda adalah remaja.");
+			} else if (usia >= 18 && usia <= 30) {
+				System.out.println("Anda adalah dewasa muda.");
+			} else if (usia >= 31 && usia <= 59) {
+				System.out.println("Anda adalah dewasa.");
+			} else if (usia >= 60) {
+				System.out.println("Anda adalah lansia.");
+			} else {
+				System.out.println("Usia tidak valid.");
+			}
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 2:} Tulis program yang meminta pengguna untuk memasukkan sebuah huruf, dan program akan menentukan apakah huruf tersebut adalah huruf vokal atau konsonan menggunakan \texttt{switch-case}.
+
+\begin{lstlisting}[style=JavaStyle]
+	import java.util.Scanner;
+	
+	public class VowelOrConsonant {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan sebuah huruf: ");
+			char huruf = scanner.next().charAt(0);
+			
+			switch (huruf) {
+				case 'a':
+				case 'e':
+				case 'i':
+				case 'o':
+				case 'u':
+				case 'A':
+				case 'E':
+				case 'I':
+				case 'O':
+				case 'U':
+				System.out.println(huruf + " adalah huruf vokal.");
+				break;
+				default:
+				System.out.println(huruf + " adalah huruf konsonan.");
+				break;
+			}
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 3:} Tulis program yang meminta pengguna untuk memasukkan dua angka dan memilih operasi matematika (penjumlahan, pengurangan, perkalian, atau pembagian) menggunakan \texttt{switch-case}. Program kemudian menampilkan hasil operasi tersebut.
+
+\begin{lstlisting}[style=JavaStyle]
+	import java.util.Scanner;
+	
+	public class SimpleCalculator {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan angka pertama: ");
+			double angka1 = scanner.nextDouble();
+			
+			System.out.print("Masukkan angka kedua: ");
+			double angka2 = scanner.nextDouble();
+			
+			System.out.println("Pilih operasi: +, -, *, /");
+			char operasi = scanner.next().charAt(0);
+			
+			switch (operasi) {
+				case '+':
+				System.out.println("Hasil: " + (angka1 + angka2));
+				break;
+				case '-':
+				System.out.println("Hasil: " + (angka1 - angka2));
+				break;
+				case '*':
+				System.out.println("Hasil: " + (angka1 * angka2));
+				break;
+				case '/':
+				if (angka2 != 0) {
+					System.out.println("Hasil: " + (angka1 / angka2));
+				} else {
+					System.out.println("Pembagian dengan nol tidak diperbolehkan.");
+				}
+				break;
+				default:
+				System.out.println("Operasi tidak valid.");
+				break;
+			}
+		}
+	}
+\end{lstlisting}
+	
+\item \textbf{Latihan 4:} Tulis program yang meminta pengguna untuk memasukkan tiga angka, dan menentukan angka terbesar di antara ketiganya menggunakan \texttt{if-else}.
+
+\begin{lstlisting}[style=JavaStyle]
+	import java.util.Scanner;
+	
+	public class FindLargestNumber {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan angka pertama: ");
+			int angka1 = scanner.nextInt();
+			
+			System.out.print("Masukkan angka kedua: ");
+			int angka2 = scanner.nextInt();
+			
+			System.out.print("Masukkan angka ketiga: ");
+			int angka3 = scanner.nextInt();
+			
+			int terbesar = angka1;
+			
+			if (angka2 > terbesar) {
+				terbesar = angka2;
+			}
+			
+			if (angka3 > terbesar) {
+				terbesar = angka3;
+			}
+			
+			System.out.println("Angka terbesar adalah: " + terbesar);
+		}
+	}
+\end{lstlisting}
+
+\item \textbf{Latihan 5:} Tulis program yang meminta pengguna untuk memasukkan angka dari 1 hingga 7, dan menampilkan hari yang sesuai dalam seminggu menggunakan \texttt{switch-case}. Misalnya, 1 untuk Senin, 2 untuk Selasa, dan seterusnya.
+
+\begin{lstlisting}[style=JavaStyle]
+	import java.util.Scanner;
+	
+	public class DayOfWeek {
+		public static void main(String[] args) {
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.print("Masukkan angka (1-7): ");
+			int hari = scanner.nextInt();
+			
+			switch (hari) {
+				case 1:
+				System.out.println("Senin");
+				break;
+				case 2:
+				System.out.println("Selasa");
+				break;
+				case 3:
+				System.out.println("Rabu");
+				break;
+				case 4:
+				System.out.println("Kamis");
+				break;
+				case 5:
+				System.out.println("Jumat");
+				break;
+				case 6:
+				System.out.println("Sabtu");
+				break;
+				case 7:
+				System.out.println("Minggu");
+				break;
+				default:
+				System.out.println("Angka tidak valid.");
+				break;
+			}
+		}
+	}
+\end{lstlisting}
+
+\end{enumerate}
+
+
+\section {Soal}
+
+Berikut adalan beberapa latihan yang berkaitan dengan pengkondisian di Java:
+
+\begin{enumerate}
+	
+\item \textbf{Soal 1:} Tulis program yang meminta pengguna untuk memasukkan angka dari 1 hingga 12, dan menampilkan nama bulan yang sesuai dengan angka tersebut menggunakan \texttt{switch-case}. Misalnya, 1 untuk Januari, 2 untuk Februari, dan seterusnya.
+
+\item \textbf{Soal 2:} Tulis program yang meminta pengguna untuk memasukkan sebuah angka dan menentukan apakah angka tersebut positif, negatif, atau nol. Gunakan \texttt{if-else} untuk menampilkan hasilnya.
+
+\item \textbf{Soal 3:} Tulis program yang meminta pengguna untuk memasukkan dua bilangan bulat dan menentukan apakah bilangan pertama adalah kelipatan dari bilangan kedua menggunakan pengkondisian \texttt{if-else}. Tampilkan hasilnya sebagai pesan yang sesuai.
+
+\end{enumerate}
