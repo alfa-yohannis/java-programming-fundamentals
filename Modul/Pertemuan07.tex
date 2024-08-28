@@ -1,0 +1,529 @@
+\chapter{Looping}
+
+\section{Looping di Java}
+
+Looping adalah salah satu konsep dasar dalam pemrograman yang memungkinkan eksekusi sebuah blok kode berulang kali, selama kondisi tertentu terpenuhi. Di Java, terdapat beberapa jenis loop yang sering digunakan, yaitu:
+
+\subsection{Loop \texttt{for}}
+Loop \texttt{for} digunakan ketika jumlah iterasi sudah diketahui sebelumnya. Loop ini memiliki tiga bagian utama: inisialisasi, kondisi, dan iterasi. Sintaks dasar dari \texttt{for} loop adalah sebagai berikut:
+
+\begin{lstlisting}[style=JavaStyle]
+	for (initialization; condition; iteration) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Loop \texttt{while}}
+Loop \texttt{while} digunakan ketika jumlah iterasi tidak diketahui dan bergantung pada kondisi yang diberikan. Loop ini akan terus berjalan selama kondisi yang diberikan bernilai \texttt{true}. Berikut adalah sintaks dasar dari \texttt{while} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	while (condition) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Loop \texttt{do-while}}
+Loop \texttt{do-while} mirip dengan loop \texttt{while}, namun perbedaannya adalah loop ini akan mengeksekusi blok kode terlebih dahulu, sebelum memeriksa kondisi. Oleh karena itu, loop ini akan selalu dieksekusi setidaknya sekali, terlepas dari apakah kondisi awalnya \texttt{true} atau \texttt{false}. Berikut adalah sintaks dasar dari \texttt{do-while} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	do {
+		// block of code to be executed
+	} while (condition);
+\end{lstlisting}
+
+\subsection{Loop \texttt{for-each}}
+Loop \texttt{for-each} digunakan untuk iterasi melalui elemen-elemen dalam koleksi atau array. Ini adalah cara yang lebih sederhana dan lebih aman untuk mengulangi setiap elemen dalam sebuah koleksi. Berikut adalah sintaks dasar dari \texttt{for-each} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	for (type element : collection) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Contoh Penggunaan Looping}
+Berikut adalah contoh sederhana yang menggunakan berbagai jenis loop di atas untuk menampilkan tabel perkalian:
+
+\begin{lstlisting}[style=JavaStyle]
+	// Contoh penggunaan loop
+	for (int i = 1; i <= 3; i++) {
+		for (int j = 1; j <= 3; j++) {
+			System.out.print(i + "x" + j + "=" + (i * j) + " ");
+		}
+		System.out.println();
+	}
+\end{lstlisting}
+
+
+
+
+\section{Looping pada Tipe Data Primitif di Java}
+
+Kelas \texttt{PrimitiveLoop} dalam kode berikut ini menampilkan penggunaan berbagai jenis looping untuk melakukan perhitungan perkalian sederhana. Program ini mengilustrasikan penggunaan loop \texttt{while}, \texttt{do-while}, \texttt{for}, dan \texttt{for-in}.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class PrimitiveLoop {
+		public static void main(String[] args) {
+			
+			executeWhileLoop(2, 1, 10);
+			System.out.println();
+			
+			executeDoWhile(3, 1, 10);
+			System.out.println();
+			
+			executeForLoop(4, 1, 10);
+			System.out.println();
+			
+			executeForIn(5, new int[] { 1, 2, 3, 4, 100, 6, 7, 8, 9, 10 });
+		}
+		
+		public static void executeWhileLoop(int value, int from, int to) {
+			while (from <= to) {
+				System.out.println(value + " * " + from + " = " + (value * from));
+				from++;
+			}
+		}
+		
+		public static void executeDoWhile(int value, int from, int to) {
+			do {
+				System.out.println(value + " * " + from + " = " + (value * from));
+				from++;
+			} while (from <= to);
+		}
+		
+		public static void executeForLoop(int value, int from, int to) {
+			for (int f = from ; f <= to ; f++) {
+				System.out.println(value + " * " + f + " = " + (value * f));
+			}
+		}
+		
+		public static void executeForIn(int value, int[] array) {
+			for (int element : array) {
+				System.out.println(value + " * " + element + " = " + (value * element));
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Kelas ini menunjukkan bagaimana looping digunakan untuk menghitung hasil perkalian dari sebuah nilai dengan serangkaian angka. Berikut adalah penjelasan masing-masing metode:
+
+\begin{itemize}
+	\item \textbf{Loop \texttt{while} (Metode \texttt{executeWhileLoop}):} \\
+	Metode ini menggunakan loop \texttt{while} untuk melakukan iterasi dari nilai awal \texttt{from} hingga nilai akhir \texttt{to}. Pada setiap iterasi, hasil perkalian \texttt{value} dengan \texttt{from} dicetak, kemudian nilai \texttt{from} diinkrementasi. Loop \texttt{while} digunakan ketika kita ingin memastikan bahwa kondisi tertentu terpenuhi sebelum melakukan eksekusi blok kode di dalam loop.
+	
+	\item \textbf{Loop \texttt{do-while} (Metode \texttt{executeDoWhile}):} \\
+	Metode ini mirip dengan loop \texttt{while}, tetapi dalam loop \texttt{do-while}, blok kode dieksekusi setidaknya sekali, bahkan jika kondisi loop tidak terpenuhi. Pada setiap iterasi, perkalian antara \texttt{value} dengan \texttt{from} dicetak, dan kemudian \texttt{from} diinkrementasi. Loop ini berguna ketika kita ingin memastikan bahwa blok kode dieksekusi minimal satu kali.
+	
+	\item \textbf{Loop \texttt{for} (Metode \texttt{executeForLoop}):} \\
+	Metode ini menggunakan loop \texttt{for} untuk iterasi dari \texttt{from} hingga \texttt{to}. Pada setiap iterasi, perkalian antara \texttt{value} dengan indeks \texttt{f} dicetak. Loop \texttt{for} adalah pilihan yang baik ketika kita tahu sebelumnya berapa kali kita ingin melakukan iterasi. Kode juga mencakup contoh lain (dalam komentar) di mana nilai \texttt{from} diubah langsung di dalam loop.
+	
+	\item \textbf{Loop \texttt{for-in} (Metode \texttt{executeForIn}):} \\
+	Metode ini menggunakan loop \texttt{for-in} untuk iterasi melalui elemen-elemen dalam array. Pada setiap iterasi, nilai elemen di dalam array dikalikan dengan \texttt{value} dan hasilnya dicetak. Loop \texttt{for-in} sangat efektif ketika kita ingin iterasi melalui setiap elemen dalam array atau koleksi tanpa harus mengkhawatirkan indeks secara eksplisit.
+\end{itemize}
+
+
+
+
+\section{Nested Loop dengan \texttt{while} di Java}
+
+Kelas \texttt{Latihan} dalam kode berikut ini menampilkan penggunaan nested loop (loop bersarang) untuk mencetak pola angka secara menurun. Kode ini terdiri dari dua loop \texttt{while} yang bersarang satu sama lain untuk menghasilkan output yang diinginkan.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class Latihan {
+		
+		public static void main (String[] args) {
+			int start = 5;
+			int end = 1;
+			int i = start;
+			while (i >= end) {
+				int j = i;
+				while (j >= end) {
+					System.out.print(j);
+					j--;
+				}
+				System.out.println();
+				i--;
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Program ini menggunakan nested loop (loop bersarang) untuk mencetak angka secara menurun dalam bentuk pola piramida terbalik. Berikut adalah penjelasan setiap bagian dari kode:
+
+\begin{itemize}
+	\item \textbf{Deklarasi Variabel:}\\
+	Program dimulai dengan mendeklarasikan dua variabel, \texttt{start} dan \texttt{end}, yang masing-masing bernilai 5 dan 1. Variabel \texttt{i} diinisialisasi dengan nilai \texttt{start}, yaitu 5.
+	
+	\item \textbf{Loop \texttt{while} Luar:} \\
+	Loop \texttt{while} pertama (\texttt{while (i >= end)}) adalah loop luar yang mengontrol jumlah baris yang dicetak. Loop ini akan terus berjalan selama \texttt{i} lebih besar atau sama dengan \texttt{end}. Setelah setiap iterasi, nilai \texttt{i} dikurangi satu untuk mengurangi jumlah angka yang akan dicetak pada baris berikutnya.
+	
+	\item \textbf{Loop \texttt{while} Dalam:} \\
+	Di dalam loop luar, ada loop \texttt{while} kedua (\texttt{while (j >= end)}) yang bertanggung jawab untuk mencetak angka-angka pada setiap baris. Loop ini diinisialisasi dengan \texttt{j} yang dimulai dari nilai \texttt{i} dan berkurang hingga mencapai \texttt{end}. Pada setiap iterasi loop dalam ini, nilai \texttt{j} dicetak dan kemudian dikurangi satu.
+	
+	\item \textbf{Mencetak Baris Baru:} \\
+	Setelah loop dalam selesai (yakni setelah mencetak angka pada baris tertentu), \texttt{System.out.println()} dipanggil untuk mencetak baris baru, sehingga baris berikutnya dimulai pada baris baru di konsol.
+	
+	\item \textbf{Dekrementasi \texttt{i}:} \\
+	Setelah mencetak seluruh angka untuk baris tertentu, nilai \texttt{i} dikurangi satu (\texttt{i--}), yang menyebabkan loop luar mengulang dan mencetak baris baru dengan satu angka lebih sedikit dari baris sebelumnya.
+\end{itemize}
+
+\subsection{Hasil Program}
+Jika program dijalankan, output yang dihasilkan akan membentuk pola angka menurun sebagai berikut:
+
+\begin{verbatim}
+	54321
+	4321
+	321
+	21
+	1
+\end{verbatim}
+
+
+\section{Nested Loop untuk Perkalian di Java}
+
+Pada contoh kode ini, kita akan melihat bagaimana penggunaan nested loop (loop bersarang) dapat digunakan untuk mencetak tabel perkalian sederhana. Kode ini memiliki dua bagian utama: metode \texttt{main} dan metode \texttt{executeNestedLoop} yang melakukan sebagian besar pekerjaan.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class NestedLoop {
+		
+		public static void main(String[] args) {
+			executeNestedLoop(1, 3, 1, 3);
+			System.out.println();
+		}
+		
+		public static void executeNestedLoop(int startRow, int endRow, int fromCol, int toCol) {
+			for (; startRow <= endRow; startRow++) {
+				int temp = fromCol;
+				while (fromCol <= toCol) {
+					System.out.print(startRow + "x" + fromCol + "=" + (startRow * fromCol) + " ");
+					fromCol++;
+				}
+				fromCol = temp;
+				System.out.println();
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Program ini menggunakan kombinasi dari loop \texttt{for} dan \texttt{while} untuk menghasilkan tabel perkalian dalam bentuk nested loop. Berikut adalah penjelasan dari setiap bagian kode:
+
+\begin{itemize}
+	\item \textbf{Metode \texttt{main}:}\\
+	Metode ini hanya memanggil metode \texttt{executeNestedLoop} dengan parameter yang sudah ditentukan. Di sini, \texttt{startRow} dimulai dari 1, \texttt{endRow} diakhiri pada 3, \texttt{fromCol} dimulai dari 1, dan \texttt{toCol} diakhiri pada 3. Ini berarti bahwa metode \texttt{executeNestedLoop} akan menghasilkan tabel perkalian untuk angka dari 1 hingga 3.
+	
+	\item \textbf{Loop \texttt{for} (Loop Luar):} \\
+	Loop \texttt{for} pertama (\texttt{for (; startRow <= endRow; startRow++)}) adalah loop luar yang mengontrol baris-baris dalam tabel perkalian. Loop ini berjalan dari \texttt{startRow} hingga \texttt{endRow}, sehingga dalam contoh ini akan berjalan untuk baris 1, 2, dan 3.
+	
+	\item \textbf{Loop \texttt{while} (Loop Dalam):} \\
+	Di dalam loop \texttt{for}, terdapat loop \texttt{while} (\texttt{while (fromCol <= toCol)}) yang bertanggung jawab untuk mencetak setiap elemen dalam baris. Loop ini mencetak hasil perkalian dari \texttt{startRow} dengan nilai-nilai dari \texttt{fromCol} hingga \texttt{toCol}. Setelah setiap iterasi, nilai \texttt{fromCol} ditingkatkan (\texttt{fromCol++}).
+	
+	\item \textbf{Pengaturan Ulang Nilai Kolom:} \\
+	Setelah loop \texttt{while} selesai untuk satu baris, nilai \texttt{fromCol} direset ke nilai awalnya (\texttt{fromCol = temp;}) sehingga loop dapat mulai dari kolom pertama lagi untuk baris berikutnya.
+	
+	\item \textbf{Mencetak Baris Baru:} \\
+	Setelah mencetak semua kolom untuk baris tertentu, \texttt{System.out.println();} dipanggil untuk memindahkan output ke baris berikutnya di konsol. Ini memastikan bahwa hasil perkalian untuk baris berikutnya dicetak pada baris yang berbeda.
+\end{itemize}
+
+\subsection{Hasil Program}
+Jika program ini dijalankan, output yang dihasilkan akan terlihat seperti ini:
+
+\begin{verbatim}
+	1x1=1 1x2=2 1x3=3 
+	2x1=2 2x2=4 2x3=6 
+	3x1=3 3x2=6 3x3=9 
+\end{verbatim}
+
+
+\section{Contoh Studi Kasus: Proses Looping pada Daftar Akun Bank di Java}
+
+\subsection{Kelas \texttt{BankAccount}}
+Kelas \texttt{BankAccount} digunakan untuk merepresentasikan akun bank dengan atribut dasar seperti nomor akun, nama pemilik, dan saldo. Kelas ini menyediakan metode untuk menyimpan uang (\texttt{save}), menarik uang (\texttt{withdraw}), serta metode untuk mendapatkan informasi dasar seperti nomor akun, nama, dan saldo.
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class BankAccount {
+		private String accountNumber;
+		private String name;
+		private double balance = 0.0;
+		
+		public BankAccount(String accountNumber, String name) {
+			this.name = name;
+			this.accountNumber = accountNumber;
+		}
+		
+		public double getBalance() {
+			return this.balance;
+		}
+		
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+		
+		public void withdraw(double amount) {
+			this.balance = this.balance - amount;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getAccountNumber() {
+			return accountNumber;
+		}
+		
+		@Override
+		public String toString() {
+			return "{" + this.accountNumber + ", " + this.name + ", " + this.balance + "}";
+		}
+	}
+\end{lstlisting}
+
+\subsection{Kelas \texttt{ObjectLoop}}
+Kelas \texttt{ObjectLoop} berfokus pada pengelolaan objek \texttt{BankAccount} yang disimpan dalam sebuah \texttt{ArrayList}. Kelas ini menampilkan beberapa metode looping yang digunakan untuk mengakses dan memanipulasi data dalam daftar tersebut.
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	import java.util.ArrayList;
+	import java.util.Iterator;
+	import java.util.List;
+	
+	public class ObjectLoop {
+		public static void main(String[] args) {
+			ArrayList<BankAccount> accountList = new ArrayList<>();
+			accountList.add(new BankAccount("1001", "Alice"));
+			accountList.get(accountList.size() - 1).save(100);
+			accountList.add(new BankAccount("1002", "Bob"));
+			accountList.get(accountList.size() - 1).save(200);
+			accountList.add(new BankAccount("1003", "Charlie"));
+			accountList.get(accountList.size() - 1).save(300);
+			System.out.println(accountList);
+			
+			executeForIn(accountList);
+			System.out.println();
+			
+			executeIterator(accountList);
+			System.out.println();
+			
+			executeForEach(accountList);
+			System.out.println();
+			
+			System.out.println();
+			
+			int i = 0;
+			while (i < accountList.size()) {
+				BankAccount ba = accountList.get(i);
+				System.out.println(ba.getName());
+				i++;
+			}
+			
+			System.out.println();
+			for (int k = 0; k < accountList.size(); k++) {
+				BankAccount ba = accountList.get(k);
+				System.out.println(ba.getName());
+			}
+		}
+		
+		public static void executeForIn(List<BankAccount> bankAccountList) {
+			System.out.print("Account number: ");
+			for (BankAccount bankAccount : bankAccountList) {
+				System.out.print(bankAccount.getAccountNumber() + " ");
+			}
+		}
+		
+		public static void executeIterator(List<BankAccount> bankAccountList) {
+			System.out.print("Name: ");
+			Iterator<BankAccount> iterator = bankAccountList.iterator();
+			while (iterator.hasNext()) {
+				BankAccount bankAccount = iterator.next();
+				System.out.print(bankAccount.getName() + " ");
+			}
+		}
+		
+		public static void executeForEach(List<BankAccount> bankAccountList) {
+			System.out.print("Balance: ");
+			bankAccountList.forEach(bankAccount -> {
+				System.out.print(bankAccount.getBalance() + " ");
+			});
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+
+\begin{itemize}
+	\item \textbf{Konstruksi Kelas \texttt{BankAccount}:} \\
+	Kelas \texttt{BankAccount} memiliki konstruktor yang menerima dua parameter: \texttt{accountNumber} dan \texttt{name}, yang digunakan untuk menginisialisasi atribut terkait. Saldo (\texttt{balance}) diinisialisasi dengan nilai 0.0.
+	
+	\item \textbf{Metode \texttt{save} dan \texttt{withdraw}:} \\
+	Metode \texttt{save} digunakan untuk menambahkan sejumlah uang ke saldo akun, sedangkan \texttt{withdraw} digunakan untuk mengurangi saldo.
+\end{itemize}
+
+
+Teknik looping yang digunakan dalam kode di atas untuk mengakses daftar akun bank antara lain:
+
+\begin{itemize}
+	\item \textbf{Loop \texttt{for-in} (Metode \texttt{executeForIn}):} \\
+	Metode \texttt{executeForIn} menggunakan loop \texttt{for-in} untuk iterasi melalui \texttt{List} objek \texttt{BankAccount}. Loop ini digunakan untuk mencetak nomor akun dari setiap \texttt{BankAccount} dalam daftar. Loop \texttt{for-in} sangat berguna saat Anda ingin mengakses setiap elemen dalam daftar secara langsung.
+	
+	\item \textbf{Iterator (Metode \texttt{executeIterator}):} \\
+	Metode \texttt{executeIterator} memanfaatkan \texttt{Iterator} untuk iterasi melalui \texttt{List} objek \texttt{BankAccount}. Dalam loop ini, kita menggunakan metode \texttt{hasNext()} untuk memeriksa apakah masih ada elemen berikutnya dalam daftar, dan \texttt{next()} untuk mengakses elemen tersebut. Teknik ini memberikan kontrol yang lebih besar atas iterasi, terutama jika Anda perlu memodifikasi daftar saat iterasi berlangsung.
+	
+	\item \textbf{Loop \texttt{forEach} (Metode \texttt{executeForEach}):} \\
+	Metode \texttt{executeForEach} menggunakan ekspresi lambda dalam loop \texttt{forEach} untuk mengakses dan mencetak saldo dari setiap \texttt{BankAccount} dalam daftar. Loop \texttt{forEach} ini sangat berguna dalam Java karena sintaksnya yang ringkas dan kemampuannya untuk mendefinisikan tindakan yang harus dilakukan pada setiap elemen dalam daftar.
+	
+	\item \textbf{Loop \texttt{while}:} \\
+	Loop \texttt{while} digunakan untuk iterasi selama kondisi tertentu terpenuhi. Dalam contoh ini, loop \texttt{while} digunakan untuk mencetak nama dari setiap akun bank dalam daftar. Nilai \texttt{i} diinkrementasi setiap kali iterasi dilakukan sampai mencapai ukuran daftar.
+	
+	\item \textbf{Loop \texttt{for} biasa:} \\
+	Loop \texttt{for} biasa digunakan untuk iterasi melalui elemen daftar dengan memanfaatkan indeks. Dalam contoh ini, loop \texttt{for} digunakan untuk mencetak nama dari setiap \texttt{BankAccount} dengan menggunakan indeks \texttt{k} yang diinkrementasi pada setiap iterasi.
+\end{itemize}
+
+
+\section{Latihan dan Contoh Kode}
+
+\subsection{Latihan 1: Menghitung Total Penjualan Bulanan}
+
+Buatlah sebuah program Java yang menghitung total penjualan dari beberapa cabang toko dalam satu bulan. Setiap cabang memiliki penjualan harian selama 30 hari. Program ini menggunakan \texttt{nested loop} untuk menjumlahkan semua penjualan harian dari semua cabang.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class PenjualanBulanan {
+		
+		public static void main(String[] args) {
+			int[][] penjualanCabang = {
+				{1200, 1300, 1100, 1400, 1500}, // Cabang 1
+				{1600, 1700, 1200, 1300, 1400}, // Cabang 2
+				{1100, 1150, 1200, 1250, 1300}  // Cabang 3
+			};
+			
+			for (int i = 0; i < penjualanCabang.length; i++) {
+				int totalPenjualan = 0;
+				for (int j = 0; j < penjualanCabang[i].length; j++) {
+					totalPenjualan += penjualanCabang[i][j];
+				}
+				System.out.println("Total penjualan cabang " + (i + 1) + ": " + totalPenjualan);
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 2: Menghitung Matriks Transpos}
+
+Buatlah sebuah program Java yang menerima sebuah matriks 2x3 dan menampilkan transpos dari matriks tersebut (yaitu, mengubah baris menjadi kolom). Gunakan \texttt{nested loop} untuk mengiterasi elemen-elemen matriks.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class MatriksTranspos {
+		
+		public static void main(String[] args) {
+			int[][] matriks = {
+				{1, 2, 3},
+				{4, 5, 6}
+			};
+			
+			int[][] transpos = new int[3][2];
+			
+			for (int i = 0; i < matriks.length; i++) {
+				for (int j = 0; j < matriks[i].length; j++) {
+					transpos[j][i] = matriks[i][j];
+				}
+			}
+			
+			System.out.println("Matriks Transpos:");
+			for (int i = 0; i < transpos.length; i++) {
+				for (int j = 0; j < transpos[i].length; j++) {
+					System.out.print(transpos[i][j] + " ");
+				}
+				System.out.println();
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 3: Memeriksa Palindrom dalam Daftar String}
+
+Buatlah sebuah program Java yang memeriksa apakah setiap string dalam daftar merupakan palindrom (yaitu, membaca sama dari depan dan belakang). Gunakan kombinasi \texttt{for-each loop} dan \texttt{while loop} untuk melakukan iterasi dan pengecekan.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class CekPalindrom {
+		
+		public static void main(String[] args) {
+			String[] daftarKata = {"radar", "java", "level", "madam"};
+			
+			for (String kata : daftarKata) {
+				int awal = 0;
+				int akhir = kata.length() - 1;
+				boolean isPalindrom = true;
+				
+				while (awal < akhir) {
+					if (kata.charAt(awal) != kata.charAt(akhir)) {
+						isPalindrom = false;
+						break;
+					}
+					awal++;
+					akhir--;
+				}
+				
+				System.out.println(kata + " adalah palindrom: " + isPalindrom);
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 4: Menampilkan Angka Prima dari 1 sampai 50}
+
+Buatlah sebuah program Java yang menampilkan semua angka prima dari 1 sampai 50. Gunakan \texttt{for loop} bersarang untuk mengecek keprimaan setiap angka.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class AngkaPrima {
+		
+		public static void main(String[] args) {
+			int limit = 50;
+			
+			System.out.print("Angka prima antara 1 dan " + limit + ": ");
+			for (int i = 2; i <= limit; i++) {
+				boolean isPrima = true;
+				
+				for (int j = 2; j <= i / 2; j++) {
+					if (i % j == 0) {
+						isPrima = false;
+						break;
+					}
+				}
+				
+				if (isPrima) {
+					System.out.print(i + " ");
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+
+\section{Soal}
+
+Berikut adalah beberapa latihan yang berkaitan dengan penggunaan Array dan ArrayList di Java:
+
+\begin{enumerate}
+	
+	\item \textbf{Soal 1: Mencetak Matriks Identitas} \\
+	Buatlah sebuah program Java yang mencetak matriks identitas berukuran NxN berdasarkan input dari pengguna. Program ini harus menggunakan \texttt{nested loop} untuk mengiterasi baris dan kolom, dan mencetak 1 di diagonal utama dan 0 di posisi lainnya.
+	
+	\item \textbf{Soal 2: Menampilkan Pola Bintang Segitiga} \\
+	Buatlah sebuah program Java yang menampilkan pola segitiga dari karakter bintang (\texttt{*}) dengan jumlah baris yang ditentukan oleh pengguna. Program ini menggunakan \texttt{for loop} untuk mengontrol jumlah baris dan mencetak bintang sesuai pola.
+	
+	\item \textbf{Soal 3: Menampilkan Deret Bilangan Genap} \\
+	Buatlah sebuah program Java yang menampilkan deret bilangan genap dari 2 hingga M menggunakan \texttt{while loop}. M adalah angka yang ditentukan oleh pengguna. Program harus mencetak setiap bilangan genap di baris terpisah.
+	
+\end{enumerate}
