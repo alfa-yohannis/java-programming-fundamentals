@@ -1,0 +1,441 @@
+\chapter{Abstrak dan Pewarisan (Inheritance)}
+
+\section{Kelas Abstrak dan Pewarisan (Inheritance) di Java}
+
+\subsection{Kelas Abstrak}
+
+Kelas abstrak adalah kelas yang tidak dapat diinstansiasi dan sering digunakan sebagai dasar untuk kelas lain. Kelas ini dapat memiliki metode abstrak (metode tanpa implementasi) yang harus diimplementasikan oleh kelas turunannya. Kelas abstrak juga dapat memiliki metode konkret (metode dengan implementasi).
+
+\textbf{Contoh Kelas Abstrak:}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public abstract class Shape {
+		private String color;
+		
+		public Shape(String color) {
+			this.color = color;
+		}
+		
+		public String getColor() {
+			return color;
+		}
+		
+		public abstract double getArea();
+	}
+\end{lstlisting}
+
+Pada contoh di atas, kelas \texttt{Shape} adalah kelas abstrak yang memiliki metode abstrak \texttt{getArea()} yang harus diimplementasikan oleh kelas turunannya. Kelas ini juga memiliki metode konkret \texttt{getColor()}.
+
+\subsection{Pewarisan (Inheritance)}
+
+Pewarisan memungkinkan sebuah kelas (kelas turunan) untuk mewarisi atribut dan metode dari kelas lain (kelas dasar). Ini memungkinkan penggunaan kembali kode dan mendukung hierarki kelas. Kelas turunan dapat mengakses metode dan atribut dari kelas dasar, serta menambahkan atau memodifikasi fungsionalitas sesuai kebutuhan.
+
+\textbf{Contoh Pewarisan:}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public class Rectangle extends Shape {
+		private double width;
+		private double height;
+		
+		public Rectangle(String color, double width, double height) {
+			super(color);
+			this.width = width;
+			this.height = height;
+		}
+		
+		@Override
+		public double getArea() {
+			return width * height;
+		}
+		
+		public double getWidth() {
+			return width;
+		}
+		
+		public double getHeight() {
+			return height;
+		}
+	}
+\end{lstlisting}
+
+\subsection{Override}
+
+\texttt{Override} adalah konsep dalam pewarisan di mana sebuah metode di kelas turunan menggantikan atau mengubah implementasi dari metode yang diwarisi dari kelas dasar. Kata kunci \texttt{@Override} digunakan untuk menunjukkan bahwa metode tersebut dimaksudkan untuk menggantikan metode yang ada di kelas dasar. Ini membantu menghindari kesalahan dan memastikan bahwa metode yang ditulis benar-benar menggantikan metode di kelas dasar.
+
+\textbf{Contoh Override:}
+
+\begin{lstlisting}[style=JavaStyle]
+	@Override
+	public double getArea() {
+		return width * height;
+	}
+\end{lstlisting}
+
+Pada contoh di atas, metode \texttt{getArea()} yang dideklarasikan dalam kelas \texttt{Rectangle} menggantikan metode \texttt{getArea()} yang dideklarasikan dalam kelas \texttt{Shape}. Dengan menggunakan \texttt{@Override}, kita menandakan bahwa metode ini menggantikan implementasi metode yang sama dari kelas dasar, sehingga meningkatkan kejelasan dan mencegah potensi kesalahan.
+
+\subsection{Implementasi dan Penggunaan}
+
+Kelas abstrak, pewarisan, dan \texttt{override} digunakan untuk membangun struktur hierarki yang lebih kompleks dengan kode yang dapat digunakan kembali. Kelas turunan dapat memperluas fungsionalitas kelas dasar, menyesuaikan perilaku metode, dan memperbaiki implementasi metode abstrak sesuai dengan kebutuhan aplikasi.
+
+\section{Contoh Implementasi Kode Abstrak dan Pewarisan di Java}
+
+\subsection{Kelas \texttt{Question}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public abstract class Question {
+		
+		private String text;
+		private Object correctAnswer;
+		
+		public Question(String text, Object correctAnswer) {
+			this.text = text;
+			this.correctAnswer = correctAnswer;
+		}
+		
+		public void display() {
+			System.out.println(this.getText());
+		}
+		
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			if (correctAnswer.equals(submittedAnswer)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		public String getText() {
+			return text;
+		}
+		
+		public Object getCorrectAnswer() {
+			return correctAnswer;
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{Question} adalah kelas abstrak yang menyimpan informasi umum tentang pertanyaan, termasuk teks pertanyaan dan jawaban yang benar. Metode \texttt{display()} menampilkan teks pertanyaan, dan metode \texttt{checkSubmittedAnswer(Object submittedAnswer)} memeriksa apakah jawaban yang diberikan sesuai dengan jawaban yang benar.
+
+\subsection{Kelas \texttt{OpenQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class OpenQuestion extends Question {
+		
+		public OpenQuestion(String text) {
+			super(text, null);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return true;
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{OpenQuestion} adalah turunan dari kelas \texttt{Question} untuk pertanyaan terbuka. Konstruktor hanya memerlukan teks pertanyaan dan tidak memerlukan jawaban yang benar. Metode \texttt{checkSubmittedAnswer(Object submittedAnswer)} selalu mengembalikan \texttt{true} karena semua jawaban dianggap benar.
+
+\subsection{Kelas \texttt{NumericQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class NumericQuestion extends Question {
+		
+		public NumericQuestion(String text, int correctAnswer) {
+			super(text, correctAnswer);
+		}
+		
+		public NumericQuestion(String text, double correctAnswer) {
+			super(text, correctAnswer);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return (double) this.getCorrectAnswer() == Double.valueOf(submittedAnswer.toString());
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{NumericQuestion} menangani pertanyaan dengan jawaban numerik. Terdapat dua konstruktor untuk menerima jawaban yang benar bertipe \texttt{int} atau \texttt{double}. Metode \texttt{checkSubmittedAnswer(Object submittedAnswer)} memeriksa apakah jawaban yang diberikan sesuai dengan jawaban numerik yang benar.
+
+\subsection{Kelas \texttt{FilledInQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class FilledInQuestion extends Question {
+		
+		public FilledInQuestion(String text, String correctAnswer) {
+			super(text, correctAnswer);
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{FilledInQuestion} menangani pertanyaan dengan jawaban yang harus diisi. Konstruktor menerima teks pertanyaan dan jawaban yang benar bertipe \texttt{String}.
+
+\subsection{Kelas \texttt{MultipleChoiceQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.List;
+	
+	public class MultipleChoiceQuestion extends Question {
+		
+		private List<Object> choices = new ArrayList<>();
+		
+		public MultipleChoiceQuestion(String text, Object correctAnswer, List<Object> choices) {
+			super(text, correctAnswer);
+			this.choices.addAll(choices);
+		}
+		
+		@Override
+		public void display() {
+			display(true);
+		}
+		
+		public void display(boolean withAbc) {
+			super.display();
+			int code = 97;
+			for (Object choice : choices) {
+				char head = '-';
+				if (withAbc) {
+					head = (char) code;
+				}
+				System.out.println(head + " " + choice);
+				code++;
+			}
+		}
+		
+		public List<Object> getChoices() {
+			return choices;
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{MultipleChoiceQuestion} menangani pertanyaan pilihan ganda. Selain teks pertanyaan dan jawaban yang benar, kelas ini juga menyimpan daftar pilihan jawaban. Metode \texttt{display()} menampilkan pertanyaan dan opsi jawaban dengan atau tanpa huruf ABC.
+
+\subsection{Kelas \texttt{TrueFalseQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	
+	public class TrueFalseQuestion extends MultipleChoiceQuestion {
+		
+		public TrueFalseQuestion(String text, Object correctAnswer) {
+			super(text, true, new ArrayList<>(Arrays.asList(true, false)));
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return (boolean) this.getCorrectAnswer() == Boolean.valueOf(submittedAnswer.toString());
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{TrueFalseQuestion} adalah turunan dari \texttt{MultipleChoiceQuestion} khusus untuk pertanyaan benar/salah. Konstruktornya menerima teks pertanyaan dan jawaban yang benar, dan selalu menyertakan pilihan \texttt{true} dan \texttt{false}.
+
+\subsection{Kelas \texttt{Main}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	import java.util.List;
+	import java.util.Scanner;
+	
+	public class Main {
+		
+		public static void main(String[] args) {
+			
+			List<Question> questions = new ArrayList<>();
+			
+			questions.add(new FilledInQuestion("He is __ farmer.", "a"));
+			questions.add(new NumericQuestion("1 + 1 = ?", 2));
+			questions.add(new OpenQuestion("What is your plan for the next semester?"));
+			questions.add(new MultipleChoiceQuestion("_____ in the Wonderland.",
+			"Alice",
+			new ArrayList<>(Arrays.asList("Alice", "Bob", "Charlie"))
+			));
+			questions.add(new TrueFalseQuestion("Is today Tuesday?", true));
+			
+			Scanner scanner = new Scanner(System.in);
+			
+			for (int lineNum = 1; lineNum <= questions.size(); lineNum++) {
+				Question question = questions.get(lineNum - 1);
+				System.out.println("Question " + lineNum + ":");
+				question.display();
+				System.out.print("Your answer: ");
+				String answer = scanner.nextLine().trim();
+				boolean result = question.checkSubmittedAnswer(answer);
+				System.out.println("Result: " + result);
+				System.out.println();
+			}
+			
+			scanner.close();
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan:} Kelas \texttt{Main} adalah kelas utama yang menampilkan dan memproses daftar pertanyaan. Program membuat beberapa pertanyaan dari berbagai jenis, menambahkannya ke dalam daftar, dan kemudian menampilkan setiap pertanyaan satu per satu. Pengguna diminta untuk memberikan jawaban, yang kemudian diperiksa dengan metode \texttt{checkSubmittedAnswer()}. Hasil dari setiap jawaban ditampilkan setelah input.
+
+\section{Latihan dan Contoh Kode}
+
+\subsection{Latihan 1: Kelas Abstrak untuk Bentuk Geometris}
+
+Buatlah kelas abstrak \texttt{GeometricShape} yang memiliki atribut \texttt{color} dan metode abstrak \texttt{getArea()}. Buat dua kelas turunan \texttt{Circle} dan \texttt{Triangle} yang mengimplementasikan metode \texttt{getArea()} untuk menghitung luas masing-masing bentuk. Buatlah main method untuk menguji kelas-kelas ini.
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public abstract class GeometricShape {
+		private String color;
+		
+		public GeometricShape(String color) {
+			this.color = color;
+		}
+		
+		public String getColor() {
+			return color;
+		}
+		
+		public abstract double getArea();
+	}
+	
+	class Circle extends GeometricShape {
+		private double radius;
+		
+		public Circle(String color, double radius) {
+			super(color);
+			this.radius = radius;
+		}
+		
+		@Override
+		public double getArea() {
+			return Math.PI * radius * radius;
+		}
+	}
+	
+	class Triangle extends GeometricShape {
+		private double base;
+		private double height;
+		
+		public Triangle(String color, double base, double height) {
+			super(color);
+			this.base = base;
+			this.height = height;
+		}
+		
+		@Override
+		public double getArea() {
+			return 0.5 * base * height;
+		}
+	}
+	
+	public class Main {
+		public static void main(String[] args) {
+			Circle circle = new Circle("Red", 5);
+			Triangle triangle = new Triangle("Blue", 10, 7);
+			
+			System.out.println("Circle Area: " + circle.getArea());
+			System.out.println("Triangle Area: " + triangle.getArea());
+		}
+	}
+\end{lstlisting}
+
+\subsection{Latihan 2: Sistem Manajemen Produk di Toko Online}
+
+Buatlah kelas abstrak \texttt{Product} yang memiliki atribut \texttt{name}, \texttt{price}, dan metode abstrak \texttt{calculateDiscountedPrice()}. Buat kelas turunan \texttt{Electronics} dan \texttt{Clothing} yang masing-masing mengimplementasikan metode \texttt{calculateDiscountedPrice()} dengan logika diskon yang berbeda. Implementasikan main method untuk membuat daftar produk, menampilkan harga asli, dan harga setelah diskon.
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public abstract class Product {
+		private String name;
+		private double price;
+		
+		public Product(String name, double price) {
+			this.name = name;
+			this.price = price;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public double getPrice() {
+			return price;
+		}
+		
+		public abstract double calculateDiscountedPrice();
+	}
+	
+	class Electronics extends Product {
+		
+		public Electronics(String name, double price) {
+			super(name, price);
+		}
+		
+		@Override
+		public double calculateDiscountedPrice() {
+			return getPrice() * 0.9; // 10% discount for electronics
+		}
+	}
+	
+	class Clothing extends Product {
+		
+		public Clothing(String name, double price) {
+			super(name, price);
+		}
+		
+		@Override
+		public double calculateDiscountedPrice() {
+			return getPrice() * 0.8; // 20% discount for clothing
+		}
+	}
+	
+	public class Main {
+		public static void main(String[] args) {
+			Product laptop = new Electronics("Laptop", 1000);
+			Product tShirt = new Clothing("T-Shirt", 50);
+			
+			System.out.println(laptop.getName() + " original price: $" + laptop.getPrice() + 
+			", discounted price: $" + laptop.calculateDiscountedPrice());
+			System.out.println(tShirt.getName() + " original price: $" + tShirt.getPrice() + 
+			", discounted price: $" + tShirt.calculateDiscountedPrice());
+		}
+	}
+\end{lstlisting}
+
+\section{Soal}
+
+\begin{enumerate}
+	
+	\item \textbf{Soal 1 : Sistem Penilaian Mata Pelajaran di Sekolah}
+	\begin{itemize}
+		\item Buatlah kelas abstrak \texttt{Subject} yang memiliki atribut \texttt{name} dan metode abstrak \texttt{calculateGrade()}.
+		\item Buat kelas turunan \texttt{Mathematics} dan \texttt{Science} yang masing-masing mengimplementasikan metode \texttt{calculateGrade()} dengan logika perhitungan nilai akhir yang berbeda, misalnya berdasarkan ujian akhir, tugas, dan partisipasi.
+		\item Buat main method untuk menampilkan nama mata pelajaran dan nilai akhir siswa.
+	\end{itemize}
+	
+	\item \textbf{Soal 2 : Sistem Inventarisasi Barang di Gudang}
+	\begin{itemize}
+		\item Buatlah kelas abstrak \texttt{InventoryItem} yang memiliki atribut \texttt{itemName}, \texttt{quantity}, dan metode abstrak \texttt{calculateStockValue()}.
+		\item Buat kelas turunan \texttt{PerishableItem} dan \texttt{NonPerishableItem} yang masing-masing mengimplementasikan metode \texttt{calculateStockValue()} dengan mempertimbangkan durasi penyimpanan untuk barang yang mudah rusak dan jumlah yang tersedia.
+		\item Implementasikan main method untuk menghitung dan menampilkan nilai stok dari masing-masing barang.
+	\end{itemize}
+	
+\end{enumerate}
