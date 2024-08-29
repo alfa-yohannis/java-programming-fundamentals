@@ -1,0 +1,809 @@
+\chapter{Pemrograman Berorientasi Objek (OOP)}
+
+\section{Konsep OOP di Java}
+
+\subsection{Kelas dan Objek (Class and Object)}
+
+Kelas adalah blueprint atau template untuk membuat objek. Sebuah kelas mendefinisikan atribut (variabel) dan metode (fungsi) yang dapat dimiliki oleh objek. Objek adalah instansi dari kelas, yang berarti bahwa objek memiliki data dan perilaku yang didefinisikan oleh kelasnya.
+
+\textbf{Contoh Kelas dan Objek:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public class Car {
+		private String model;
+		private int year;
+		
+		public Car(String model, int year) {
+			this.model = model;
+			this.year = year;
+		}
+		
+		public String getModel() {
+			return model;
+		}
+		
+		public int getYear() {
+			return year;
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pewarisan (Inheritance)}
+
+Pewarisan adalah mekanisme di mana sebuah kelas (kelas turunan) mewarisi atribut dan metode dari kelas lain (kelas dasar). Ini memungkinkan penggunaan kembali kode dan membentuk hierarki kelas. Kelas turunan dapat mengakses metode dan atribut dari kelas dasar, serta menambahkan atau mengubah fungsionalitas sesuai kebutuhan.
+
+\textbf{Contoh Pewarisan:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public class ElectricCar extends Car {
+		private int batteryCapacity;
+		
+		public ElectricCar(String model, int year, int batteryCapacity) {
+			super(model, year);
+			this.batteryCapacity = batteryCapacity;
+		}
+		
+		public int getBatteryCapacity() {
+			return batteryCapacity;
+		}
+	}
+\end{lstlisting}
+
+\subsection{Interface}
+
+Interface adalah kontrak yang mendefinisikan metode yang harus diimplementasikan oleh kelas yang mengimplementasikan interface tersebut. Interface hanya mendefinisikan metode tanpa implementasi, dan kelas yang mengimplementasikan interface harus memberikan implementasi untuk semua metode yang didefinisikan.
+
+\textbf{Contoh Interface:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public interface Drivable {
+		void start();
+		void stop();
+	}
+\end{lstlisting}
+
+\subsection{Polymorphism (Polimorfisme)}
+
+Polimorfisme adalah konsep di mana objek dari kelas yang berbeda dapat diperlakukan sebagai objek dari kelas dasar yang sama. Ini memungkinkan metode yang sama untuk beroperasi dengan cara yang berbeda berdasarkan tipe objek yang memanggil metode tersebut.
+
+\textbf{Contoh Polimorfisme:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public void testDrive(Drivable vehicle) {
+		vehicle.start();
+		vehicle.stop();
+	}
+\end{lstlisting}
+
+\subsection{Abstraction (Abstraksi)}
+
+Abstraksi adalah konsep di mana detail implementasi disembunyikan, dan hanya fitur-fitur penting yang ditampilkan kepada pengguna. Di Java, abstraksi dapat dicapai melalui kelas abstrak dan interface.
+
+\textbf{Contoh Abstraksi:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public abstract class Animal {
+		public abstract void makeSound();
+	}
+\end{lstlisting}
+
+\subsection{Modularitas dan Package}
+
+Modularitas adalah konsep yang mengorganisir kode dalam unit-unit yang terpisah dan terkelompok. Di Java, ini diatur menggunakan package, yang membantu dalam pengelolaan dan pengorganisasian kode, serta memfasilitasi reuse dan pemeliharaan kode.
+
+\textbf{Contoh Package:}
+
+\begin{lstlisting}[style=JavaStyle]
+	package com.example.vehicles;
+	
+	public class Bike {
+		// Class implementation
+	}
+\end{lstlisting}
+
+\subsection{Encapsulation (Enkapsulasi)}
+
+Enkapsulasi adalah konsep di mana data dan metode yang beroperasi pada data tersebut digabungkan dalam sebuah kelas. Ini membatasi akses langsung ke data dari luar kelas dan hanya memungkinkan akses melalui metode publik. Ini membantu dalam melindungi data dan meningkatkan keamanan serta integritas data.
+
+\textbf{Contoh Enkapsulasi:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public class Person {
+		private String name;
+		private int age;
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		public int getAge() {
+			return age;
+		}
+		
+		public void setAge(int age) {
+			this.age = age;
+		}
+	}
+\end{lstlisting}
+
+\section{Kode: Sistem Soal Ujian dengan Berbagai Jenis Pertanyaan}
+
+\subsection{Package \texttt{edu.pradita}}
+
+\subsubsection{Interface \texttt{IQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public interface IQuestion {
+		public void display();
+		public boolean checkSubmittedAnswer(Object submittedAnswer);
+		public String getText();
+		public Object getCorrectAnswer();
+	}
+\end{lstlisting}
+
+Interface \texttt{IQuestion} mendefinisikan kontrak untuk semua kelas yang akan mewakili pertanyaan. Interface ini menentukan empat metode: \texttt{display()}, \texttt{checkSubmittedAnswer()}, \texttt{getText()}, dan \texttt{getCorrectAnswer()}.
+
+\subsubsection{Kelas Abstrak \texttt{Question}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	abstract class Question implements IQuestion {
+		private String text;
+		private Object correctAnswer;
+		
+		public Question(String text, Object correctAnswer) {
+			this.text = text;
+			this.correctAnswer = correctAnswer;
+		}
+		
+		public void display() {
+			System.out.println(this.getText());
+		}
+		
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return correctAnswer.equals(submittedAnswer);
+		}
+		
+		public String getText() {
+			return text;
+		}
+		
+		public Object getCorrectAnswer() {
+			return correctAnswer;
+		}
+	}
+\end{lstlisting}
+
+Kelas \texttt{Question} merupakan implementasi dasar dari \texttt{IQuestion}. Kelas ini menangani teks soal dan jawaban yang benar, serta menyediakan implementasi default untuk metode \texttt{display()} dan \texttt{checkSubmittedAnswer()}.
+
+\subsubsection{Kelas \texttt{FilledInQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class FilledInQuestion extends Question {
+		public FilledInQuestion(String text, String correctAnswer) {
+			super(text, correctAnswer);
+		}
+	}
+\end{lstlisting}
+
+Kelas ini mengelola soal isian sederhana dengan satu jawaban yang benar.
+
+\subsubsection{Kelas \texttt{MultipleChoiceQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.List;
+	
+	public class MultipleChoiceQuestion extends Question {
+		private List<Object> choices = new ArrayList<>();
+		
+		public MultipleChoiceQuestion(String text, Object correctAnswer, List<Object> choices) {
+			super(text, correctAnswer);
+			this.choices.addAll(choices);
+		}
+		
+		@Override
+		public void display() {
+			display(true);
+		}
+		
+		public void display(boolean withAbc) {
+			super.display();
+			int code = 97;
+			for (Object choice : choices) {
+				char head = '-';
+				if (withAbc) {
+					head = (char) code;
+				}
+				System.out.println(head + " " + choice);
+				code++;
+			}
+		}
+		
+		public List<Object> getChoices() {
+			return choices;
+		}
+	}
+\end{lstlisting}
+
+Kelas ini mengelola soal pilihan ganda dan menyediakan opsi jawaban yang dapat dipilih.
+
+\subsubsection{Kelas \texttt{NumericQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class NumericQuestion extends Question {
+		public NumericQuestion(String text, int correctAnswer) {
+			super(text, correctAnswer);
+		}
+		
+		public NumericQuestion(String text, double correctAnswer) {
+			super(text, correctAnswer);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return (double) this.getCorrectAnswer() == Double.valueOf(submittedAnswer.toString());
+		}
+	}
+\end{lstlisting}
+
+Kelas ini menangani soal numerik dan memeriksa jawaban dengan membandingkan angka.
+
+\subsubsection{Kelas \texttt{OpenQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	public class OpenQuestion extends Question {
+		public OpenQuestion(String text) {
+			super(text, null);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return true;
+		}
+	}
+\end{lstlisting}
+
+Kelas ini mengelola soal terbuka yang tidak memiliki jawaban benar atau salah.
+
+\subsubsection{Kelas \texttt{TrueFalseQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	
+	public class TrueFalseQuestion extends MultipleChoiceQuestion {
+		public TrueFalseQuestion(String text, Object correctAnswer) {
+			super(text, true, new ArrayList<>(Arrays.asList(true, false)));
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			return (boolean) this.getCorrectAnswer() == Boolean.valueOf(submittedAnswer.toString());
+		}
+	}
+\end{lstlisting}
+
+Kelas ini adalah jenis khusus dari \texttt{MultipleChoiceQuestion} dengan dua pilihan jawaban: benar atau salah.
+
+\subsubsection{Kelas \texttt{Exam}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita;
+	
+	import java.util.ArrayList;
+	import java.util.Collection;
+	import java.util.List;
+	import java.util.Scanner;
+	
+	public class Exam {
+		private List<IQuestion> questions = new ArrayList<>();
+		
+		public Collection<IQuestion> getQuestions() {
+			return questions;
+		}
+		
+		public void removeQuestion(IQuestion question) {
+			questions.remove(question);
+		}
+		
+		public void removeQuestion(int index) {
+			questions.remove(index);
+		}
+		
+		public void addQuestion(IQuestion newQuestion) {
+			questions.add(newQuestion);
+		}
+		
+		public void start() {
+			System.out.println("Start Exam\n");
+			Scanner scanner = new Scanner(System.in);
+			
+			for (int lineNum = 1; lineNum <= questions.size(); lineNum++) {
+				IQuestion question = questions.get(lineNum - 1);
+				System.out.println("Question " + lineNum + ":");
+				question.display();
+				System.out.print("Your answer: ");
+				String answer = scanner.nextLine().trim();
+				boolean result = question.checkSubmittedAnswer(answer);
+				System.out.println("Result: " + result);
+				System.out.println();
+			}
+			
+			scanner.close();
+			System.out.println("\nFinished");
+		}
+	}
+\end{lstlisting}
+
+Kelas \texttt{Exam} mengelola keseluruhan ujian, memungkinkan penambahan, penghapusan, dan menjalankan ujian dengan beberapa soal.
+
+\subsection{Package \texttt{other.company}}
+
+\subsubsection{Kelas \texttt{RandomMathQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package other.company;
+	
+	import java.util.Random;
+	
+	import edu.pradita.IQuestion;
+	
+	public class RandomMathQuestion implements IQuestion {
+		private int a = 0;
+		private int b = 0;
+		private Random random = new Random();
+		private String text;
+		
+		public RandomMathQuestion() {
+			a = (int) (random.nextDouble() * 100);
+			b = (int) (random.nextDouble() * 100);
+			text = a + " + " + b + " = ?";
+		}
+		
+		@Override
+		public void display() {
+			System.out.println(text);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			int c = Integer.valueOf(submittedAnswer.toString());
+			boolean result = (a + b == c);
+			return result;
+		}
+		
+		@Override
+		public String getText() {
+			return text;
+		}
+		
+		@Override
+		public Object getCorrectAnswer() {
+			return a + b;
+		}
+	}
+\end{lstlisting}
+
+Kelas \texttt{RandomMathQuestion} membuat soal matematika acak dengan dua bilangan bulat, memberikan variasi dalam soal ujian.
+
+\subsubsection{Kelas \texttt{MultiAnswersQuestion}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package other.company;
+	
+	import java.util.List;
+	
+	import edu.pradita.MultipleChoiceQuestion;
+	
+	public class MultiAnswersQuestion extends MultipleChoiceQuestion {
+		public MultiAnswersQuestion(String text, List<String> correctAnswers, List<Object> choices) {
+			super(text, correctAnswers, choices);
+		}
+		
+		@Override
+		public boolean checkSubmittedAnswer(Object submittedAnswer) {
+			String[] answers = submittedAnswer.toString().split(",");
+			for (int i = 0; i < answers.length; i++) {
+				String answer = answers[i].trim();
+				List<String> correctAnwers = 
+				(List<String>) getCorrectAnswer();
+				if (!correctAnwers.contains(answer)) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+	}
+\end{lstlisting}
+
+Kelas \texttt{MultiAnswersQuestion} adalah jenis soal pilihan ganda dengan lebih dari satu jawaban yang benar.
+
+\subsubsection{Kelas \texttt{Main}}
+
+\begin{lstlisting}[style=JavaStyle]
+	package other.company;
+	
+	import edu.pradita.*;
+	
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	
+	public class Main {
+		public static void main(String[] args) {
+			Exam exam = new Exam();
+			
+			FilledInQuestion q1 = new FilledInQuestion(
+			"Who is the founder of Java?",
+			"James Gosling"
+			);
+			
+			exam.addQuestion(q1);
+			
+			MultipleChoiceQuestion q2 = new MultipleChoiceQuestion(
+			"What is the capital of Indonesia?",
+			"Jakarta",
+			Arrays.asList("Bandung", "Jakarta", "Yogyakarta")
+			);
+			
+			exam.addQuestion(q2);
+			
+			NumericQuestion q3 = new NumericQuestion(
+			"What is 2 + 2?",
+			4
+			);
+			
+			exam.addQuestion(q3);
+			
+			OpenQuestion q4 = new OpenQuestion(
+			"Describe your best programming experience"
+			);
+			
+			exam.addQuestion(q4);
+			
+			TrueFalseQuestion q5 = new TrueFalseQuestion(
+			"Is the Earth flat?",
+			false
+			);
+			
+			exam.addQuestion(q5);
+			
+			RandomMathQuestion q6 = new RandomMathQuestion();
+			
+			exam.addQuestion(q6);
+			
+			MultiAnswersQuestion q7 = new MultiAnswersQuestion(
+			"Choose all prime numbers",
+			Arrays.asList("2", "3"),
+			Arrays.asList("1", "2", "3", "4")
+			);
+			
+			exam.addQuestion(q7);
+			
+			exam.start();
+		}
+	}
+\end{lstlisting}
+
+Kelas \texttt{Main} adalah titik awal program, yang bertanggung jawab untuk membuat soal, menampilkan soal, dan memeriksa jawaban dalam sebuah ujian.
+
+
+\subsection{Pembahasan}
+
+\subsubsection{Penjelasan Tentang Perbedaan Package}
+
+Pada kode di atas, kita menggunakan dua package yang berbeda:
+
+\begin{itemize}
+	\item \textbf{Package \texttt{edu.pradita}}: Package ini berisi kelas-kelas dan interface yang berkaitan dengan dasar-dasar struktur dan tipe soal dalam sistem ujian, seperti \texttt{IQuestion}, \texttt{Question}, \texttt{FilledInQuestion}, dan lain-lain.
+	
+	\item \textbf{Package \texttt{other.company}}: Package ini berisi kelas-kelas tambahan atau implementasi soal khusus yang mungkin tidak standar atau memiliki variasi, seperti \texttt{RandomMathQuestion} dan \texttt{MultiAnswersQuestion}.
+\end{itemize}
+
+Pemisahan package ini memungkinkan organisasi kode yang lebih baik dan pengelolaan kode yang modular, yang memudahkan pemeliharaan dan perluasan fungsionalitas di masa depan.
+
+\subsubsection{Fokus Materi}
+
+Berdasarkan kode yang telah disajikan, materi yang difokuskan saat ini adalah \textbf{Pemrograman Berorientasi Objek (Object-Oriented Programming, OOP)} dalam bahasa pemrograman Java. Secara khusus, beberapa konsep utama dari OOP yang ditonjolkan dalam kode tersebut adalah:
+
+\begin{itemize}
+	\item \textbf{Kelas dan Objek (Class and Object)} \\
+	Kode ini mengilustrasikan bagaimana mendefinisikan kelas dan membuat objek dari kelas tersebut, seperti kelas \texttt{Question}, \texttt{Exam}, \texttt{FilledInQuestion}, \texttt{MultipleChoiceQuestion}, dan lain-lain, yang merupakan implementasi dari konsep kelas dalam OOP.
+	
+	\item \textbf{Pewarisan (Inheritance)} \\
+	Kelas \texttt{Question} merupakan kelas abstrak yang diwarisi oleh beberapa kelas lain seperti \texttt{FilledInQuestion}, \texttt{MultipleChoiceQuestion}, \texttt{NumericQuestion}, dan lain-lain. Konsep pewarisan ini memungkinkan kelas turunan untuk mewarisi properti dan metode dari kelas induk.
+	
+	\item \textbf{Interface} \\
+	Penggunaan interface \texttt{IQuestion} mengilustrasikan bagaimana mendefinisikan kontrak untuk kelas-kelas yang berbeda agar semua kelas yang mengimplementasikan interface ini memiliki metode yang sama, seperti \texttt{display()}, \texttt{checkSubmittedAnswer()}, dan lain-lain.
+	
+	\item \textbf{Polimorfisme (Polymorphism)} \\
+	Dengan menggunakan interface \texttt{IQuestion}, kode ini menunjukkan bagaimana objek dari berbagai kelas (misalnya, \texttt{FilledInQuestion}, \texttt{MultipleChoiceQuestion}, \texttt{NumericQuestion}) dapat diperlakukan sebagai objek dari tipe \texttt{IQuestion}. Ini adalah contoh polimorfisme di mana objek dari berbagai kelas dapat beroperasi secara seragam melalui antarmuka umum.
+	
+	\item \textbf{Abstraksi (Abstraction)} \\
+	Kelas \texttt{Question} adalah kelas abstrak yang tidak dapat diinstansiasi secara langsung, tetapi memberikan kerangka dasar yang dapat diimplementasikan oleh kelas turunan. Hal ini merupakan contoh abstraksi, di mana detail implementasi disembunyikan, dan hanya aspek penting yang disorot.
+	
+	\item \textbf{Modularitas dan \textit{Package}} \\
+	Kode ini menunjukkan cara mengorganisasikan kode dalam \textit{package} yang berbeda (\texttt{edu.pradita} dan \texttt{other.company}), yang merupakan contoh modularitas. Modularitas membantu dalam pengelolaan dan pengelompokan logika terkait, sehingga kode lebih mudah untuk dipelihara dan dikembangkan.
+	
+	\item \textbf{Enkapsulasi (Encapsulation)} \\
+	Kelas-kelas dalam kode ini mengilustrasikan konsep enkapsulasi di mana data (seperti variabel \texttt{text} dan \texttt{correctAnswer}) dibungkus bersama dengan metode yang beroperasi pada data tersebut. Penggunaan akses kontrol (private, protected, public) menunjukkan bagaimana akses ke data tertentu dapat dibatasi.
+\end{itemize}
+
+
+\section{Latihan Kode Java}
+
+\subsection{Latihan 1: Sistem Manajemen Kendaraan}
+
+\textbf{Konteks:} Anda diminta untuk membuat sistem manajemen kendaraan yang dapat mengelola berbagai jenis kendaraan, termasuk mobil dan sepeda motor.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Vehicle}, kelas turunan \texttt{Car} dan \texttt{Motorcycle}, serta sebuah interface \texttt{Maintainable} untuk menyediakan metode perawatan kendaraan.
+
+\textbf{Kode:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public abstract class Vehicle {
+		private String model;
+		private int year;
+		
+		public Vehicle(String model, int year) {
+			this.model = model;
+			this.year = year;
+		}
+		
+		public String getModel() {
+			return model;
+		}
+		
+		public int getYear() {
+			return year;
+		}
+		
+		public abstract void start();
+	}
+	
+	public class Car extends Vehicle implements Maintainable {
+		private int doors;
+		
+		public Car(String model, int year, int doors) {
+			super(model, year);
+			this.doors = doors;
+		}
+		
+		@Override
+		public void start() {
+			System.out.println("Car started.");
+		}
+		
+		@Override
+		public void performMaintenance() {
+			System.out.println("Performing maintenance on Car.");
+		}
+	}
+	
+	public class Motorcycle extends Vehicle implements Maintainable {
+		private boolean hasSidecar;
+		
+		public Motorcycle(String model, int year, boolean hasSidecar) {
+			super(model, year);
+			this.hasSidecar = hasSidecar;
+		}
+		
+		@Override
+		public void start() {
+			System.out.println("Motorcycle started.");
+		}
+		
+		@Override
+		public void performMaintenance() {
+			System.out.println("Performing maintenance on Motorcycle.");
+		}
+	}
+	
+	public interface Maintainable {
+		void performMaintenance();
+	}
+\end{lstlisting}
+
+\subsection{Latihan 2: Sistem Pendidikan dengan Evaluasi}
+
+\textbf{Konteks:} Anda diminta untuk membangun sistem untuk evaluasi siswa yang mendukung berbagai jenis pertanyaan seperti pilihan ganda dan isian.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Question}, kelas turunan \texttt{MultipleChoiceQuestion} dan \texttt{FillInQuestion}, serta interface \texttt{Evaluable} untuk mengevaluasi jawaban.
+
+\textbf{Kode:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public abstract class Question {
+		private String questionText;
+		
+		public Question(String questionText) {
+			this.questionText = questionText;
+		}
+		
+		public String getQuestionText() {
+			return questionText;
+		}
+		
+		public abstract boolean checkAnswer(String answer);
+	}
+	
+	public class MultipleChoiceQuestion extends Question implements Evaluable {
+		private String[] options;
+		private String correctAnswer;
+		
+		public MultipleChoiceQuestion(String questionText, String[] options, String correctAnswer) {
+			super(questionText);
+			this.options = options;
+			this.correctAnswer = correctAnswer;
+		}
+		
+		@Override
+		public boolean checkAnswer(String answer) {
+			return correctAnswer.equals(answer);
+		}
+		
+		@Override
+		public void evaluate() {
+			System.out.println("Evaluating Multiple Choice Question.");
+		}
+	}
+	
+	public class FillInQuestion extends Question implements Evaluable {
+		private String correctAnswer;
+		
+		public FillInQuestion(String questionText, String correctAnswer) {
+			super(questionText);
+			this.correctAnswer = correctAnswer;
+		}
+		
+		@Override
+		public boolean checkAnswer(String answer) {
+			return correctAnswer.equals(answer);
+		}
+		
+		@Override
+		public void evaluate() {
+			System.out.println("Evaluating Fill-in Question.");
+		}
+	}
+	
+	public interface Evaluable {
+		void evaluate();
+	}
+\end{lstlisting}
+
+\subsection{Latihan 3: Sistem Pengelolaan Buku dan Majalah}
+
+\textbf{Konteks:} Anda diminta untuk membuat sistem pengelolaan koleksi buku dan majalah di perpustakaan.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Publication}, kelas turunan \texttt{Book} dan \texttt{Magazine}, serta interface \texttt{Borrowable} untuk menyediakan metode peminjaman.
+
+\textbf{Kode:}
+
+\begin{lstlisting}[style=JavaStyle]
+	public abstract class Publication {
+		private String title;
+		private int publicationYear;
+		
+		public Publication(String title, int publicationYear) {
+			this.title = title;
+			this.publicationYear = publicationYear;
+		}
+		
+		public String getTitle() {
+			return title;
+		}
+		
+		public int getPublicationYear() {
+			return publicationYear;
+		}
+		
+		public abstract void displayDetails();
+	}
+	
+	public class Book extends Publication implements Borrowable {
+		private String author;
+		
+		public Book(String title, int publicationYear, String author) {
+			super(title, publicationYear);
+			this.author = author;
+		}
+		
+		@Override
+		public void displayDetails() {
+			System.out.println("Book: " + getTitle() + ", Author: " + author);
+		}
+		
+		@Override
+		public void borrow() {
+			System.out.println("Borrowing Book: " + getTitle());
+		}
+	}
+	
+	public class Magazine extends Publication implements Borrowable {
+		private int issueNumber;
+		
+		public Magazine(String title, int publicationYear, int issueNumber) {
+			super(title, publicationYear);
+			this.issueNumber = issueNumber;
+		}
+		
+		@Override
+		public void displayDetails() {
+			System.out.println("Magazine: " + getTitle() + ", Issue Number: " + issueNumber);
+		}
+		
+		@Override
+		public void borrow() {
+			System.out.println("Borrowing Magazine: " + getTitle());
+		}
+	}
+	
+	public interface Borrowable {
+		void borrow();
+	}
+\end{lstlisting}
+
+
+\section{Soal}
+
+\subsection{Soal 1: Sistem Manajemen Karyawan}
+
+\textbf{Konteks:} Anda diminta untuk mengembangkan sistem manajemen karyawan yang dapat menangani berbagai jenis karyawan seperti karyawan tetap dan kontrak.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Employee}, kelas turunan \texttt{PermanentEmployee} dan \texttt{ContractEmployee}, serta sebuah interface \texttt{Payable} untuk menghitung gaji dan tunjangan.
+
+\textbf{Latihan:}
+\begin{itemize}
+	\item Buatlah kelas \texttt{Employee} dengan atribut seperti nama, ID, dan gaji dasar.
+	\item Implementasikan kelas turunan \texttt{PermanentEmployee} yang menambahkan tunjangan kesehatan dan memiliki metode untuk menghitung gaji total.
+	\item Implementasikan kelas turunan \texttt{ContractEmployee} yang memiliki gaji per jam dan metode untuk menghitung total gaji berdasarkan jam kerja.
+	\item Definisikan interface \texttt{Payable} dengan metode \texttt{calculatePay()} yang harus diimplementasikan oleh kedua kelas turunan.
+\end{itemize}
+
+\subsection{Soal 2: Sistem E-commerce dengan Diskon}
+
+\textbf{Konteks:} Anda diminta untuk membangun sistem e-commerce yang mendukung berbagai jenis produk dan penerapan diskon.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Product}, kelas turunan \texttt{Electronics} dan \texttt{Clothing}, serta sebuah interface \texttt{Discountable} untuk menerapkan diskon pada produk.
+
+\textbf{Latihan:}
+\begin{itemize}
+	\item Buatlah kelas \texttt{Product} dengan atribut seperti nama produk, harga, dan metode untuk mendapatkan harga setelah diskon.
+	\item Implementasikan kelas turunan \texttt{Electronics} yang memiliki atribut tambahan seperti garansi dan metode untuk menghitung harga akhir dengan diskon.
+	\item Implementasikan kelas turunan \texttt{Clothing} yang memiliki atribut tambahan seperti ukuran dan metode untuk menerapkan diskon musiman.
+	\item Definisikan interface \texttt{Discountable} dengan metode \texttt{applyDiscount(double percentage)} yang harus diimplementasikan oleh kedua kelas turunan.
+\end{itemize}
+
+\subsection{Soal 3: Sistem Reservasi Hotel}
+
+\textbf{Konteks:} Anda diminta untuk membuat sistem reservasi hotel yang dapat menangani berbagai jenis kamar dan layanan tambahan.
+
+\textbf{Kasus:} Implementasikan kelas dasar \texttt{Room}, kelas turunan \texttt{SingleRoom} dan \texttt{SuiteRoom}, serta sebuah interface \texttt{Serviceable} untuk menambahkan layanan tambahan.
+
+\textbf{Latihan:}
+\begin{itemize}
+	\item Buatlah kelas \texttt{Room} dengan atribut seperti nomor kamar, tipe kamar, dan tarif per malam.
+	\item Implementasikan kelas turunan \texttt{SingleRoom} yang memiliki tarif khusus dan metode untuk menghitung total biaya berdasarkan jumlah malam.
+	\item Implementasikan kelas turunan \texttt{SuiteRoom} yang memiliki fasilitas tambahan seperti ruang tamu dan metode untuk menghitung biaya tambahan untuk layanan ekstra.
+	\item Definisikan interface \texttt{Serviceable} dengan metode \texttt{addService(String serviceName, double serviceFee)} yang memungkinkan penambahan layanan tambahan pada kamar.
+\end{itemize}
+
