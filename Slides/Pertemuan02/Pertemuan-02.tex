@@ -1,0 +1,438 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-02:\\\LARGE{Struktur Program, Kelas,\\Object, Atribut, Metode}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+\begin{column}{.5\textwidth}
+	\tableofcontents[sections={1-3}]
+\end{column}
+\begin{column}{.5\textwidth}
+	\tableofcontents[sections={4-6}]
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\section{Struktur Kode Program Java}
+
+\begin{frame}[fragile]{Struktur Kode Program Java}
+Kode program Java terdiri dari beberapa komponen utama yang membentuk struktur sebuah aplikasi. Berikut adalah penjelasan mengenai struktur dasar kode program Java:
+\end{frame}
+
+\subsection{Kelas (Class)}
+\begin{frame}[fragile]{Kelas (Class)}
+Semua kode Java harus didefinisikan dalam kelas. Kelas adalah blueprint atau template untuk objek yang akan dibuat. Berikut adalah contoh deklarasi kelas:
+
+\begin{lstlisting}[style=JavaStyle]
+public class MyClass {
+	// Kode kelas di sini
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Metode Utama (Main Method)}
+\begin{frame}[fragile]{Metode Utama (Main Method)}
+Metode utama adalah titik masuk program Java. Program mulai dieksekusi dari metode ini. Berikut adalah sintaks untuk metode utama:
+
+\begin{lstlisting}[style=JavaStyle]
+public static void main(String[] args) {
+	// Kode program di sini
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Deklarasi Variabel}
+\begin{frame}[fragile]{Deklarasi Variabel}
+Variabel digunakan untuk menyimpan data. Variabel harus dideklarasikan dengan tipe data sebelum digunakan. Berikut adalah contoh deklarasi variabel:
+
+\begin{lstlisting}[style=JavaStyle]
+int age = 30;
+String name = "John";
+\end{lstlisting}
+\end{frame}
+
+\subsection{Metode (Methods)}
+\begin{frame}[fragile]{Metode (Methods)}
+Metode adalah blok kode yang melakukan tugas tertentu dan dapat dipanggil dari bagian lain program. Berikut adalah contoh metode:
+
+\begin{lstlisting}[style=JavaStyle]
+public void greet() {
+	System.out.println("Hello!");
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Komentar}
+\begin{frame}[fragile]{Komentar}
+Komentar digunakan untuk menjelaskan kode dan tidak dieksekusi. Ada dua jenis komentar dalam Java:
+
+\begin{itemize}
+\item \texttt{// Ini adalah komentar satu baris}
+\item \texttt{/* Ini adalah komentar multi-baris */}
+\end{itemize}
+
+\begin{lstlisting}[style=JavaStyle]
+// Ini adalah komentar satu baris
+/*
+Ini adalah komentar multi-baris
+*/
+\end{lstlisting}
+\end{frame}
+
+\subsection{Import}
+\begin{frame}[fragile]{Import}
+Pernyataan \texttt{import} digunakan untuk memasukkan kelas dari paket lain ke dalam program. Berikut adalah contoh pernyataan import:
+
+\begin{lstlisting}[style=JavaStyle]
+import java.util.Scanner;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Contoh Program HelloWorld.java}
+\vspace{20pt}
+\begin{lstlisting}[style=JavaStyle, caption={Contoh Program HelloWorld.java}]
+package hello;
+import java.util.Scanner; // Mengimpor kelas Scanner
+public class HelloWorld {
+	// Metode utama: Titik masuk program
+	public static void main(String[] args) {
+		// Deklarasi variabel
+		String name;
+		// Membuat objek Scanner untuk menerima input dari pengguna
+		Scanner scanner = new Scanner(System.in);
+		// Meminta input dari pengguna
+		System.out.print("Masukkan nama Anda: ");
+		name = scanner.nextLine();  // Membaca input nama dari pengguna
+		// Menampilkan output dengan input pengguna
+		System.out.println("Hello " + name + "!");
+		// Menutup objek Scanner
+		scanner.close();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Penjelasan Kode HelloWorld.java - Bagian 1}
+\begin{itemize}
+\item \texttt{package hello;} - Mendeklarasikan paket tempat kelas ini berada. Paket membantu dalam mengorganisir kode.
+\item \texttt{import java.util.Scanner;} - Mengimpor kelas \texttt{Scanner} dari paket \texttt{java.util} untuk menerima input dari pengguna.
+\item \texttt{public class HelloWorld \{ \}} - Mendefinisikan kelas publik \texttt{HelloWorld}. Kelas ini berfungsi sebagai blueprint untuk objek.
+\item \texttt{public static void main(String[] args) \{ \}} - Metode utama yang dieksekusi pertama kali. Kode program dimulai dari sini.
+\item \texttt{String name;} - Deklarasi variabel \texttt{name} yang akan menyimpan input nama pengguna.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Penjelasan Kode HelloWorld.java - Bagian 2}
+\begin{itemize}
+\item \texttt{Scanner scanner = new Scanner(System.in);} - Membuat objek \texttt{Scanner} untuk membaca input dari konsol.
+\item \texttt{System.out.print("Masukkan nama Anda: ");} - Mencetak pesan ke konsol meminta pengguna untuk memasukkan nama.
+\item \texttt{name = scanner.nextLine();} - Membaca input nama dari pengguna dan menyimpannya dalam variabel \texttt{name}.
+\item \texttt{System.out.println("Hello " + name + "!");} - Mencetak pesan "Hello [Nama]!" ke konsol dengan nama yang dimasukkan oleh pengguna.
+\item \texttt{scanner.close();} - Menutup objek \texttt{Scanner} untuk menghindari kebocoran sumber daya.
+\end{itemize}
+\end{frame}
+
+
+\section{Kode Java: Menghitung Panjang Hipotenusa}
+
+\begin{frame}[fragile]{Kode Java: Menghitung Panjang Hipotenusa}
+\begin{lstlisting}[style=JavaStyle, caption={Kode Java: MyTest.java}]
+package org.pradita.ddp.pertemuan02;
+public class MyTest {
+	public static void main(String[] args) {
+		double a, b;
+		a = 3.0;
+		b = 4.0;
+		double c = Math.sqrt(a * a + b * b);
+		System.out.println(c);
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Penjelasan Kode MyTest.java: Bagian 1}
+\vspace{15pt}
+\begin{itemize}
+\item \texttt{package org.pradita.ddp.pertemuan02;} - Mendeklarasikan paket tempat kelas ini berada. Paket membantu dalam mengorganisir dan mengelompokkan kelas.
+\item \texttt{public class MyTest \{ \}} - Mendefinisikan kelas publik \texttt{MyTest}. Kelas ini adalah blueprint dari objek yang akan dibuat.
+\item \texttt{public static void main(String[] args) \{ \}} - Metode utama yang dijalankan pertama kali ketika program dieksekusi. Ini adalah titik masuk dari aplikasi Java.
+\item \texttt{double a, b;} - Mendeklarasikan dua variabel bertipe \texttt{double} yang akan menyimpan nilai panjang sisi segitiga.
+\item \texttt{a = 3.0;} - Menginisialisasi variabel \texttt{a} dengan nilai 3.0.
+\item \texttt{b = 4.0;} - Menginisialisasi variabel \texttt{b} dengan nilai 4.0.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Penjelasan Kode MyTest.java: Bagian 2}
+\begin{itemize}
+\item \texttt{double c = Math.sqrt(a * a + b * b);} - Menghitung panjang hipotenusa \texttt{c} menggunakan rumus Pythagoras dan fungsi \texttt{Math.sqrt()} untuk menghitung akar kuadrat dari hasil penjumlahan kuadrat \texttt{a} dan \texttt{b}.
+\item \texttt{System.out.println(c);} - Mencetak hasil perhitungan panjang hipotenusa ke konsol.
+\end{itemize}
+Program ini adalah contoh sederhana yang mendemonstrasikan penggunaan operasi matematika dan metode dari kelas \texttt{Math} di Java untuk menyelesaikan masalah geometris. Mengubah nilai dari \texttt{a} dan \texttt{b} memungkinkan perhitungan panjang hipotenusa dari segitiga dengan sisi yang berbeda.
+\end{frame}
+
+%%%%%----------------------------------------------
+
+
+\begin{frame}[fragile]{Kelas Person: Bagian 1}
+	\begin{lstlisting}[style=JavaStyle]
+		package org.pradita.ddp.pertemuan02;
+
+		public class Person {		
+			private String name, lastName;
+			private int age;
+		\end{lstlisting}
+		
+		\begin{itemize}
+			\item \texttt{package org.pradita.ddp.pertemuan02;} - Mendeklarasikan paket tempat kelas ini berada.
+			\item \texttt{public class Person \{ \}} - Mendefinisikan kelas publik \texttt{Person}. Kelas ini adalah blueprint untuk objek yang akan dibuat.
+			\item \texttt{private String name, lastName;} - Mendeklarasikan atribut \texttt{name} dan \texttt{lastName} yang menyimpan nama depan dan belakang.
+			\item \texttt{private int age;} - Mendeklarasikan atribut \texttt{age} yang menyimpan umur.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Kelas Person: Bagian 2}
+		\begin{lstlisting}[style=JavaStyle]
+			public Person() {
+				this.name = "Charlie";
+				this.age = 17;
+				this.lastName = "Chaplin";
+			}	
+			public Person(String name, String lastName, int age) {
+				this.name = name;
+				this.age = age;
+				this.lastName = lastName;
+			}
+		\end{lstlisting}
+		
+		\begin{itemize}
+			\item \texttt{public Person() \{ \}} - Konstruktor default yang menginisialisasi \texttt{name} dengan "Charlie", \texttt{age} dengan 17, dan \texttt{lastName} dengan "Chaplin".
+			\item \texttt{public Person(String name, String lastName, int age) \{ \}} - Konstruktor dengan parameter untuk menginisialisasi \texttt{name}, \texttt{lastName}, dan \texttt{age}.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Kelas Person: Bagian 3}
+		\begin{lstlisting}[style=JavaStyle]
+			public String getFullName() {
+				return name + " " + lastName;
+			}	
+			public void introduceMyself() {
+				System.out.println("My name is " + this.getFullName() + " and my age is " + this.getAge());
+			}
+		\end{lstlisting}
+		
+		\begin{itemize}
+			\item \texttt{public String getFullName() \{ \}} - Metode yang mengembalikan nama lengkap dengan menggabungkan \texttt{name} dan \texttt{lastName}.
+			\item \texttt{public void introduceMyself() \{ \}} - Metode yang mencetak informasi pribadi ke konsol.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Kelas Person: Bagian 4}
+	\vspace{10pt}
+		\begin{lstlisting}[style=JavaStyle]
+			public String getName() {
+				return this.name;
+			}
+			public int getAge() {
+				return this.age;
+			}	
+			public void setName(String name) {
+				this.name = name;
+			}
+			public void setAge(int age) {
+				this.age = age;
+			} }
+	\end{lstlisting}
+	\begin{itemize}
+		\item \texttt{public String getName() \{ \}} - Metode getter untuk \texttt{name} \textbf{ | } \texttt{public int getAge() \{ \}} - Metode getter untuk \texttt{age}.
+		\item \texttt{public void setName(String name) \{ \}} - Metode setter untuk \texttt{name} \textbf{ | }  \texttt{public void setAge(int age) \{ \}} - Metode setter untuk \texttt{age}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kelas Main: Bagian 1}
+\vspace{10pt}
+	\begin{lstlisting}[style=JavaStyle]
+		package org.pradita.ddp.pertemuan02;
+		public class Main {
+			public static void main(String[] args) {
+				Person person1 = new Person();
+				Person person2 = new Person("Alice", "Wonderland", 31);
+				System.out.println("Person1's name is " + person1.getName() + ", age " + person1.getAge());
+			\end{lstlisting}
+			
+			\begin{itemize}
+				\item \texttt{package org.pradita.ddp.pertemuan02;} - Paket tempat kelas berada.
+				\item \texttt{public class Main \{ \}} - Kelas utama program.
+				\item \texttt{public static void main(String[] args) \{ \}} - Metode utama program.
+				\item \texttt{Person person1 = new Person();} - Objek \texttt{person1} dengan konstruktor default.
+				\item \texttt{Person person2 = new Person("Alice", "Wonderland", 31);} - Objek \texttt{person2} dengan parameter.
+			\end{itemize}
+		\end{frame}
+
+		
+\begin{frame}[fragile]{Kelas Main: Bagian 2 (1/2)}
+	\begin{lstlisting}[style=JavaStyle]
+		System.out.println("Person2's name is " + person2.getName() + ", age " + person2.getAge());
+		System.out.println("Person1's fullname is " + person1.getFullName() + ", age " + person1.getAge());
+	\end{lstlisting}
+	
+	\begin{itemize}
+		\item \texttt{System.out.println("Person2's name is " + person2.getName() + ", age " + person2.getAge());} - Cetak nama dan umur \texttt{person2}.
+		\item \texttt{System.out.println("Person1's fullname is " + person1.getFullName() + ", age " + person1.getAge());} - Cetak nama lengkap dan umur \texttt{person1}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kelas Main: Bagian 2 (2/2)}
+	\begin{lstlisting}[style=JavaStyle]
+		System.out.println("Person2's fullname is " + person2.getFullName() + ", age " + person2.getAge());
+		person1.introduceMyself();
+		person2.setName("Bob");
+		person2.introduceMyself();
+	\end{lstlisting}
+	
+	\begin{itemize}
+		\item \texttt{System.out.println("Person2's fullname is " + person2.getFullName() + ", age " + person2.getAge());} - Cetak nama lengkap dan umur \texttt{person2}.
+		\item \texttt{person1.introduceMyself();} - Panggil metode \texttt{introduceMyself()} dari \texttt{person1}.
+		\item \texttt{person2.setName("Bob");} - Ubah nama \texttt{person2} menjadi "Bob".
+		\item \texttt{person2.introduceMyself();} - Panggil \texttt{introduceMyself()} setelah mengubah nama.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Penjelasan Kode}
+	\begin{itemize}
+		\item \textbf{Kelas} - Blueprint untuk membuat objek, mendefinisikan atribut dan metode.
+		\item \textbf{Objek} - Instansi dari kelas yang menggunakan atribut dan metode kelas.
+		\item \textbf{Atribut} - Variabel dalam kelas untuk menyimpan data, seperti \texttt{name} dan \texttt{age}.
+		\item \textbf{Metode} - Fungsi dalam kelas untuk mengelola atribut dan melakukan tindakan, seperti \texttt{getFullName()}.
+	\end{itemize}
+	Program ini terdiri dari:
+	\begin{itemize}
+		\item \textbf{Kelas Person} - Mengelola informasi tentang seseorang.
+		\item \textbf{Kelas Main} - Titik masuk program dan penggunaan objek \texttt{Person}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 1}
+\vspace{15pt}
+\textbf{Tugas:} Tambahkan metode untuk menghitung keliling di kelas \texttt{Rectangle}. Buat objek \texttt{Rectangle} di kelas \texttt{Main} dan cetak hasilnya.
+\begin{lstlisting}[style=JavaStyle]
+package org.pradita.ddp.pertemuan02;
+public class Rectangle {
+	private double length, width;
+	public Rectangle(double length, double width) { this.length = length; this.width = width; }
+	public double calculatePerimeter() { return 2 * (length + width); }
+}
+package org.pradita.ddp.pertemuan02;
+public class Main {
+	public static void main(String[] args) {
+		Rectangle rectangle = new Rectangle(5.0, 3.0);
+		System.out.println("The perimeter of the rectangle is " + rectangle.calculatePerimeter() + " units.");
+	} }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 2: Kelas Student}
+\vspace{15pt}
+\textbf{Tugas:} Buat kelas \texttt{Student} dengan atribut \texttt{name}, \texttt{grade}, dan \texttt{id}. Tambahkan metode untuk menampilkan informasi student.
+\begin{lstlisting}[style=JavaStyle]
+package org.pradita.ddp.pertemuan02;
+public class Student {
+	private String name;
+	private int grade;
+	private String id;
+	public Student(String name, int grade, String id) {
+		this.name = name;
+		this.grade = grade;
+		this.id = id;
+	}
+	public void displayInfo() {
+		System.out.println("ID: " + id + ", Name: " + name + ", Grade: " + grade);
+	} }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 2: Kelas Main}
+\vspace{15pt}
+\textbf{Tugas:} Modifikasi kelas \texttt{Main} untuk menampilkan informasi student.
+\begin{lstlisting}[style=JavaStyle]
+package org.pradita.ddp.pertemuan02;
+
+public class Main {
+	public static void main(String[] args) {
+		Student student = new Student("Bob", 90, "S12345");
+		student.displayInfo();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]{Latihan 3}
+\vspace{15pt}
+\textbf{Tugas:} Tambahkan metode di kelas \texttt{Circle} untuk menghitung luas berdasarkan jari-jari. Buat objek \texttt{Circle} di kelas \texttt{Main} dan cetak luasnya.
+\begin{lstlisting}[style=JavaStyle]
+package org.pradita.ddp.pertemuan02;
+public class Circle {
+	private double radius;
+	public Circle(double radius) { this.radius = radius; }
+	public double calculateArea() { return Math.PI * radius * radius; }
+}
+package org.pradita.ddp.pertemuan02;
+public class Main {
+	public static void main(String[] args) {
+		Circle circle = new Circle(7.0);
+		System.out.println("The area of the circle is " + circle.calculateArea() + " square units.");
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Soal}
+	\begin{itemize}
+		\item \textbf{Soal 1:} Buat kelas \texttt{Rectangle} dengan atribut \texttt{width} dan \texttt{height}. Tambahkan metode untuk menghitung luas dan keliling. Implementasikan kelas \texttt{Main} untuk membuat objek \texttt{Rectangle} dan tampilkan hasilnya.
+		\item \textbf{Soal 2:} Buat kelas \texttt{BankAccount} dengan atribut \texttt{accountNumber}, \texttt{balance}, dan \texttt{accountHolder}. Tambahkan metode untuk menyetor dan menarik uang, serta menampilkan informasi akun. Implementasikan kelas \texttt{Main} untuk membuat objek \texttt{BankAccount}, lakukan transaksi, dan tampilkan informasi akun.
+	\end{itemize}
+
+\end{frame}
+
+
+\end{document}
+

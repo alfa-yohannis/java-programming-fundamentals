@@ -1,0 +1,394 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-01:\\\LARGE{Pendahuluan: Sejarah, Instalasi,\\Hello World}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={1-3}]
+\end{column}
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={4-6}]
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\section{Sejarah}
+\begin{frame}{Sejarah Komputer}
+	\begin{itemize}
+		\item \textbf{Charles Babbage} - Mesin Analitik: Dikenal sebagai bapak komputer, Babbage merancang mesin analitik pada abad ke-19 yang merupakan konsep awal komputer modern.
+		\item \textbf{Ada Lovelace} - Program Pertama: Menulis algoritma untuk mesin analitik Babbage, dianggap sebagai programmer komputer pertama.
+		\item \textbf{ENIAC (Electronic Numerical Integrator and Computer)} - 1945: Salah satu komputer elektronik pertama yang digunakan untuk perhitungan matematis kompleks.
+		\item \textbf{UNIVAC I (Universal Automatic Computer)} - 1951: Komputer komersial pertama yang dirancang untuk keperluan bisnis.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Generasi Komputer}
+		\begin{itemize}
+			\item \textbf{Generasi Pertama (1940-an - 1950-an):} Menggunakan tabung vakum, seperti ENIAC.
+			\item \textbf{Generasi Kedua (1950-an - 1960-an):} Menggunakan transistor, yang lebih kecil dan lebih efisien daripada tabung vakum.
+			\item \textbf{Generasi Ketiga (1960-an - 1970-an):} Menggunakan sirkuit terpadu (IC), memungkinkan komputer menjadi lebih kecil dan lebih murah.
+			\item \textbf{Generasi Keempat (1970-an - sekarang):} Menggunakan mikroprosesor, yang memungkinkan komputer pribadi dan laptop.
+			\item \textbf{Generasi Kelima (Saat ini):} Komputer berbasis kecerdasan buatan (AI) dan teknologi komputasi kuantum.
+		\end{itemize}
+\end{frame}
+
+\begin{frame}{Kaitan Komputer dan Pemrograman}
+	\begin{itemize}
+		\item \textbf{Komputer:} Perangkat elektronik yang memproses data dan menjalankan instruksi. Memerlukan perangkat lunak (software) untuk berfungsi.
+		\item \textbf{Pemrograman:} Proses menulis kode untuk memberi instruksi kepada komputer. Tanpa pemrograman, komputer tidak dapat berfungsi.
+		\item \textbf{Peran Pemrograman:}
+		\begin{itemize}
+			\item Mengontrol perangkat keras dan menyelesaikan tugas.
+			\item Mengembangkan aplikasi untuk berbagai kebutuhan pengguna.
+		\end{itemize}
+		\item \textbf{Bahasa Pemrograman:} Bahasa yang digunakan untuk menulis kode, seperti Java, C++, dan Python.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Sejarah Pemrograman dan Java}
+\begin{itemize}
+\item Pemrograman komputer dimulai pada abad ke-19 dengan mesin analitik oleh Charles Babbage dan program pertama oleh Ada Lovelace.
+\item Bahasa pemrograman awal: Fortran, COBOL, Lisp (1950-an).
+\item Bahasa seperti C, Pascal, dan Basic diperkenalkan pada 1970-an dan 1980-an.
+\item Bahasa modern seperti Python, JavaScript, dan Rust digunakan dalam berbagai aplikasi.
+\item Java: Dikembangkan oleh Sun Microsystems (1995), dengan prinsip "Write Once, Run Anywhere".
+\end{itemize}
+\end{frame}
+
+\section{Instalasi}
+\begin{frame}[fragile]{Instalasi di Windows}
+\begin{enumerate}
+\item Unduh installer JDK dari situs Oracle atau OpenJDK.
+\item Jalankan installer dan ikuti petunjuk instalasi.
+\item Tambahkan direktori \texttt{bin} dari JDK ke \texttt{PATH} melalui Environment Variables.
+\item Verifikasi dengan \texttt{java -version} dan \texttt{javac -version}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Instalasi di macOS}
+\begin{enumerate}
+\item Unduh installer JDK dari situs Oracle atau OpenJDK.
+\item Jalankan file installer \texttt{.dmg} dan ikuti petunjuk instalasi.
+\item Verifikasi dengan \texttt{java -version} dan \texttt{javac -version} di Terminal.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Instalasi di Linux}
+\begin{enumerate}
+\item Buka terminal dan jalankan perintah berikut untuk menginstal JDK:
+\begin{verbatim}
+	sudo apt update
+	sudo apt install default-jdk
+\end{verbatim}
+\item Verifikasi instalasi dengan \texttt{java -version} dan \texttt{javac -version}.
+\end{enumerate}
+\end{frame}
+
+\section{IDE}
+\begin{frame}[fragile]{Apa Itu IDE?}
+\begin{itemize}
+\item Integrated Development Environment (IDE) menyediakan fasilitas lengkap untuk pengembangan perangkat lunak.
+\item Umumnya mencakup editor kode, kompiler/interpreter, debugger, dan alat manajemen proyek.
+\item IDE mempermudah pengembangan dengan antarmuka yang terintegrasi.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Cara Menginstal Eclipse}
+\begin{enumerate}
+\item Unduh installer Eclipse dari \url{https://www.eclipse.org/downloads/}.
+\item Pilih versi yang sesuai, misalnya Eclipse IDE for Java Developers.
+\item Jalankan installer dan pilih direktori instalasi.
+\item Setelah instalasi selesai, buka Eclipse dari direktori instalasi.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Cara Membuat Proyek Java Baru di Eclipse}
+\begin{enumerate}
+\item Buka Eclipse dan pilih workspace.
+\item Pilih \texttt{File > New > Java Project}.
+\item Masukkan nama proyek dan klik \texttt{Finish}.
+\item Tambahkan file Java baru dengan klik kanan pada \texttt{src}, pilih \texttt{New > Class}.
+\item Mulai menulis kode di editor yang muncul.
+\end{enumerate}
+\end{frame}
+
+\section{Hello World}
+\begin{frame}[fragile]{Kode Java: HelloWorld.java}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+public class HelloWorld {
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\LARGE{Panduan Kompilasi dan Menjalankan Program}}
+\textbf{Kompilasi Program:}
+\begin{enumerate}
+\item Buka terminal atau command prompt.
+\item Navigasikan ke direktori tempat file \texttt{HelloWorld.java} disimpan.
+\item Jalankan perintah \texttt{javac HelloWorld.java}.
+\end{enumerate}
+
+\textbf{Menjalankan Program:}
+\begin{enumerate}
+\item Jalankan perintah \texttt{java hello.HelloWorld}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Kode Java: HelloWorldWithInput.java}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+import java.util.Scanner;
+
+public class HelloWorldWithInput {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Masukkan nama Anda: ");
+		String name = scanner.nextLine();
+		
+		System.out.println("Hello " + name + "!");
+		
+		scanner.close();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Latihan}
+\begin{frame}[fragile]{Latihan 1: Memodifikasi Kode}
+\begin{itemize}
+\item Modifikasilah program \texttt{HelloWorld.java} sehingga program meminta input nama dari pengguna dan menampilkan "Hello, [Nama]!" di layar.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 1: Kode Modifikasi}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+import java.util.Scanner;
+
+public class HelloWorldModified {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Masukkan nama Anda: ");
+		String name = scanner.nextLine();
+		
+		System.out.println("Hello, " + name + "!");
+		
+		scanner.close();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\LARGE{Latihan 2: Menggunakan Argumen Baris Perintah}}
+\begin{itemize}
+\item Buat program yang menampilkan nama pengguna berdasarkan argumen yang diberikan di baris perintah.
+\item Jika tidak ada argumen yang diberikan, tampilkan pesan "Hello, World!".
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 2: Kode}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+public class HelloWorldWithArgs {
+	public static void main(String[] args) {
+		if (args.length > 0) {
+			System.out.println("Hello, " + args[0] + "!");
+		} else {
+			System.out.println("Hello World!");
+		}
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 3: Memvalidasi Input}
+\begin{itemize}
+\item Buat program yang meminta pengguna memasukkan nama. Jika pengguna tidak memasukkan apa pun, program harus terus meminta input hingga pengguna memberikan nama yang valid.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 3: Kode Bagian 1}
+	\begin{lstlisting}[style=JavaStyle, firstnumber=1]
+		package hello;
+		
+		import java.util.Scanner;
+		
+		public class HelloWorldWithValidatedInput {
+			public static void main(String[] args) {
+				Scanner scanner = new Scanner(System.in);
+				String name = "";
+				
+				while (name.isEmpty()) {
+					System.out.print("Masukkan nama Anda: ");
+					name = scanner.nextLine();
+				\end{lstlisting}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Latihan 3: Kode Bagian 2}
+				\begin{lstlisting}[style=JavaStyle, firstnumber=11]
+					if (name.isEmpty()) {
+						System.out.println("Nama tidak boleh kosong. Silakan coba lagi.");
+					}
+				}
+				
+				System.out.println("Hello " + name + "!");
+				scanner.close();
+			}
+		}
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 4: Menampilkan Waktu Saat Ini}
+\begin{itemize}
+\item Buat program yang meminta pengguna memasukkan nama mereka, lalu menampilkan waktu saat ini bersama dengan pesan "Hello, [Nama]!".
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 4: Kode}
+\vspace{15pt}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+import java.util.Scanner;
+import java.time.LocalTime;
+
+public class HelloWorldWithTime {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Masukkan nama Anda: ");
+		String name = scanner.nextLine();
+		
+		LocalTime time = LocalTime.now();
+		System.out.println("Hello " + name + "! Sekarang pukul " + time + ".");
+		scanner.close();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 5: Mengelola Daftar Nama}
+\begin{itemize}
+\item Buat program yang memungkinkan pengguna untuk memasukkan nama secara berulang kali hingga mereka mengetik "exit".
+\item Setelah pengguna mengetik "exit", program harus menampilkan semua nama yang telah dimasukkan.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 5: Kode}
+\begin{lstlisting}[style=JavaStyle]
+package hello;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class HelloWorldWithNamesList {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		List<String> names = new ArrayList<>();
+		String name = "";
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Latihan 5: Kode (lanjutan)}
+\begin{lstlisting}[style=JavaStyle, firstnumber=12]
+		while (true) {
+			System.out.print("Masukkan nama Anda (atau ketik 'exit' untuk keluar): ");
+			name = scanner.nextLine();
+			if (name.equalsIgnoreCase("exit")) {
+				break;
+			}	
+			names.add(name);
+		}
+		System.out.println("Nama yang dimasukkan: " + names);
+		scanner.close();
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Soal Latihan}
+
+\begin{frame}{Soal Latihan}
+	Berikut adalah beberapa soal latihan tambahan untuk menguji pemahaman Anda mengenai konsep yang telah dipelajari:
+\end{frame}
+
+\begin{frame}{Soal 1}
+	\begin{enumerate}
+		\item \textbf{Soal 1:} Modifikasi program \texttt{HelloWorldWithInput.java} sehingga program akan menampilkan teks yang dimasukkan sebanyak 3 kali. Misalnya, jika pengguna memasukkan "Java", program harus mencetak "Java Java Java".
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Soal 2}
+	\begin{enumerate}
+		\item \textbf{Soal 2:} Buatlah program yang menampilkan teks yang dimasukkan oleh pengguna, tetapi setiap kali teks baru dimasukkan, teks tersebut selalu ditambahkan ke teks sebelumnya. Sebagai contoh, jika pengguna memasukkan "Hello", kemudian "World", program harus mencetak "Hello World".
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Soal 3}
+	\begin{enumerate}
+		\item \textbf{Soal 3:} Modifikasi program sehingga hanya menyimpan dua input terakhir dari pengguna. Ketika pengguna memasukkan teks baru, teks yang dimasukkan sebelumnya harus dihapus dari tampilan. Misalnya, jika pengguna memasukkan "First", "Second", dan "Third", program hanya akan menampilkan "Second Third".
+	\end{enumerate}
+\end{frame}
+
+\section{Penutup}
+\begin{frame}[fragile]{Penutup}
+\begin{itemize}
+\item Sejarah pemrograman, cara instalasi JDK, dan pengenalan dasar Java.
+\item Latihan-latihan untuk memberikan pengalaman pengenalan Java.
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}
+
