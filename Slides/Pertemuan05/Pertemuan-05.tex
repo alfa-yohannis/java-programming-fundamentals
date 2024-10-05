@@ -1,0 +1,448 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-05:\\\LARGE{Pengkodisian pada Java\\}
+\vspace{10pt}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\lstdefinelanguage{bash} {
+keywords={},
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={iex},
+ndkeywordstyle=\color{purple}\bfseries,
+sensitive=true,
+commentstyle=\color{gray},
+stringstyle=\color{red},
+numbers=left,
+numberstyle=\tiny\color{gray},
+breaklines=true,
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+tabsize=2,
+comment=[l]{\#},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+stringstyle=\color{purple}\ttfamily,
+showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={1-8}]
+\end{column}
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={9-20}]
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Pengkondisian di Java}
+
+\begin{frame}[fragile]{Pengkondisian di Java}
+\begin{itemize}
+\item \textbf{Pengkondisian}:
+\begin{itemize}
+\item Konsep penting dalam pemrograman.
+\item Memungkinkan pengambilan keputusan berdasarkan kondisi tertentu.
+\end{itemize}
+
+\item \textbf{Pengkondisian di Java}:
+\begin{itemize}
+\item Menggunakan beberapa struktur dasar:
+\begin{itemize}
+	\item \texttt{if}
+	\item \texttt{if-else}
+	\item \texttt{switch-case}
+	\item Operator ternary
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\subsection{Struktur If}
+\begin{frame}[fragile]{Struktur If}
+Struktur \texttt{if} digunakan untuk mengeksekusi blok kode tertentu hanya jika kondisi yang diberikan bernilai \texttt{true}. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+if (kondisi) {
+// kode yang akan dieksekusi jika kondisi benar
+}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+int nilai = 75;
+if (nilai >= 70) {
+System.out.println("Lulus");
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Struktur If-Else}
+\begin{frame}[fragile]{Struktur If-Else}
+\vspace{20pt}
+Struktur \texttt{if-else} memungkinkan kita untuk menentukan blok kode alternatif yang akan dijalankan jika kondisi tidak terpenuhi. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+if (kondisi) {
+// kode yang akan dieksekusi jika kondisi benar
+} else {
+// kode yang akan dieksekusi jika kondisi salah
+}
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+int nilai = 65;
+if (nilai >= 70) {
+System.out.println("Lulus");
+} else {
+System.out.println("Tidak Lulus");
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Struktur Nested If}
+\begin{frame}[fragile]{Struktur Nested If}
+\vspace{20pt}
+Struktur \texttt{nested if} atau \texttt{if} bersarang adalah \texttt{if} di dalam \texttt{if}, yang memungkinkan pemeriksaan kondisi tambahan di dalam kondisi utama.
+
+\begin{lstlisting}[style=JavaStyle]
+if (kondisi1) {
+if (kondisi2) {
+	// kode yang akan dieksekusi jika 
+	// kedua kondisi benar
+}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Contoh Nested If}
+\vspace{20pt}
+Contoh penggunaan:
+\begin{lstlisting}[style=JavaStyle]
+int nilai = 85;
+if (nilai >= 70) {
+if (nilai >= 80) {
+	System.out.println("Lulus dengan predikat baik");
+} else {
+	System.out.println("Lulus");
+}
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Struktur Switch-Case}
+\begin{frame}[fragile]{Struktur Switch-Case}
+\vspace{25pt}
+Struktur \texttt{switch-case} adalah alternatif untuk \texttt{if-else} yang digunakan ketika ada beberapa kemungkinan nilai untuk satu variabel dan masing-masing nilai tersebut memerlukan tindakan berbeda.
+
+\begin{lstlisting}[style=JavaStyle]
+switch (variabel) {
+case nilai1:
+// kode untuk nilai1
+break;
+case nilai2:
+// kode untuk nilai2
+break;
+default:
+// kode untuk semua nilai yang tidak 
+// tercantum
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Contoh Switch-Case}
+\vspace{20pt}
+Contoh penggunaan:
+\begin{lstlisting}[style=JavaStyle]
+char grade = 'B';
+
+switch (grade) {
+	case 'A':
+		System.out.println("Luar Biasa");
+		break;
+	case 'B':
+		System.out.println("Baik");
+		break;
+	case 'C':
+		System.out.println("Cukup");
+		break;
+	default:
+		System.out.println("Nilai tidak valid");
+}
+\end{lstlisting}
+\end{frame}
+
+
+\subsection{Operator Ternary}
+\begin{frame}[fragile]{Operator Ternary}
+Operator ternary adalah cara singkat untuk menulis pernyataan \texttt{if-else} sederhana dalam satu baris kode. Bentuk dasarnya adalah:
+
+\begin{lstlisting}[style=JavaStyle]
+variabel = (kondisi) ? nilaiJikaTrue : nilaiJikaFalse;
+\end{lstlisting}
+
+Contoh penggunaan:
+
+\begin{lstlisting}[style=JavaStyle]
+int nilai = 75;
+String hasil = (nilai >= 70) ? "Lulus" : "Tidak Lulus";
+System.out.println(hasil);
+\end{lstlisting}
+\end{frame}
+
+\section{Kode Program Penentuan Nilai dan Kelulusan}
+
+\begin{frame}[fragile]{Deklarasi Package dan Import}
+\begin{lstlisting}[style=JavaStyle]
+package org.alfa.pertemuan05.decisions;
+
+import java.util.Scanner;
+\end{lstlisting}
+\begin{itemize}
+\item Mendeklarasikan package `org.alfa.pertemuan05.decisions` untuk mengorganisir kode.
+\item Mengimpor kelas `Scanner` dari `java.util` untuk membaca input dari pengguna.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Deklarasi Kelas dan Method Utama}
+\begin{lstlisting}[style=JavaStyle]
+public class Decision {
+
+public static void main(String[] args) {
+	
+	/** Decisions, Branching, Conditioning, Flow Control **/
+	Scanner scanner = new Scanner(System.in);
+\end{lstlisting}
+\begin{itemize}
+	\item Kelas `Decision` dideklarasikan sebagai kelas publik.
+	\item Method `main` berfungsi sebagai titik masuk untuk eksekusi program.
+	\item Menginisialisasi objek `Scanner` untuk mengambil input dari pengguna.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Input Nilai dari Pengguna}
+\begin{lstlisting}[style=JavaStyle]
+	System.out.print("Enter your score (0.0 - 100.0): ");
+	
+	double score = scanner.nextDouble();
+\end{lstlisting}
+\begin{itemize}
+	\item Menggunakan `System.out.print()` untuk meminta pengguna memasukkan nilai.
+	\item Menyimpan input pengguna dalam variabel `score` menggunakan `scanner.nextDouble()`.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pengolahan Nilai dan Penentuan Mark}
+\begin{lstlisting}[style=JavaStyle, caption={Pengolahan Nilai dan Penentuan Mark}]
+	char mark = 'Z';
+	mark = getIfMultipleConditionsMark(score);
+	
+	System.out.println("Your mark is '" + mark + "'");
+\end{lstlisting}
+\begin{itemize}
+	\item Variabel `mark` diinisialisasi dengan nilai default `'Z'`.
+	\item Memanggil metode `getIfMultipleConditionsMark(score)` untuk menentukan nilai mark berdasarkan input.
+	\item Mencetak nilai mark ke layar.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pemeriksaan Kelulusan}
+\begin{lstlisting}[style=JavaStyle]
+	if (isShortExamPassed(mark)) {
+		System.out.println("You have passed the exam");
+	} else {
+		System.out.println("You failed the exam");
+	}
+\end{lstlisting}
+\begin{itemize}
+	\item Menggunakan struktur kontrol `if-else` untuk memeriksa apakah pengguna lulus ujian.
+	\item Memanggil metode `isShortExamPassed(mark)` untuk menentukan kelulusan.
+	\item Mencetak pesan kelulusan berdasarkan hasil pemeriksaan.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Metode Penentuan Mark Menggunakan If}
+\vspace{20pt}
+\begin{lstlisting}[style=JavaStyle]
+	public static char getIfMark(double score) {
+		char mark = 'E';
+		if (score < 10) { mark = 'E'; return mark; }
+		if (score < 20) { mark = 'D'; return mark; }
+		if (score < 60) { mark = 'C'; return mark; }
+		if (score < 80) { mark = 'B'; return mark; }
+		if (score >= 80) { mark = 'A'; }
+		return mark;
+	}
+\end{lstlisting}
+\begin{itemize}
+	\item Metode `getIfMark` digunakan untuk menentukan nilai mark berdasarkan rentang nilai yang diberikan.
+	\item Menggunakan beberapa kondisi `if` untuk menentukan mark yang sesuai.
+	\item Mengembalikan karakter mark yang sesuai berdasarkan nilai `score`.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\Large{Metode Penentuan Mark Menggunakan If-Else}}
+\vspace{20pt}
+\begin{lstlisting}[style=JavaStyle]
+	public static char getIfElseMark(double score) {
+		char mark = 'E';
+		if (score >= 80) {
+			mark = 'A';
+		} else if (score >= 60) {
+			mark = 'B';
+		} else if (score >= 40) {
+			mark = 'C';
+		} else if (score >= 20) {
+			mark = 'D';
+		} else {
+			mark = 'E';
+		}
+		return mark;
+	}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\Large{Metode Penentuan Mark Menggunakan If-Else (2)}}
+\vspace{20pt}
+\begin{itemize}
+	\item Metode `getIfElseMark` juga menentukan nilai mark, tetapi menggunakan struktur `if-else`.
+	\item Memeriksa rentang nilai secara berurutan untuk menetapkan mark yang sesuai.
+	\item Mengembalikan karakter mark yang sesuai berdasarkan nilai `score`.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\Large{Metode Penentuan Mark Menggunakan Nested If}}
+\vspace{20pt}
+\begin{lstlisting}[style=JavaStyle]
+	public static char getNestedIf(double score) {
+		char mark = 'E';
+		if (score >= 20) {
+			mark = 'D';
+			if (score >= 40) {
+				mark = 'C';
+				if (score >= 60) {
+					mark = 'B';
+					if (score >= 80) {
+						mark = 'A';
+					}
+				}
+			}
+		}
+		return mark;
+	}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\Large{Metode Penentuan Mark Menggunakan Nested If (2)}}
+\begin{itemize}
+	\item Metode `getNestedIf` menggunakan struktur `if` bersarang untuk menentukan nilai mark.
+	\item Setiap tingkat pemeriksaan nilai dilakukan berdasarkan hasil pemeriksaan sebelumnya.
+	\item Mengembalikan karakter mark berdasarkan nilai `score`.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\Large{Metode Penentuan Mark Menggunakan Multiple Conditions}}
+\begin{lstlisting}[style=JavaStyle]
+	public static char getIfMultipleConditionsMark(double score) {
+		if (score >= 80) { return 'A'; }
+		if (score >= 60 && score < 80) { return 'B'; }
+		if (score >= 40 && score < 60) { return 'C'; }
+		if (score >= 20 && score < 40) { return 'D'; }
+		return 'E';
+	}
+\end{lstlisting}
+\begin{itemize}
+	\item Metode `getIfMultipleConditionsMark` menggunakan beberapa kondisi untuk menentukan mark.
+	\item Menggunakan kondisi gabungan untuk menetapkan mark yang sesuai.
+	\item Mengembalikan karakter mark berdasarkan rentang nilai yang diberikan.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\Large{Metode Pemeriksaan Kelulusan dengan Switch-Case}}
+\vspace{20pt}
+\begin{lstlisting}[style=JavaStyle]
+	public static boolean isExamPassed(char mark) {
+		boolean pass = false;
+		switch (mark) {
+			case 'A': { pass = true; } break;
+			case 'B': ass = true; break;
+			case 'C': pass = true; break;
+			default: break;
+		}
+		return pass;
+	}
+\end{lstlisting}
+\begin{itemize}
+	\item Metode `isExamPassed` menggunakan `switch-case` untuk memeriksa kelulusan berdasarkan mark.
+	\item Menetapkan `pass` ke `true` jika mark adalah 'A', 'B', atau 'C'.
+	\item Mengembalikan nilai boolean yang menunjukkan apakah ujian telah lulus.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Metode Pemeriksaan Kelulusan Singkat}
+\begin{lstlisting}[style=JavaStyle]
+	public static boolean isShortExamPassed(char mark) {
+		boolean pass = false;
+		pass = (mark == 'D' || mark == 'E') ? false : true;
+		return pass;
+	}
+\end{lstlisting}
+\begin{itemize}
+	\item Metode `isShortExamPassed` menggunakan kondisi singkat untuk menentukan kelulusan.
+	\item Menggunakan operator ternary untuk menetapkan nilai `pass` berdasarkan mark.
+	\item Mengembalikan nilai boolean yang menunjukkan apakah pengguna lulus ujian.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\centering
+\Huge Silahkan mengerjakan latihan-latihan di modul ...
+\end{frame}
+
+\end{document}
+

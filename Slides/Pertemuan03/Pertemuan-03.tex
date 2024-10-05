@@ -1,0 +1,429 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-03:\\\LARGE{Enkapsulasi dan Dokumentasi}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\lstdefinelanguage{bash} {
+keywords={},
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={iex},
+ndkeywordstyle=\color{purple}\bfseries,
+sensitive=true,
+commentstyle=\color{gray},
+stringstyle=\color{red},
+numbers=left,
+numberstyle=\tiny\color{gray},
+breaklines=true,
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+tabsize=2,
+comment=[l]{\#},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+stringstyle=\color{purple}\ttfamily,
+showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+	\begin{column}{.5\textwidth}
+		\tableofcontents[sections={1-3}]
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\tableofcontents[sections={4-6}]
+	\end{column}
+\end{columns}
+\end{frame}
+
+% Section: Enkapsulasi
+\section{Enkapsulasi}
+
+\begin{frame}
+\frametitle{Enkapsulasi}
+\begin{itemize}
+	\item Enkapsulasi adalah salah satu prinsip dasar pemrograman berorientasi objek (OOP) yang bertujuan untuk menyembunyikan detail implementasi internal suatu kelas dan hanya menyediakan akses melalui metode yang telah ditentukan.
+	\item Membantu dalam mengatur kompleksitas dengan mengisolasi bagian-bagian dari kode dan membatasi akses langsung ke data sensitif.
+	\item Diimplementasikan dengan menggunakan modifikator akses seperti \texttt{private}, \texttt{protected}, dan \texttt{public}.
+\end{itemize}
+\end{frame}
+
+% Subsection: Modifikator Akses
+\subsection{Modifikator Akses}
+
+\begin{frame}
+\frametitle{Modifikator Akses dalam Java}
+\begin{itemize}
+	\item \textbf{Private:} Atribut atau metode yang dideklarasikan dengan \texttt{private} hanya dapat diakses dari dalam kelas itu sendiri. Melindungi data dari modifikasi langsung dari luar kelas.
+	\item \textbf{Protected:} Atribut atau metode yang dideklarasikan dengan \texttt{protected} dapat diakses oleh kelas yang berada dalam paket yang sama atau oleh subclass.
+	\item \textbf{Public:} Atribut atau metode yang dideklarasikan dengan \texttt{public} dapat diakses dari mana saja, baik dari dalam kelas, kelas lain dalam paket yang sama, maupun kelas yang berada di luar paket.
+\end{itemize}
+\end{frame}
+
+% Section: Dokumentasi
+\section{Dokumentasi}
+
+\begin{frame}
+\frametitle{Dokumentasi}
+\begin{itemize}
+	\item Dokumentasi adalah bagian penting dari pemrograman yang membantu pengembang memahami kode dan cara menggunakannya.
+	\item Di Java, dokumentasi biasanya dibuat menggunakan komentar dalam kode.
+\end{itemize}
+\end{frame}
+
+% Subsection: Jenis-Jenis Komentar
+\subsection{Jenis-Jenis Komentar}
+
+\begin{frame}
+\frametitle{Jenis-Jenis Komentar dalam Java}
+\begin{itemize}
+	\item \textbf{Komentar Baris Tunggal:} Dimulai dengan \texttt{//}, digunakan untuk menjelaskan bagian-bagian kecil dari kode.
+	\item \textbf{Komentar Blok:} Dimulai dengan \texttt{/*} dan diakhiri dengan \texttt{*/}, digunakan untuk menjelaskan bagian kode yang lebih besar atau memberikan informasi tambahan yang lebih mendetail.
+	\item \textbf{Komentar Dokumentasi:} Dimulai dengan \texttt{/**} dan diakhiri dengan \texttt{*/}, digunakan untuk menghasilkan dokumentasi otomatis menggunakan alat seperti Javadoc.
+\end{itemize}
+\end{frame}
+
+% Section: Contoh Kasus
+\section{Contoh Kasus}
+
+\begin{frame}
+\frametitle{Contoh Kasus}
+Konsep enkapsulasi dan dokumentasi akan dibahas menggunakan kode contoh dari kelas \texttt{BankAccount} dan \texttt{BetterBankAccount}.
+\end{frame}
+
+% Subsection: Kode Kelas BankAccount.java
+\subsection{Kode Kelas BankAccount.java}
+
+% Slide 1
+\begin{frame}[fragile]
+\frametitle{BankAccount.java (Bagian 1)}
+\textbf{Bagian 1:} Deklarasi kelas \texttt{BankAccount} ditampilkan, termasuk atribut \texttt{accountNumber} dan \texttt{balance} yang dienkapsulasi dengan akses \texttt{private}. Konstruktor kelas digunakan untuk menginisialisasi nomor rekening.
+\begin{lstlisting}[style=JavaStyle]
+	package com.bank;
+	
+	public class BankAccount {
+		
+		private String accountNumber;
+		private double balance;
+		
+		public BankAccount(String accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+	\end{lstlisting}
+\end{frame}
+
+% Slide 2
+\begin{frame}[fragile]
+	\frametitle{BankAccount.java (Bagian 2)}
+	\textbf{Bagian 2:} Metode \texttt{getAccountNumber()} dan \texttt{getBalance()} ditampilkan. Metode-metode ini berfungsi untuk mengambil nilai atribut yang dienkapsulasi.
+	\begin{lstlisting}[style=JavaStyle]
+		public String getAccountNumber() {
+			return this.accountNumber;
+		}
+		
+		public double getBalance() {
+			return this.balance;
+		}
+	\end{lstlisting}
+\end{frame}
+
+% Slide 3
+\begin{frame}[fragile]
+	\frametitle{BankAccount.java (Bagian 3)}
+	\textbf{Bagian 3:} Metode \texttt{save()} dan \texttt{withdraw()} digunakan untuk menambah atau mengurangi saldo akun. Metode ini mengendalikan akses dan modifikasi langsung terhadap saldo melalui enkapsulasi.
+	\begin{lstlisting}[style=JavaStyle]
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+		
+		public void withdraw(double amount) {
+			this.balance = this.balance - amount;
+		}
+		
+	}
+\end{lstlisting}
+\end{frame}
+
+% Subsection: Kode Kelas BetterBankAccount.java
+\subsection{Kode Kelas BetterBankAccount.java}
+
+% Slide 1
+\begin{frame}[fragile]
+\frametitle{BetterBankAccount.java (Bagian 1)}
+\begin{lstlisting}[style=JavaStyle]
+	package com.bank;
+	
+	/***
+	* A class that represents the bank account in the real world.
+	* @author Alice
+	*/
+	public class BetterBankAccount {
+		
+		private String accountNumber;
+		private double balance;
+	\end{lstlisting}
+	\textbf{Bagian 1:} Deklarasi kelas \texttt{BetterBankAccount} menunjukkan bagaimana kelas ini mewakili rekening bank di dunia nyata. Atribut \texttt{accountNumber} dan \texttt{balance} dienkapsulasi dengan akses \texttt{private}.
+\end{frame}
+
+% Slide 2
+\begin{frame}[fragile]
+	\frametitle{BetterBankAccount.java (Bagian 2)}
+	\begin{lstlisting}[style=JavaStyle]
+		/***
+		* 
+		* @param accountNumber the account number.
+		*/
+		public BetterBankAccount(String accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+	\end{lstlisting}
+	\textbf{Bagian 2:} Konstruktor \texttt{BetterBankAccount} digunakan untuk menginisialisasi nomor rekening ketika objek dari kelas dibuat.
+\end{frame}
+
+% Slide 3
+\begin{frame}[fragile]
+	\frametitle{BetterBankAccount.java (Bagian 3)}
+	\begin{lstlisting}[style=JavaStyle]
+		/***
+		* The method returns the number of the bank account in String.
+		* @return The account number.
+		*/
+		public String getAccountNumber() {
+			return this.accountNumber;
+		}
+		/***
+		* Get the balance of the bank account.
+		* @return The balance of the account.
+		*/
+		public double getBalance() {
+			return this.balance;
+		}
+	\end{lstlisting}
+	\textbf{Bagian 3:} Metode \texttt{getAccountNumber()} dan \texttt{getBalance()} menyediakan akses ke nomor rekening dan saldo akun.
+\end{frame}
+
+% Slide 4
+\begin{frame}[fragile]
+	\frametitle{BetterBankAccount.java (Bagian 4)}
+	\begin{lstlisting}[style=JavaStyle]
+		/***
+		* Add amount to the balance.  
+		* @param amount The amount to be saved.
+		*/
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+	\end{lstlisting}
+	\textbf{Bagian 4:} Metode \texttt{save()} digunakan untuk menambah saldo akun. Javadoc menjelaskan parameter yang digunakan.
+\end{frame}
+
+% Slide 5
+\begin{frame}[fragile]
+	\frametitle{BetterBankAccount.java (Bagian 5)}
+	\begin{lstlisting}[style=JavaStyle]
+		/***
+		* Withdraw amount from the balance.
+		* @param amount The amount to be withdrawn.
+		*/
+		public void withdraw(double amount) {
+			if (amount > 0) {
+				this.balance = this.balance - amount;
+			} else {
+				System.out.println("WARNING: Amount should be larger than zero!");
+			}
+		}
+	}
+\end{lstlisting}
+\textbf{Bagian 5:} Metode \texttt{withdraw()} digunakan untuk menarik saldo, dengan pengecekan agar jumlah yang ditarik lebih besar dari nol.
+\end{frame}
+
+
+
+\subsection{Kode Kelas Main.java}
+
+\begin{frame}[fragile]
+\frametitle{Main.java (Bagian 1)}
+\begin{lstlisting}[style=JavaStyle]
+	package com.creditservice;
+	
+	import com.bank.BetterBankAccount;
+	
+	/***
+	* The Main class to launch the program.
+	* 
+	* @author Bob
+	*/
+	public class Main {
+	\end{lstlisting}
+	\textbf{Bagian 1:} Kelas \texttt{Main} merupakan kelas utama yang digunakan untuk meluncurkan program. Dokumentasi Javadoc memberikan informasi mengenai kelas ini dan penulisnya.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Main.java (Bagian 2)}
+	\begin{lstlisting}[style=JavaStyle]
+		/***
+		* The main method to launch the program.
+		* 
+		* @param args Parameters for the main method.
+		*/
+		public static void main(String[] args) {
+			BetterBankAccount account1 = new BetterBankAccount("ABC123");
+			System.out.println("Account number: " + account1.getAccountNumber());
+			
+			System.out.println("Initial: " + account1.getBalance());
+		\end{lstlisting}
+		\textbf{Bagian 2:} Pada bagian ini, metode \texttt{main()} didefinisikan. Metode ini meluncurkan program dengan membuat instance dari \texttt{BetterBankAccount} dan menampilkan nomor akun serta saldo awal.
+	\end{frame}
+	
+	\begin{frame}[fragile]
+		\frametitle{Main.java (Bagian 3)}
+		\begin{lstlisting}[style=JavaStyle]
+			account1.save(100.0);
+			System.out.println("After Saving: " + account1.getBalance());
+			
+			account1.withdraw(-0.5);
+			System.out.println("After Withdrawal: " + account1.getBalance());
+		}
+		
+	}
+\end{lstlisting}
+\textbf{Bagian 3:} Bagian ini menunjukkan penggunaan metode \texttt{save()} dan \texttt{withdraw()} pada objek \texttt{account1}. Hasil setelah menyimpan dan menarik saldo ditampilkan, serta hasil dari penarikan yang tidak valid.
+\end{frame}
+
+\subsection{Penjelasan Kode}
+
+\subsection{Penjelasan Kode}
+
+\begin{frame}
+\frametitle{Penjelasan Kode}
+Program ini terdiri dari:
+\begin{itemize}
+	\item \textbf{Kelas BankAccount:}
+	\begin{itemize}
+		\item Menunjukkan enkapsulasi dengan atribut \texttt{private}.
+		\item Metode \texttt{save()} dan \texttt{withdraw()} mengubah saldo tanpa validasi.
+	\end{itemize}
+	\item \textbf{Kelas BetterBankAccount:}
+	\begin{itemize}
+		\item Memperbaiki \texttt{BankAccount} dengan validasi pada \texttt{withdraw()}.
+		\item Menambahkan dokumentasi Javadoc untuk menjelaskan fungsi dan parameter.
+	\end{itemize}
+	\item \textbf{Kelas Main:}
+	\begin{itemize}
+		\item Titik masuk program yang menggunakan \texttt{BetterBankAccount}.
+		\item Menampilkan informasi saldo dan hasil operasi ke konsol.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Enkapsulasi pada Kode}
+
+\begin{frame}
+\frametitle{Enkapsulasi pada Kode}
+Enkapsulasi dicapai dengan:
+\begin{itemize}
+	\item Atribut \texttt{private} di \texttt{BankAccount} dan \texttt{BetterBankAccount}.
+	\item Melindungi data dan menghindari akses langsung.
+	\item Memastikan perubahan hanya melalui metode yang dikendalikan.
+\end{itemize}
+\end{frame}
+
+
+\subsection{Dokumentasi pada Kode}
+
+\begin{frame}
+\frametitle{Dokumentasi pada Kode}
+Dokumentasi dalam kode ini menggunakan komentar dokumentasi dengan format \texttt{/*** ... */}.
+\begin{itemize}
+	\item Menjelaskan tujuan kelas dan metode.
+	\item Mencakup parameter dan nilai kembaliannya.
+	\item Memberikan panduan tentang cara menggunakan kelas.
+	\item Contoh: Komentar pada metode \texttt{withdraw()} di \texttt{BetterBankAccount} memberikan peringatan untuk jumlah yang tidak valid.
+\end{itemize}
+\end{frame}
+
+\section{Cara Menggenerate Javadoc}
+
+\subsection{Menggenerate Javadoc Menggunakan Eclipse}
+
+\begin{frame}
+\frametitle{Menggenerate Javadoc Menggunakan Eclipse}
+Eclipse menyediakan fitur untuk menghasilkan Javadoc:
+\begin{enumerate}
+	\item Buka proyek Java di Eclipse.
+	\item Klik kanan pada proyek di \textit{Package Explorer}, pilih \textit{Export}.
+	\item Pilih \textit{Javadoc} di bawah kategori \textit{Java} dan klik \textit{Next}.
+	\item Pilih proyek atau paket untuk disertakan dalam Javadoc.
+	\item Tentukan lokasi penyimpanan Javadoc.
+	\item Atur opsi Javadoc seperti visibilitas dan penyertaan \textit{source code}.
+	\item Klik \textit{Finish} untuk memulai proses.
+\end{enumerate}
+\end{frame}
+
+\subsection{Menggenerate Javadoc dari Command Line}
+
+\begin{frame}[fragile]
+\frametitle{Menggenerate Javadoc dari Command Line}
+Menghasilkan Javadoc dari command line:
+\begin{enumerate}
+	\item Pastikan berada di direktori proyek Java.
+	\item Gunakan perintah berikut:
+	\begin{lstlisting}[language=bash]
+		javadoc -d doc -sourcepath src -subpackages com.bank
+	\end{lstlisting}
+	\item Penjelasan perintah:
+	\begin{itemize}
+		\item \texttt{-d doc}: Direktori output untuk file HTML.
+		\item \texttt{-sourcepath src}: Lokasi kode sumber.
+		\item \texttt{-subpackages com.bank}: Memproses semua paket di bawah \texttt{com.bank}.
+	\end{itemize}
+	\item Javadoc akan dihasilkan di direktori \texttt{doc}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\centering
+\Huge Silahkan mengerjakan latihan-latihan di modul ...
+\end{frame}
+
+
+\end{document}
+

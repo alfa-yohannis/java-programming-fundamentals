@@ -14,7 +14,7 @@ public class Operator {
 		System.out.println("z = " + (--x));
 		
 		System.out.println("z = " + Math.pow(x, y));	
-		System.out.println("z = " + Math.ceil(4.99));	
+		System.out.println("z = " + Math.ceil(4.01));	
 			
 	}
 }

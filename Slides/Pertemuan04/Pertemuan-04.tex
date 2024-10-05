@@ -1,0 +1,531 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-04:\\\LARGE{Tipe-tipe Data pada Java\\}
+\vspace{10pt}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\lstdefinelanguage{bash} {
+keywords={},
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={iex},
+ndkeywordstyle=\color{purple}\bfseries,
+sensitive=true,
+commentstyle=\color{gray},
+stringstyle=\color{red},
+numbers=left,
+numberstyle=\tiny\color{gray},
+breaklines=true,
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+tabsize=2,
+comment=[l]{\#},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+stringstyle=\color{purple}\ttfamily,
+showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+\begin{column}{.5\textwidth}
+	\tableofcontents[sections={1-8}]
+\end{column}
+\begin{column}{.5\textwidth}
+	\tableofcontents[sections={9-20}]
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Tipe Data di Java}
+
+\begin{frame}[fragile]
+	\frametitle{Tipe Data di Java}
+	\begin{itemize}
+		\item Tipe data menentukan jenis nilai yang dapat disimpan dan operasi yang dapat dilakukan pada data tersebut.
+		\item Tipe data adalah kontrak antara programmer dan bahasa pemrograman yang menentukan bagaimana data harus diperlakukan.
+		\item Contoh: \texttt{int} menyimpan bilangan bulat, \texttt{double} menyimpan bilangan desimal.
+	\end{itemize}
+\end{frame}
+
+\subsection{Tipe Data Primitif}
+\begin{frame}[fragile]
+	\frametitle{Tipe Data Primitif}
+	Java menyediakan delapan tipe data primitif:
+	\begin{itemize}
+		\item \textbf{boolean}: Menyimpan \texttt{true} atau \texttt{false}.
+		\item \textbf{byte}: Menyimpan bilangan bulat 8-bit.
+		\item \textbf{short}: Menyimpan bilangan bulat 16-bit.
+		\item \textbf{int}: Menyimpan bilangan bulat 32-bit.
+		\item \textbf{long}: Menyimpan bilangan bulat 64-bit.
+		\item \textbf{float}: Menyimpan bilangan desimal 32-bit.
+		\item \textbf{double}: Menyimpan bilangan desimal 64-bit.
+		\item \textbf{char}: Menyimpan satu karakter dalam format Unicode 16-bit.
+	\end{itemize}
+\end{frame}
+
+\section{Operator Aritmatika di Java}
+
+\subsection{Jenis Operator Aritmatika}
+\begin{frame}[fragile]
+	\frametitle{Operator Aritmatika di Java}
+	Operator yang digunakan untuk operasi matematika dasar:
+	\begin{itemize}
+		\item \textbf{Penjumlahan (+)}: \texttt{a + b}
+		\item \textbf{Pengurangan (-)}: \texttt{a - b}
+		\item \textbf{Perkalian (*):} \texttt{a * b}
+		\item \textbf{Pembagian (/):} \texttt{a / b} (pembagian bilangan bulat menghasilkan bilangan bulat)
+		\item \textbf{Modulus (\%):} \texttt{a \% b} (sisa hasil bagi)
+	\end{itemize}
+\end{frame}
+
+\subsection{Contoh Operator Aritmatika}
+\begin{frame}[fragile]
+	\frametitle{Contoh Operator Aritmatika}
+	Berikut adalah beberapa contoh:
+	\begin{itemize}
+		\item Penjumlahan: \texttt{int hasil = 5 + 3;} // hasil adalah 8
+		\item Pengurangan: \texttt{int hasil = 10 - 4;} // hasil adalah 6
+		\item Perkalian: \texttt{int hasil = 7 * 2;} // hasil adalah 14
+		\item Pembagian: \texttt{int hasil = 8 / 2;} // hasil adalah 4
+		\item Modulus: \texttt{int hasil = 10 \% 3;} // hasil adalah 1
+	\end{itemize}
+\end{frame}
+
+\subsection{Prioritas Operator}
+\begin{frame}[fragile]
+	\frametitle{Prioritas Operator Aritmatika}
+	Java mengikuti aturan prioritas operator dalam ekspresi:
+	\begin{itemize}
+		\item \textbf{Prioritas Tinggi:} \texttt{*, /, \%}
+		\item \textbf{Prioritas Rendah:} \texttt{+, -}
+	\end{itemize}
+	Untuk memastikan urutan yang diinginkan, gunakan tanda kurung.
+\end{frame}
+
+\section{Increment dan Decrement}
+\begin{frame}[fragile]
+	\frametitle{Increment dan Decrement}
+	Digunakan untuk menambah atau mengurangi nilai variabel:
+	\begin{itemize}
+		\item \textbf{Increment (\texttt{++}):}
+		\begin{lstlisting}[style=JavaStyle]
+			int a = 5;
+			a++; // a sekarang bernilai 6
+		\end{lstlisting}
+		\item \textbf{Decrement (\texttt{--}):}
+		\begin{lstlisting}[style=JavaStyle]
+			int b = 10;
+			b--; // b sekarang bernilai 9
+		\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\section{Pangkat}
+\begin{frame}[fragile]
+	\frametitle{Pangkat di Java}
+	Java menggunakan \texttt{Math.pow()} untuk perhitungan pangkat:
+	\begin{itemize}
+		\item \texttt{Math.pow(base, exponent)}:
+		\begin{lstlisting}[style=JavaStyle]
+			double result = Math.pow(2, 3); // result adalah 8.0
+		\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\section{Pembulatan ke Atas}
+\begin{frame}[fragile]
+	\frametitle{Pembulatan ke Atas}
+	Pembulatan ke atas menggunakan \texttt{Math.ceil()}:
+	\begin{itemize}
+		\item \texttt{Math.ceil(number)}:
+		\begin{lstlisting}[style=JavaStyle]
+			double number = 4.3;
+			double rounded = Math.ceil(number); // rounded adalah 5.0
+		\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\section{Kelas Pembungkus (Wrapper Classes)}
+\begin{frame}[fragile]
+	\frametitle{Kelas Pembungkus (Wrapper Classes)}
+	Java menyediakan kelas pembungkus untuk tipe data primitif:
+	\begin{itemize}
+		\item \textbf{Boolean, Byte, Short, Integer, Long, Float, Double, Character}
+	\end{itemize}
+\end{frame}
+
+\section{Autoboxing dan Unboxing}
+\begin{frame}[fragile]
+	\frametitle{Autoboxing dan Unboxing}
+	\begin{itemize}
+		\item \textbf{Autoboxing:} Konversi otomatis tipe primitif ke objek.
+		\item \textbf{Unboxing:} Konversi otomatis objek ke tipe primitif.
+		\begin{lstlisting}[style=JavaStyle]
+			Integer r = 3;
+			int t = r; // Unboxing
+		\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\section{Tipe Data di Java}
+
+\subsection{Tipe Primitif}
+\begin{frame}[fragile]
+	\frametitle{Tipe Primitif}
+	Tipe primitif seperti \texttt{boolean}, \texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double}, dan \texttt{char} digunakan untuk menyimpan nilai-nilai dasar yang tidak memiliki metode atau atribut.
+\end{frame}
+
+\subsection{Kelas Pembungkus (Wrapper Classes)}
+\begin{frame}[fragile]
+	\frametitle{Kelas Pembungkus}
+	Java menyediakan kelas pembungkus seperti \texttt{Boolean}, \texttt{Byte}, \texttt{Short}, \texttt{Integer}, \texttt{Long}, \texttt{Float}, \texttt{Double}, dan \texttt{Character} yang memungkinkan nilai-nilai primitif untuk diperlakukan sebagai objek. Kelas pembungkus ini menyediakan metode yang berguna untuk operasi tambahan, seperti \texttt{compareTo} yang digunakan dalam kode.
+\end{frame}
+
+\subsection{Autoboxing dan Unboxing}
+\begin{frame}[fragile]
+	\frametitle{Autoboxing dan Unboxing}
+	\textit{Autoboxing} adalah proses otomatis di mana nilai tipe primitif secara otomatis dikonversi menjadi objek dari kelas pembungkusnya. Sebagai contoh, \texttt{Integer s = 3;} secara otomatis mengonversi nilai \texttt{int} 3 menjadi objek \texttt{Integer}. \textit{Unboxing} adalah proses kebalikannya, di mana objek kelas pembungkus dikonversi kembali menjadi nilai primitif, seperti pada \texttt{int t = s;}.
+\end{frame}
+
+\subsection{Keuntungan Menggunakan Kelas Pembungkus}
+\begin{frame}[fragile]
+	\frametitle{Keuntungan Kelas Pembungkus}
+	Kelas pembungkus memungkinkan kita untuk memperlakukan nilai primitif sebagai objek, yang bermanfaat dalam konteks seperti penyimpanan di koleksi objek (seperti array \texttt{Object[] boxedPrimitives}) dan pemanfaatan metode bawaan, misalnya \texttt{compareTo} yang membandingkan dua nilai \texttt{Integer}.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Contoh Penggunaan Kelas Pembungkus}
+	Dalam kode di atas, kita juga melihat bahwa kelas pembungkus memungkinkan penggunaan nilai primitif dalam konteks yang membutuhkan objek, seperti dalam array \texttt{boxedPrimitives}, di mana kita tidak bisa menyimpan tipe primitif langsung.
+\end{frame}
+
+\section{Menentukan Rentang Nilai Tipe Data Primitif di Java}
+
+\begin{frame}[fragile]
+\frametitle{Kode Menentukan Rentang Nilai}
+\vspace{15pt}
+\begin{lstlisting}[style=JavaStyle]
+package org.alfa.pertemuan04.datatypes;
+public class Range {
+	public static void main(String[] args) {
+		System.out.println(Byte.TYPE + " MIN: " + Byte.MIN_VALUE + ", MAX: " + Byte.MAX_VALUE);
+		System.out.println(Short.TYPE + " MIN: " + Short.MIN_VALUE + ", MAX: " + Short.MAX_VALUE);
+		System.out.println(Integer.TYPE + " MIN: " + Integer.MIN_VALUE + ", MAX: " + Integer.MAX_VALUE);
+		System.out.println(Long.TYPE + " MIN: " + Long.MIN_VALUE + ", MAX: " + Long.MAX_VALUE);
+		System.out.println(Float.TYPE + " MIN: " + Float.MIN_VALUE + ", MAX: \u00B1 " + Float.MAX_VALUE);
+		System.out.println(Double.TYPE + " MIN: " + Double.MIN_VALUE + ", MAX: \u00B1 " + Double.MAX_VALUE);
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Pembahasan Rentang Nilai Tipe Data}
+\begin{frame}[fragile]
+	\frametitle{Pembahasan Rentang Nilai Tipe Data}
+	Kode di atas bertujuan untuk menampilkan rentang nilai minimum dan maksimum yang dapat disimpan oleh tipe data primitif di Java. Setiap tipe data primitif memiliki ukuran bit yang berbeda, sehingga memiliki batasan nilai yang berbeda pula.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Rentang Nilai Tipe Data Primitif (Bagian 1)}
+	Berikut penjelasan dari hasil keluaran kode tersebut:
+	\begin{itemize}
+		\item \textbf{Byte}: Sebagai tipe data 8-bit, \texttt{byte} memiliki rentang nilai dari -128 hingga 127.
+		\item \textbf{Short}: Tipe data \texttt{short} menggunakan 16-bit dan memiliki rentang nilai dari -32,768 hingga 32,767.
+		\item \textbf{Integer}: Tipe data \texttt{int} menggunakan 32-bit, dengan rentang nilai dari -2,147,483,648 hingga 2,147,483,647.
+		\item \textbf{Long}: Tipe data \texttt{long} adalah 64-bit, dengan rentang nilai dari -9,223,372,036,854,775,808 hingga 9,223,372,036,854,775,807.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Rentang Nilai Tipe Data Primitif (Bagian 2)}
+	\begin{itemize}
+		\item \textbf{Float}: Tipe data \texttt{float} menggunakan 32-bit dan dapat menyimpan nilai desimal dengan rentang sekitar \texttt{3.4e-038} hingga \texttt{3.4e+038}. Perlu diperhatikan bahwa \texttt{Float.MAX\_VALUE} ditampilkan sebagai $\pm$ nilai maksimum, yang berarti dapat menyimpan nilai positif dan negatif dalam rentang tersebut.
+		\item \textbf{Double}: Tipe data \texttt{double} menggunakan 64-bit dan dapat menyimpan nilai desimal dengan rentang sekitar \texttt{1.7e-308} hingga \texttt{1.7e+308}, baik positif maupun negatif.
+	\end{itemize}
+\end{frame}
+
+
+\subsection{Kesimpulan Rentang Nilai}
+\begin{frame}[fragile]
+	\frametitle{Kesimpulan Rentang Nilai Tipe Data}
+	Dengan menampilkan rentang nilai ini, kita bisa memahami batasan dari setiap tipe data primitif di Java, yang penting untuk memastikan bahwa data yang disimpan tidak melebihi kapasitas yang diizinkan oleh tipe data tersebut.
+\end{frame}
+
+\section{Konversi Tipe Data dan Casting di Java}
+
+\subsection{Kode Konversi Tipe Data dan Casting}
+
+\begin{frame}[fragile]
+\vspace{15pt}
+\frametitle{Konversi Tipe Data dan Casting di Java (1)}
+\begin{lstlisting}[style=JavaStyle]
+package org.alfa.pertemuan04.datatypes;
+
+public class TypeConversion {
+	
+	public static void main(String[] args) {
+		
+		float c = 4.5f;
+		byte x = Byte.MIN_VALUE;
+		int a = Byte.MAX_VALUE + 3;
+		long b = 4;
+		double d = a + b + c;
+		
+		System.out.println("d = " + d);
+		System.out.println("d = " + String.valueOf(d));
+		System.out.println("d = " + (int) d);
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\vspace{15pt}
+	\frametitle{Konversi Tipe Data dan Casting di Java (2)}
+	\begin{lstlisting}[style=JavaStyle]
+		System.out.println("a = " + a);
+		System.out.println("a = " + (byte) a);
+		
+		int x = Integer.parseInt("31");
+		System.out.println(x);
+		String y = String.valueOf(x);
+		
+		int r = 49;
+		System.out.println(r);
+		char s = (char) 49; // s = '1'
+		System.out.println(s);
+		int t = (int) 'a';
+		System.out.println(t);
+		
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Pembahasan Konversi dan Casting}
+\begin{frame}
+	\frametitle{Pembahasan Konversi dan Casting (Bagian 1)}
+	Kode di atas mendemonstrasikan berbagai bentuk konversi tipe data dan casting di Java. Berikut adalah penjelasan dari beberapa bagian penting kode ini:
+	\begin{itemize}
+		\item \textbf{Implicit Conversion:} Konversi tipe data yang terjadi secara otomatis ketika tipe data yang lebih kecil dikonversi ke tipe data yang lebih besar. Contohnya, penjumlahan antara \texttt{int} (\texttt{a}), \texttt{long} (\texttt{b}), dan \texttt{float} (\texttt{c}) menghasilkan nilai \texttt{double} (\texttt{d}) tanpa perlu casting eksplisit.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Pembahasan Konversi dan Casting (Bagian 2)}
+	\begin{itemize}
+		\item \textbf{Explicit Conversion (Casting):} Pada beberapa kasus, konversi tipe data perlu dilakukan secara eksplisit untuk menghindari kehilangan data atau kesalahan kompilasi.
+		\begin{itemize}
+			\item \texttt{System.out.println("d = " + (int) d);} mengonversi nilai \texttt{double} menjadi \texttt{int}, yang akan membulatkan nilai desimal ke bawah.
+			\item \texttt{System.out.println("a = " + (byte) a);} mengonversi \texttt{int} \texttt{a} ke \texttt{byte}. Perlu diperhatikan bahwa karena rentang \texttt{byte} terbatas, hasil konversi dapat menyebabkan \textit{overflow} atau perubahan nilai.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Pembahasan Konversi dan Casting (Bagian 3)}
+	\begin{itemize}
+		\item \textbf{Parsing String ke Tipe Data Primitif:}
+		\begin{itemize}
+			\item \texttt{int x = Integer.parseInt("31");} mengonversi \texttt{String} \texttt{"31"} menjadi \texttt{int}.
+			\item \texttt{String y = String.valueOf(x);} mengonversi nilai \texttt{int} \texttt{x} kembali menjadi \texttt{String}.
+		\end{itemize}
+		
+		\item \textbf{Character to Integer Conversion:}
+		\begin{itemize}
+			\item \texttt{char s = (char) 49;} mengonversi nilai \texttt{int} 49 ke karakter \texttt{'1'} berdasarkan kode ASCII.
+			\item \texttt{int t = (int) 'a';} mengonversi karakter \texttt{'a'} menjadi nilai \texttt{int} 97 berdasarkan kode ASCII.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\section{Operasi pada String di Java}
+
+\subsection{Kode Operasi String}
+\begin{frame}[fragile]
+	\vspace{15pt}
+	\frametitle{Operasi pada String di Java}
+	\begin{lstlisting}[style=JavaStyle]
+		package org.alfa.pertemuan04.datatypes;
+		
+		public class StringOperation {
+			
+			public static void main(String[] args) {
+				
+				String a = "Balonku ada seribu";
+				System.out.println(a.substring(0, 3));
+				System.out.println(a.toUpperCase());
+				System.out.println(a.replace("a", "o"));
+				System.out.println(a.contains("ada"));
+				System.out.println(a.concat(" lima ratus"));
+				
+			}
+		}
+	\end{lstlisting}
+\end{frame}
+
+\subsection{Pembahasan Operasi String}
+\begin{frame}
+	\frametitle{Pembahasan Operasi String (Bagian 1)}
+	Kode di atas menunjukkan berbagai operasi umum yang dapat dilakukan pada objek \texttt{String} di Java. Berikut adalah penjelasan dari setiap operasi yang dilakukan pada string \texttt{a}:
+	\begin{itemize}
+		\item \textbf{\texttt{substring(int beginIndex, int endIndex)}:} 
+		\begin{itemize}
+			\item Baris \texttt{System.out.println(a.substring(0, 3));} akan mengambil substring dari karakter ke-0 hingga ke-2 (indeks ke-3 tidak termasuk). Hasilnya adalah \texttt{"Bal"}.
+		\end{itemize}
+		
+		\item \textbf{\texttt{toUpperCase()}:}
+		\begin{itemize}
+			\item Baris \texttt{System.out.println(a.toUpperCase());} akan mengubah semua karakter dalam string \texttt{a} menjadi huruf besar, menghasilkan \texttt{"BALONKU ADA SERIBU"}.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Pembahasan Operasi String (Bagian 2)}
+	\begin{itemize}
+		\item \textbf{\texttt{replace(CharSequence target, CharSequence replacement)}:}
+		\begin{itemize}
+			\item Baris \texttt{System.out.println(a.replace("a", "o"));} akan mengganti setiap kemunculan karakter \texttt{'a'} dalam string \texttt{a} dengan karakter \texttt{'o'}, menghasilkan \texttt{"Bolonku odo seribu"}.
+		\end{itemize}
+		
+		\item \textbf{\texttt{contains(CharSequence s)}:}
+		\begin{itemize}
+			\item Baris \texttt{System.out.println(a.contains("ada"));} akan memeriksa apakah string \texttt{a} mengandung substring \texttt{"ada"}. Hasilnya adalah \texttt{true}.
+		\end{itemize}
+		
+		\item \textbf{\texttt{concat(String str)}:}
+		\begin{itemize}
+			\item Baris \texttt{System.out.println(a.concat(" lima ratus"));} akan menambahkan string \texttt{" lima ratus"} di akhir string \texttt{a}, menghasilkan \texttt{"Balonku ada seribu lima ratus"}.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\section{Operator Aritmatika di Java}
+
+\begin{frame}{Operator Aritmatika di Java}
+	\textbf{Operator Aritmatika} adalah simbol yang digunakan untuk melakukan operasi matematika pada variabel dan nilai. Di Java, kita dapat menggunakan berbagai operator aritmatika seperti penjumlahan, pengurangan, perkalian, pembagian, dan modulus.
+\end{frame}
+
+\begin{frame}[fragile]{Kode Java untuk Operator Aritmatika}
+	\vspace{15pt}
+\begin{lstlisting}[style=JavaStyle]
+public class Operator {
+	public static void main(String[] args) {
+		double x = 9;
+		double y = 2;
+		System.out.println("z = " + (x + y));
+		System.out.println("z = " + (x / y));
+		System.out.println("z = " + (x * y));
+		System.out.println("z = " + (x % y));
+		System.out.println("z = " + (x - y));
+		System.out.println("z = " + (++x));
+		System.out.println("z = " + (--x));
+		System.out.println("z = " + Math.pow(x, y));    
+		System.out.println("z = " + Math.ceil(4.99));    
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Penjumlahan (\texttt{+}) dan Pengurangan (\texttt{-})}
+	Operasi \texttt{+} digunakan untuk menjumlahkan dua angka.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x + y));} akan menjumlahkan \texttt{x} dengan \texttt{y}.
+		\item Hasilnya: \texttt{9 + 2 = 11}.
+	\end{itemize}
+		Operasi \texttt{-} digunakan untuk mengurangi dua angka.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x - y));} akan mengurangi \texttt{x} dengan \texttt{y}.
+		\item Hasilnya: \texttt{9 - 2 = 7}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Perkalian (\texttt{*}), Pembagian (\texttt{/}), Modulo (\texttt{\%})}
+\vspace{15pt}
+		Operasi \texttt{*} digunakan untuk mengalikan dua angka.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x * y));} akan mengalikan \texttt{x} dengan \texttt{y}.
+		\item Hasilnya: \texttt{9 * 2 = 18}.
+	\end{itemize}
+	Operasi \texttt{/} digunakan untuk membagi dua angka.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x / y));} akan membagi \texttt{x} dengan \texttt{y}.
+		\item Hasilnya: \texttt{9 / 2 = 4.5}.
+	\end{itemize}
+		Operasi \texttt{\%} digunakan untuk mencari sisa hasil pembagian.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (x \% y));} akan mencari sisa pembagian \texttt{x} oleh \texttt{y}.
+		\item Hasilnya: \texttt{9 \% 2 = 1}.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Increment (\texttt{++}) and Decrement (\texttt{--})}
+	Operasi \texttt{++} digunakan untuk menambah nilai variabel sebesar 1.
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + (++x));} akan menambah nilai \texttt{x} sebesar 1.
+		\item Hasilnya: \texttt{x} menjadi \texttt{10}.
+	\end{itemize}
+	Operasi \texttt{--} digunakan untuk mengurangi nilai variabel sebesar 1.
+\begin{itemize}
+	\item \texttt{System.out.println("z = " + (--x));} akan mengurangi nilai \texttt{x} sebesar 1.
+	\item Hasilnya: \texttt{x} kembali menjadi \texttt{9}.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Metode \texttt{Math.pow} dan \texttt{Math.ceil}}
+	\begin{itemize}
+		\item \texttt{System.out.println("z = " + Math.pow(x, y));} menghitung \texttt{x} pangkat \texttt{y}.
+		\item Hasilnya: \texttt{9} pangkat \texttt{2} adalah \texttt{81}.
+		\item \texttt{System.out.println("z = " + Math.ceil(4.99));} membulatkan angka ke atas.
+		\item Hasilnya: \texttt{4.99} dibulatkan menjadi \texttt{5}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\centering
+	\Huge Silahkan mengerjakan latihan-latihan di modul ...
+\end{frame}
+
+\end{document}
+

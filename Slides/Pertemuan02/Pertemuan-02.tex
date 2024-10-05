@@ -33,6 +33,28 @@ morestring=[s]{"}{"},
 %	showstringspaces=false
 }
 
+\lstdefinelanguage{bash} {
+	keywords={},
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={iex},
+	ndkeywordstyle=\color{purple}\bfseries,
+	sensitive=true,
+	commentstyle=\color{gray},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	breaklines=true,
+	frame=lines,
+	backgroundcolor=\color{lightgray!10},
+	tabsize=2,
+	comment=[l]{\#},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{gray}\ttfamily,
+	stringstyle=\color{purple}\ttfamily,
+	showstringspaces=false
+}
+
 \begin{document}
 
 \frame{\titlepage}
@@ -79,14 +101,36 @@ public static void main(String[] args) {
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{Atribut dan Variabel}
+	\textbf{Atribut} adalah variabel yang didefinisikan di dalam sebuah kelas dan digunakan untuk merepresentasikan properti atau karakteristik dari sebuah objek. Sementara itu, \textbf{variabel} digunakan untuk menyimpan data dan biasanya dideklarasikan di dalam metode atau blok kode. Perbedaan utama antara atribut dan variabel adalah pada cakupan dan tujuannya:
+	\begin{itemize}
+		\item \textbf{Atribut} terikat pada keadaan objek dan merupakan bagian dari kelas atau instansinya.
+		\item \textbf{Variabel} biasanya digunakan untuk penyimpanan sementara dan perhitungan di dalam metode atau blok kode.
+	\end{itemize}
+\end{frame}
+
+\subsection{Deklarasi Atribut}
+\begin{frame}[fragile]{Deklarasi Atribut}
+	Atribut dideklarasikan di dalam kelas untuk merepresentasikan karakteristik dari objek. Berikut adalah contoh deklarasi atribut dalam sebuah kelas:
+	
+	\begin{lstlisting}[style=JavaStyle]
+		class Person {
+			String name;
+			int age;
+		}
+	\end{lstlisting}
+	Pada contoh ini, \texttt{name} dan \texttt{age} adalah atribut dari kelas \texttt{Person}.
+\end{frame}
+
 \subsection{Deklarasi Variabel}
 \begin{frame}[fragile]{Deklarasi Variabel}
-Variabel digunakan untuk menyimpan data. Variabel harus dideklarasikan dengan tipe data sebelum digunakan. Berikut adalah contoh deklarasi variabel:
-
-\begin{lstlisting}[style=JavaStyle]
-int age = 30;
-String name = "John";
-\end{lstlisting}
+	Variabel digunakan untuk menyimpan data. Variabel harus dideklarasikan dengan tipe data sebelum digunakan. Berikut adalah contoh deklarasi variabel:
+	
+	\begin{lstlisting}[style=JavaStyle]
+		int age = 30;
+		String name = "John";
+	\end{lstlisting}
+	Pada contoh ini, \texttt{age} dan \texttt{name} adalah variabel yang menyimpan data secara lokal di dalam metode atau blok kode.
 \end{frame}
 
 \subsection{Metode (Methods)}
