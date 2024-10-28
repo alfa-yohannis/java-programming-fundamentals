@@ -6,6 +6,13 @@
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+\renewcommand{\contentsname}{Daftar Isi}
+\renewcommand{\chaptername}{Bab}
 
 % Define Java language style for listings
 \lstdefinestyle{JavaStyle}{
@@ -20,14 +27,17 @@
 	captionpos=b,
 	numbers=left,
 	numberstyle=\tiny\color{gray},
+	frame=lines,
+	backgroundcolor=\color{lightgray!10},
 	comment=[l]{//},
 	morecomment=[s]{/*}{*/},
 	commentstyle=\color{gray}\ttfamily,
 	string=[s]{'}{'},
 	morestring=[s]{"}{"},
-%	stringstyle=\color{teal}\ttfamily,
-%	showstringspaces=false
+	%	stringstyle=\color{teal}\ttfamily,
+	%	showstringspaces=false
 }
+
 
 \begin{document}
 		

@@ -12,7 +12,9 @@ public class NumericQuestion extends Question {
 
 	@Override
 	public boolean checkSubmittedAnswer(Object submittedAnswer) {
-		return (double) this.getCorrectAnswer() == Double.valueOf(submittedAnswer.toString());
+		double expectedValue = Double.valueOf(this.getCorrectAnswer().toString());
+		double submittedValue = Double.valueOf(submittedAnswer.toString()); 
+		return  expectedValue == submittedValue;
 	}
 
 }

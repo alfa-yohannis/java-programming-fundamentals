@@ -1,0 +1,259 @@
+\documentclass[aspectratio=169, table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} 
+
+\usetheme{Pradita}
+
+\subtitle{IF120203-Programming Fundamentals}
+
+\title{Session-06:\\\LARGE{Perulangan pada Java\\}
+\vspace{10pt}}
+\date[Serial]{\scriptsize {PRU/SPMI/FR-BM-18/0222}}
+\author[Pradita]{\small{\textbf{Alfa Yohannis}}}
+
+
+% Define Java language style for listings
+\lstdefinestyle{JavaStyle}{
+language=Java,
+basicstyle=\ttfamily\footnotesize,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+showstringspaces=false,
+tabsize=2,
+captionpos=b,
+numbers=left,
+numberstyle=\tiny\color{gray},
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+string=[s]{'}{'},
+morestring=[s]{"}{"},
+%	stringstyle=\color{teal}\ttfamily,
+%	showstringspaces=false
+}
+
+\lstdefinelanguage{bash} {
+keywords={},
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={iex},
+ndkeywordstyle=\color{purple}\bfseries,
+sensitive=true,
+commentstyle=\color{gray},
+stringstyle=\color{red},
+numbers=left,
+numberstyle=\tiny\color{gray},
+breaklines=true,
+frame=lines,
+backgroundcolor=\color{lightgray!10},
+tabsize=2,
+comment=[l]{\#},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{gray}\ttfamily,
+stringstyle=\color{purple}\ttfamily,
+showstringspaces=false
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Add table of contents slide
+\begin{frame}[fragile]{Contents}
+\vspace{15pt}
+\begin{columns}[t]
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={1-8}]
+\end{column}
+\begin{column}{.5\textwidth}
+\tableofcontents[sections={9-20}]
+\end{column}
+\end{columns}
+\end{frame}
+
+	\section{Looping di Java}
+	\begin{frame}
+		\frametitle{Looping di Java}
+		Looping adalah salah satu konsep dasar dalam pemrograman yang memungkinkan eksekusi sebuah blok kode berulang kali, selama kondisi tertentu terpenuhi. Di Java, terdapat beberapa jenis loop yang sering digunakan, yaitu:
+	\end{frame}
+	
+	\subsection{Loop \texttt{for}}
+	\begin{frame}[fragile]
+		\frametitle{Loop \texttt{for}}
+		Loop \texttt{for} digunakan ketika jumlah iterasi sudah diketahui sebelumnya. Loop ini memiliki tiga bagian utama: inisialisasi, kondisi, dan iterasi. Sintaks dasar dari \texttt{for} loop adalah sebagai berikut:
+		\begin{lstlisting}[style=JavaStyle]
+			for (initialization; condition; iteration) {
+				// block of code to be executed
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Loop \texttt{while}}
+	\begin{frame}[fragile]
+		\frametitle{Loop \texttt{while}}
+		Loop \texttt{while} digunakan ketika jumlah iterasi tidak diketahui dan bergantung pada kondisi yang diberikan. Loop ini akan terus berjalan selama kondisi yang diberikan bernilai \texttt{true}. Berikut adalah sintaks dasar dari \texttt{while} loop:
+		\begin{lstlisting}[style=JavaStyle]
+			while (condition) {
+				// block of code to be executed
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Loop \texttt{do-while}}
+	\begin{frame}[fragile]
+		\frametitle{Loop \texttt{do-while}}
+		Loop \texttt{do-while} mirip dengan loop \texttt{while}, namun perbedaannya adalah loop ini akan mengeksekusi blok kode terlebih dahulu, sebelum memeriksa kondisi. Berikut adalah sintaks dasar dari \texttt{do-while} loop:
+		\begin{lstlisting}[style=JavaStyle]
+			do {
+				// block of code to be executed
+			} while (condition);
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Loop \texttt{for-each}}
+	\begin{frame}[fragile]
+		\frametitle{Loop \texttt{for-each}}
+		Loop \texttt{for-each} digunakan untuk iterasi melalui elemen-elemen dalam koleksi atau array. Berikut adalah sintaks dasar dari \texttt{for-each} loop:
+		\begin{lstlisting}[style=JavaStyle]
+			for (type element : collection) {
+				// block of code to be executed
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Contoh Penggunaan Looping}
+	\begin{frame}[fragile]
+		\frametitle{Contoh Penggunaan Looping}
+		Berikut adalah contoh sederhana yang menggunakan berbagai jenis loop di atas untuk menampilkan tabel perkalian:
+		\begin{lstlisting}[style=JavaStyle]
+			for (int i = 1; i <= 3; i++) {
+				for (int j = 1; j <= 3; j++) {
+					System.out.print(i + "x" + j + "=" + (i * j) + " ");
+				}
+				System.out.println();
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\section{Looping pada Tipe Data Primitif di Java}
+	\begin{frame}
+		\frametitle{Looping pada Tipe Data Primitif di Java}
+		Kelas \texttt{PrimitiveLoop} dalam kode berikut ini menampilkan penggunaan berbagai jenis looping untuk melakukan perhitungan perkalian sederhana. Program ini mengilustrasikan penggunaan loop \texttt{while}, \texttt{do-while}, \texttt{for}, dan \texttt{for-in}.
+	\end{frame}
+	
+	\subsection{Kode Java}
+	\begin{frame}[fragile]
+		\frametitle{Kode Java}
+		\begin{lstlisting}[style=JavaStyle]
+			package org.alfa.pertemuan07.looping;
+			
+			public class PrimitiveLoop {
+				public static void main(String[] args) {
+					executeWhileLoop(2, 1, 10);
+					System.out.println();
+					executeDoWhile(3, 1, 10);
+					System.out.println();
+					executeForLoop(4, 1, 10);
+					System.out.println();
+					executeForIn(5, new int[] { 1, 2, 3, 4, 100, 6, 7, 8, 9, 10 });
+				}
+				
+				public static void executeWhileLoop(int value, int from, int to) {
+					while (from <= to) {
+						System.out.println(value + " * " + from + " = " + (value * from));
+						from++;
+					}
+				}
+				
+				public static void executeDoWhile(int value, int from, int to) {
+					do {
+						System.out.println(value + " * " + from + " = " + (value * from));
+						from++;
+					} while (from <= to);
+				}
+				
+				public static void executeForLoop(int value, int from, int to) {
+					for (int f = from ; f <= to ; f++) {
+						System.out.println(value + " * " + f + " = " + (value * f));
+					}
+				}
+				
+				public static void executeForIn(int value, int[] array) {
+					for (int element : array) {
+						System.out.println(value + " * " + element + " = " + (value * element));
+					}
+				}
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Pembahasan}
+	\begin{frame}
+		\frametitle{Pembahasan}
+		Kelas ini menunjukkan bagaimana looping digunakan untuk menghitung hasil perkalian dari sebuah nilai dengan serangkaian angka. Berikut adalah penjelasan masing-masing metode:
+		\begin{itemize}
+			\item \textbf{Loop \texttt{while} (Metode \texttt{executeWhileLoop}):} 
+			Metode ini menggunakan loop \texttt{while} untuk melakukan iterasi dari nilai awal \texttt{from} hingga nilai akhir \texttt{to}.
+			
+			\item \textbf{Loop \texttt{do-while} (Metode \texttt{executeDoWhile}):} 
+			Metode ini mirip dengan loop \texttt{while}, tetapi dalam loop \texttt{do-while}, blok kode dieksekusi setidaknya sekali.
+			
+			\item \textbf{Loop \texttt{for} (Metode \texttt{executeForLoop}):} 
+			Metode ini menggunakan loop \texttt{for} untuk iterasi dari \texttt{from} hingga \texttt{to}.
+			
+			\item \textbf{Loop \texttt{for-in} (Metode \texttt{executeForIn}):} 
+			Metode ini menggunakan loop \texttt{for-in} untuk iterasi melalui elemen-elemen dalam array.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Nested Loop dengan \texttt{while} di Java}
+	\begin{frame}
+		\frametitle{Nested Loop dengan \texttt{while} di Java}
+		Kelas \texttt{Latihan} dalam kode berikut ini menampilkan penggunaan nested loop (loop bersarang) untuk mencetak pola angka secara menurun.
+	\end{frame}
+	
+	\subsection{Kode Java}
+	\begin{frame}[fragile]
+		\frametitle{Kode Java}
+		\begin{lstlisting}[style=JavaStyle]
+			package org.alfa.pertemuan07.looping;
+			
+			public class Latihan {
+				public static void main (String[] args) {
+					int start = 5;
+					int end = 1;
+					int i = start;
+					while (i >= end) {
+						int j = i;
+						while (j >= end) {
+							System.out.print(j);
+							j--;
+						}
+						System.out.println();
+						i--;
+					}
+				}
+			}
+		\end{lstlisting}
+	\end{frame}
+	
+	\subsection{Pembahasan}
+	\begin{frame}
+		\frametitle{Pembahasan}
+		Program ini menggunakan nested loop untuk mencetak angka secara menurun dalam bentuk pola piramida terbalik. Berikut adalah penjelasan setiap bagian dari kode:
+		\begin{itemize}
+			\item \textbf{Deklarasi Variabel:} Program dimulai dengan mendeklarasikan dua variabel, \texttt{start} dan \texttt{end}.
+			\item \textbf{Loop \texttt{while} Luar:} Loop \texttt{while} pertama mengontrol jumlah baris yang dicetak.
+			\item \textbf{Loop \texttt{while} Dalam:} Loop ini mencetak angka-angka pada setiap baris.
+			\item \textbf{Mencetak Baris Baru:} Setelah loop dalam selesai, \texttt{System.out.println()} dipanggil.
+			\item \textbf{Dekrementasi \texttt{i}:} Setelah mencetak seluruh angka, nilai \texttt{i} dikurangi satu.
+		\end{itemize}
+	\end{frame}
+
+
+	
+\end{document}
