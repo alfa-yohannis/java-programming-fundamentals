@@ -1,0 +1,1191 @@
+\chapter{Database Application dengan Java}
+
+\section{Database, CRUD, dan State Management}
+
+\subsection{Database Connection and Operations}
+
+Koneksi database dan operasi SQL memungkinkan aplikasi untuk berinteraksi dengan basis data MySQL. Dalam kode ini, beberapa kelas dan metode Java digunakan untuk menghubungkan aplikasi dengan database dan melakukan operasi seperti memasukkan, memperbarui, atau mengambil data.
+
+\begin{itemize}
+	\item \texttt{Connection}: Kelas yang digunakan untuk membuat koneksi ke database MySQL. Koneksi ini mengizinkan aplikasi untuk berinteraksi dengan database secara langsung.
+	\begin{lstlisting}[style=JavaStyle]
+		Connection conn = DriverManager.getConnection(dbURL, username, password);
+	\end{lstlisting}
+	
+	\item \texttt{PreparedStatement}: Kelas yang digunakan untuk mengeksekusi pernyataan SQL dengan aman. Dengan menggunakan placeholder \texttt{?}, kelas ini memungkinkan parameterisasi yang membantu mencegah injeksi SQL.
+	\begin{lstlisting}[style=JavaStyle]
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO orders (name, quantity) VALUES (?, ?)");
+		ps.setString(1, "Produk A");
+		ps.setInt(2, 5);
+	\end{lstlisting}
+	
+	\item \texttt{ResultSet}: Objek yang berfungsi untuk menampung hasil dari perintah SQL \texttt{SELECT} dan memungkinkan pengambilan data baris demi baris.
+	\begin{lstlisting}[style=JavaStyle]
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			String name = rs.getString("name");
+			int quantity = rs.getInt("quantity");
+		}
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Updating Table Data}
+
+Penggunaan \texttt{JTable} memungkinkan aplikasi untuk menampilkan data dalam format tabel dan mendukung pengeditan langsung. Dalam kode ini, setiap perubahan pada kuantitas produk akan menghitung ulang total harga untuk setiap baris di tabel secara dinamis.
+
+\begin{itemize}
+	\item \texttt{JTable}: Komponen Swing yang digunakan untuk menampilkan data dalam bentuk tabel. Di sini, \texttt{JTable} menampilkan daftar produk dan kolom kuantitas yang dapat diedit.
+	\begin{lstlisting}[style=JavaStyle]
+		JTable table = new JTable();
+	\end{lstlisting}
+	
+	\item \texttt{PropertyChangeListener}: Antarmuka yang mendeteksi perubahan pada komponen \texttt{JTable}. Dalam kasus ini, perubahan pada kolom \texttt{Quantity} akan memicu perhitungan ulang total setiap baris.
+	\begin{lstlisting}[style=JavaStyle]
+		table.addPropertyChangeListener(evt -> {
+			// Logika untuk memperbarui total
+		});
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{State Management}
+
+Manajemen state mengatur mode aplikasi, seperti "Add Mode" untuk menambahkan entri baru atau "Edit Mode" untuk mengubah entri yang ada. Variabel \texttt{isAddMode} dan metode bantu mengaktifkan atau menonaktifkan elemen-elemen yang sesuai dalam GUI.
+
+\begin{itemize}
+	\item \texttt{isAddMode}: Variabel boolean yang menyimpan status aplikasi saat ini, apakah sedang dalam mode penambahan data baru atau tidak.
+	\begin{lstlisting}[style=JavaStyle]
+		boolean isAddMode = true;
+	\end{lstlisting}
+	
+	\item \texttt{enableDisableElements}: Metode ini mengaktifkan atau menonaktifkan elemen-elemen UI tergantung pada status \texttt{isAddMode}. Hal ini mencegah pengguna mengakses fitur tertentu saat menambahkan data baru.
+	\begin{lstlisting}[style=JavaStyle]
+		void enableDisableElements(boolean enable) {
+			btnSave.setEnabled(enable);
+			txtName.setEditable(enable);
+		}
+	\end{lstlisting}
+\end{itemize}
+
+
+\section{Contoh Kode}
+
+Studi kasus yang digunakan sama dengan studi kasus pada pertemuan 12
+
+\subsection{Kode SQL (pradita.sql)}
+
+\begin{lstlisting}[style=JavaStyle]
+	use pradita;
+	
+	delete from order_detail where code <> '';
+	delete from `order` where code <> '';
+	delete from item where code <> '';
+	
+	insert into item(code, name, quantity, price) values('IM001', 'Indomie Goreng', 30, 4100);
+	insert into item(code, name, quantity, price) values('IM002', 'Indomie Kuah', 20, 4000);
+	
+	insert into `order`(code, note) values('10001', 'Penjualan Pertama');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10001', 1, 'IM001', 'Indomie Goreng', 1, 4100);
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10001', 2, 'IM002', 'Indomie Kuah', 2, 4000);
+	
+	insert into `order`(code, note) values('10002', 'Penjualan Kedua');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10002', 1, 'IM001', 'Indomie Goreng', 2, 4100);
+	
+	insert into `order`(code, note) values('10003', 'Penjualan Ketiga');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10003', 1, 'IM002', 'Indomie Kuah', 4, 4000);
+	
+	select t1.code, t1.date, t1.note, t2.line, t2.itemcode, t2.name, t2.quantity, t2.price, 
+	(t2.quantity * t2.price) linetotal
+	from `order` t1, order_detail t2 where t1.code = t2.code;
+\end{lstlisting}
+
+\subsubsection{Operasi SQL pada Basis Data}
+
+Kode berikut digunakan untuk mengelola data pada tabel \texttt{order}, \texttt{order\_detail}, dan \texttt{item} di basis data \texttt{pradita}. Berikut adalah penjelasan setiap bagian dari kode SQL:
+
+\begin{itemize}
+	\item \texttt{USE pradita;} \\ 
+	Baris ini menetapkan basis data yang akan digunakan, yaitu \texttt{pradita}.
+	
+	\item \texttt{DELETE} \\ 
+	Digunakan untuk menghapus data pada tabel \texttt{order\_detail}, \texttt{order}, dan \texttt{item} di mana kolom \texttt{code} tidak kosong. Hal ini membersihkan data yang mungkin ada sebelumnya.
+	\begin{lstlisting}[style=JavaStyle]
+		delete from order_detail where code <> '';
+		delete from `order` where code <> '';
+		delete from item where code <> '';
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO item} \\ 
+	Menambahkan data baru ke dalam tabel \texttt{item}. Setiap baris menyimpan informasi produk, termasuk kode, nama, jumlah, dan harga.
+	\begin{lstlisting}[style=JavaStyle]
+		insert into item(code, name, quantity, price) values('IM001', 'Indomie Goreng', 30, 4100);
+		insert into item(code, name, quantity, price) values('IM002', 'Indomie Kuah', 20, 4000);
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO order} \\ 
+	Menambahkan data penjualan ke dalam tabel \texttt{order}, dengan kolom \texttt{code} sebagai identifikasi penjualan dan \texttt{note} sebagai catatan.
+	\begin{lstlisting}[style=JavaStyle]
+		insert into `order`(code, note) values('10001', 'Penjualan Pertama');
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO order\_detail} \\ 
+	Menambahkan rincian penjualan ke tabel \texttt{order\_detail}. Kolom \texttt{code} menghubungkan setiap detail dengan tabel \texttt{order}, dan setiap baris mencakup kode item, nama, jumlah, dan harga.
+	\begin{lstlisting}[style=JavaStyle]
+		insert into order_detail(code, line, itemcode, name, quantity, price) 
+		values('10001', 1, 'IM001', 'Indomie Goreng', 1, 4100);
+	\end{lstlisting}
+	
+	\item \texttt{SELECT} \\ 
+	Mengambil data dari tabel \texttt{order} dan \texttt{order\_detail}. Kode ini menghasilkan daftar semua transaksi, termasuk informasi total setiap baris dengan menghitung \texttt{quantity} * \texttt{price}.
+	\begin{lstlisting}[style=JavaStyle]
+		select t1.code, t1.date, t1.note, t2.line, t2.itemcode, t2.name, t2.quantity, t2.price, 
+		(t2.quantity * t2.price) linetotal
+		from `order` t1, order_detail t2 where t1.code = t2.code;
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Kode SQL (crud.sql)}
+
+\begin{lstlisting}[style=JavaStyle]
+	# first
+	select * from `order` t1 where t1.code = (select min(code)  from `order` t2) limit 1;
+	
+	# previous
+	select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < 'TA00000002') limit 1;
+	
+	# next
+	select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > 'TA00000002') limit 1;
+	
+	# last
+	select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1;
+	select line, itemcode, name, quantity, price, (quantity * price) total from `order_detail` t1 where t1.code = (select max(code)  from `order` t2);
+	
+	#get the last code
+	SELECT Max(code) code FROM `order`
+\end{lstlisting}
+
+\subsubsection{Query SQL untuk Mengelola Data Order}
+
+\begin{itemize}
+	\item \textbf{Query Pertama: Mencari Order Terendah} \\
+	Kode ini mengambil semua kolom dari tabel \texttt{order} untuk entri dengan kode terendah.
+	\begin{lstlisting}[style=JavaStyle]
+		select * from `order` t1 where t1.code = (select min(code) from `order` t2) limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Sebelumnya: Mencari Order Sebelum Kode Tertentu} \\
+	Kode ini mencari entri dengan kode terbesar yang lebih kecil dari \texttt{'TA00000002'}.
+	\begin{lstlisting}[style=JavaStyle]
+		select * from `order` t1 where t1.code = (select max(code) from `order` t2 where t2.code < 'TA00000002') limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Berikutnya: Mencari Order Setelah Kode Tertentu} \\
+	Kode ini mencari entri dengan kode terkecil yang lebih besar dari \texttt{'TA00000002'}.
+	\begin{lstlisting}[style=JavaStyle]
+		select * from `order` t1 where t1.code = (select min(code) from `order` t2 where t2.code > 'TA00000002') limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Terakhir: Mencari Order Tertinggi} \\
+	Kode ini mengambil semua kolom dari tabel \texttt{order} untuk entri dengan kode tertinggi.
+	\begin{lstlisting}[style=JavaStyle]
+		select * from `order` t1 where t1.code = (select max(code) from `order` t2) limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Terakhir: Detail Order Terakhir} \\
+	Kode ini mengambil detail dari order terakhir berdasarkan kode tertinggi. Hasilnya mencakup informasi mengenai item, jumlah, harga, dan total.
+	\begin{lstlisting}[style=JavaStyle]
+		select line, itemcode, name, quantity, price, (quantity * price) total 
+		from `order_detail` t1 where t1.code = (select max(code) from `order` t2);
+	\end{lstlisting}
+	
+	\item \textbf{Query untuk Mendapatkan Kode Terakhir} \\
+	Kode ini mengambil nilai maksimum dari kolom \texttt{code} dalam tabel \texttt{order}, yang menunjukkan kode order terakhir.
+	\begin{lstlisting}[style=JavaStyle]
+		SELECT Max(code) code FROM `order`;
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Kode Java (OnSelectListener.java)}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita.p13;
+	
+	public interface OnSelectListener {
+		
+		public void select(Object[] values);
+	}
+	
+\end{lstlisting}
+
+\subsection{Interface \texttt{OnSelectListener}}
+
+Kode berikut mendefinisikan sebuah interface dalam bahasa pemrograman Java yang digunakan untuk menangani pemilihan objek dalam konteks aplikasi. Interface ini berada dalam paket \texttt{edu.pradita.p13}. Berikut adalah rincian dari kode tersebut:
+
+\begin{itemize}
+	\item \textbf{Deklarasi Interface} \\
+	\texttt{OnSelectListener} adalah sebuah interface yang dapat diimplementasikan oleh kelas lain untuk memberikan fungsionalitas pemilihan objek. Interface ini berfungsi sebagai kontrak yang mengharuskan kelas yang mengimplementasikannya untuk menyediakan implementasi untuk metode \texttt{select}.
+		\begin{lstlisting}[style=JavaStyle]
+			public interface OnSelectListener {
+		\end{lstlisting}
+		
+		\item \textbf{Metode \texttt{select}} \\
+		Metode \texttt{select} didefinisikan dalam interface ini, yang menerima parameter berupa array objek. Metode ini akan dipanggil ketika suatu objek dipilih.
+		\begin{lstlisting}[style=JavaStyle]
+			public void select(Object[] values);
+		\end{lstlisting}
+		
+		\item \textbf{Tujuan} \\
+		Interface ini dirancang untuk memungkinkan komunikasi antara komponen dalam aplikasi, sehingga ketika sebuah item dipilih, data terkait dapat dikirim melalui parameter \texttt{values}. Kelas yang mengimplementasikan interface ini harus menyediakan logika untuk menangani data yang diterima.
+	\end{itemize}
+
+
+\subsection{Kode Java (SelectForm.java)}
+
+Gunakan WindowBuilder untuk membuat form ini
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita.p13;
+	
+	import java.awt.BorderLayout;
+	import java.awt.EventQueue;
+	
+	import javax.swing.JFrame;
+	import javax.swing.JPanel;
+	import javax.swing.border.EmptyBorder;
+	import java.awt.Font;
+	import java.awt.GraphicsEnvironment;
+	
+	import javax.swing.JLabel;
+	import javax.swing.JTextField;
+	import javax.swing.JTable;
+	import javax.swing.JScrollPane;
+	import javax.swing.table.DefaultTableModel;
+	import javax.swing.table.TableColumn;
+	import javax.swing.JButton;
+	import javax.swing.BoxLayout;
+	import java.awt.Component;
+	import java.awt.GridLayout;
+	import javax.swing.SwingConstants;
+	import java.awt.GridBagLayout;
+	import java.awt.GridBagConstraints;
+	import java.awt.Insets;
+	import java.awt.Point;
+	
+	import javax.swing.ListSelectionModel;
+	import java.awt.event.ActionListener;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.ResultSetMetaData;
+	import java.sql.SQLException;
+	import java.awt.event.ActionEvent;
+	import java.awt.Window.Type;
+	
+	public class SelectForm extends JFrame {
+		
+		private JPanel contentPane;
+		private JTable table;
+		private JTextField textField;
+		private OnSelectListener onSelectListener = new OnSelectListener() {
+			@Override
+			public void select(Object[] values) {
+			}
+		};
+		private String query;
+		
+		/**
+		* Create the frame.
+		*/
+		public SelectForm(String query) {
+			setAlwaysOnTop(true);
+			setType(Type.UTILITY);
+			setTitle("Select Form");
+			setFont(new Font("Tahoma", Font.PLAIN, 16));
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setBounds(100, 100, 350, 270);
+			contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(contentPane);
+			contentPane.setLayout(new BorderLayout(0, 4));
+			
+			Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+			this.setLocation(centerPoint.x - (int) this.getSize().getWidth() / 2,
+			centerPoint.y - (int) this.getSize().getHeight() / 2);
+			
+			JPanel panel = new JPanel();
+			contentPane.add(panel, BorderLayout.SOUTH);
+			panel.setLayout(new GridLayout(1, 2, 0, 0));
+			
+			JButton btnCancel = new JButton("Cancel");
+			btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SelectForm.this.setVisible(false);
+					SelectForm.this.dispose();
+				}
+			});
+			btnCancel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			btnCancel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+			btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel.add(btnCancel);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			contentPane.add(scrollPane, BorderLayout.CENTER);
+			
+			table = new JTable();
+			table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setModel(
+			new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Code", "Description" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class };
+				
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				
+				boolean[] columnEditables = new boolean[] { false, false };
+				
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.getColumnModel().getColumn(0).setPreferredWidth(71);
+			table.getColumnModel().getColumn(1).setPreferredWidth(204);
+			scrollPane.setViewportView(table);
+			
+			JPanel panel_1 = new JPanel();
+			contentPane.add(panel_1, BorderLayout.NORTH);
+			panel_1.setLayout(new BorderLayout(10, 0));
+			
+			JLabel lblFind = new JLabel("Find:");
+			lblFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_1.add(lblFind, BorderLayout.WEST);
+			
+			textField = new JTextField();
+			lblFind.setLabelFor(textField);
+			textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			textField.setColumns(10);
+			panel_1.add(textField);
+			
+			JButton btnFind = new JButton("Find");
+			btnFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_1.add(btnFind, BorderLayout.EAST);
+			
+			JButton btnSelect = new JButton("Select");
+			btnSelect.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					int row = table.getSelectedRow();
+					int colCount = dtm.getColumnCount();
+					Object[] values = new Object[colCount];
+					for (int col = 0; col < dtm.getColumnCount(); col++) {
+						Object val = dtm.getValueAt(row, col);
+						values[col] = val;
+					}
+					SelectForm.this.onSelectListener.select(values);
+					SelectForm.this.setVisible(false);
+					SelectForm.this.dispose();
+				}
+			});
+			
+			btnSelect.setAlignmentX(Component.CENTER_ALIGNMENT);
+			btnSelect.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel.add(btnSelect);
+			
+			try {
+				this.query = query;
+				PreparedStatement statement = OrderForm.CONNECTION.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery();
+				
+				ResultSetMetaData metadata = resultSet.getMetaData();
+				int colCount = metadata.getColumnCount();
+				
+				String[] columnNames = new String[colCount];
+				for (int i = 1; i <= colCount; i++) {
+					String colName = metadata.getColumnName(i);
+					columnNames[i - 1] = colName;
+				}
+				
+				Class<?>[] columnTypes = new Class<?>[colCount];
+				for (int i = 0; i < colCount; i++) {
+					columnTypes[i] = String.class;
+				}
+				
+				boolean[] columnEditables = new boolean[colCount];
+				for (int i = 0; i < colCount; i++) {
+					columnEditables[i] = false;
+				}
+				
+				DefaultTableModel dtm = new DefaultTableModel( //
+				new Object[][] {}, // data
+				columnNames // columns
+				) {
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+					
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
+				
+				// add the rows
+				while (resultSet.next()) {
+					Object[] values = new Object[colCount];
+					for (int i = 1; i <= colCount; i++) {
+						values[i - 1] = resultSet.getObject(i);
+					}
+					dtm.addRow(values);
+				}
+				resultSet.close();
+				statement.close();
+				
+				table.setModel(dtm);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public OnSelectListener getOnSelectListener() {
+			return onSelectListener;
+		}
+		
+		public void setOnSelectListener(OnSelectListener onSelectListener) {
+			this.onSelectListener = onSelectListener;
+		}
+		
+	}
+\end{lstlisting}
+
+\subsubsection{Deklarasi Kelas}
+
+\texttt{SelectForm} merupakan kelas yang memperluas \texttt{JFrame}, yang berfungsi sebagai jendela untuk menampilkan form pemilihan. Kelas ini memiliki beberapa komponen, termasuk panel, tabel, dan tombol.
+
+\begin{itemize}
+	\item \textbf{Variabel Instance}:
+	\begin{itemize}
+		\item \texttt{contentPane}: Panel utama untuk menyusun komponen.
+		\item \texttt{table}: Tabel untuk menampilkan data.
+		\item \texttt{textField}: Field input untuk mencari data.
+		\item \texttt{onSelectListener}: Instance dari interface \texttt{OnSelectListener} untuk menangani pemilihan data.
+		\item \texttt{query}: String untuk menyimpan query SQL.
+	\end{itemize}
+	
+	\item \textbf{Konstruktor}:
+	Konstruktor \texttt{SelectForm(String query)} mengatur pengaturan jendela, menginisialisasi komponen, dan menjalankan query untuk mendapatkan data yang ditampilkan pada tabel.
+	\begin{itemize}
+		\item Mengatur judul jendela, jenis, dan ukuran.
+		\item Membuat panel dan mengatur layout.
+		\item Menambahkan tombol \texttt{Cancel} dan \texttt{Select}.
+		\item Mengisi tabel dengan data dari database menggunakan \texttt{PreparedStatement}.
+	\end{itemize}
+	
+	\item \textbf{Tombol Aksi}:
+	Tombol \texttt{Cancel} menutup jendela, sedangkan tombol \texttt{Select} mengambil data yang dipilih dari tabel dan memanggil metode \texttt{select} pada \texttt{onSelectListener}.
+\end{itemize}
+
+\subsubsection{Metode}
+
+\begin{itemize}
+	\item \texttt{getOnSelectListener()} dan \texttt{setOnSelectListener(OnSelectListener onSelectListener)}: Metode getter dan setter untuk mengatur listener pemilihan.
+\end{itemize}
+
+
+\subsection{Kode Java (OrderForm.java)}
+
+Gunakan WindowBuilder untuk membuat form ini
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita.p13;
+	
+	import java.awt.EventQueue;
+	
+	import javax.swing.JFrame;
+	import javax.swing.JScrollPane;
+	import javax.swing.JTable;
+	import javax.swing.table.DefaultTableModel;
+	
+	import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+	
+	import javax.swing.JButton;
+	import java.awt.Font;
+	import java.awt.GraphicsEnvironment;
+	
+	import javax.swing.JLabel;
+	import javax.swing.JTextField;
+	import javax.swing.JTextArea;
+	import javax.swing.JPanel;
+	import java.awt.BorderLayout;
+	import java.awt.FlowLayout;
+	import javax.swing.BoxLayout;
+	import javax.swing.DefaultCellEditor;
+	
+	import java.awt.Component;
+	import java.awt.GridLayout;
+	import javax.swing.SwingConstants;
+	import java.awt.GridBagLayout;
+	import java.awt.GridBagConstraints;
+	import java.awt.Insets;
+	import java.awt.Point;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+	import java.util.Arrays;
+	
+	import javax.swing.Box;
+	import java.awt.Dimension;
+	import javax.swing.ListSelectionModel;
+	import java.awt.event.WindowAdapter;
+	import java.awt.event.WindowEvent;
+	import java.beans.PropertyChangeEvent;
+	import java.beans.PropertyChangeListener;
+	import java.math.BigDecimal;
+	import java.awt.event.ActionListener;
+	import java.awt.event.ActionEvent;
+	
+	public class OrderForm {
+		
+		private JFrame frmOrderForm;
+		private JTable table;
+		private JTextField txtTotal;
+		private JTextField txtCode;
+		private JTextField txtDate;
+		private JTextArea txtNote;
+		
+		public static Connection CONNECTION;
+		
+		public boolean isAddMode = false;
+		private JButton btnAddItem;
+		private JButton btnDeleteItem;
+		private JButton btnConfirm;
+		
+		/**
+		* Launch the application.
+		* 
+		* @throws ClassNotFoundException
+		* @throws SQLException
+		*/
+		public static void main(String[] args) throws ClassNotFoundException, SQLException {
+			
+			// initialize connection to database
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			CONNECTION = DriverManager //
+			.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "");
+			
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						OrderForm window = new OrderForm();
+						window.frmOrderForm.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		
+		/**
+		* Create the application.
+		* 
+		* @throws SQLException
+		*/
+		public OrderForm() throws SQLException {
+			initialize();
+		}
+		
+		/**
+		* Initialize the contents of the frame.
+		* 
+		* @throws SQLException
+		*/
+		private void initialize() throws SQLException {
+			frmOrderForm = new JFrame();
+			frmOrderForm.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosed(WindowEvent e) {
+					try {
+						CONNECTION.close();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			frmOrderForm.setTitle("Order Form");
+			frmOrderForm.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			frmOrderForm.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 16));
+			frmOrderForm.setBounds(100, 100, 710, 421);
+			frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
+			
+			Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+			frmOrderForm.setLocation(centerPoint.x - (int) frmOrderForm.getSize().getWidth() / 2,
+			centerPoint.y - (int) frmOrderForm.getSize().getHeight() / 2);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			frmOrderForm.getContentPane().add(scrollPane, BorderLayout.CENTER);
+			
+			table = new JTable();
+			table.getTableHeader().setReorderingAllowed(false);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			scrollPane.setViewportView(table);
+			table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+			new String[] { "No.", "Item Code", "Name", "Price", "Quantity", "Total" }) {
+				Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
+					Double.class };
+				
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				
+				boolean[] columnEditables = new boolean[] { false, false, false, false, true, false };
+				
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.getColumnModel().getColumn(0).setPreferredWidth(27);
+			table.getColumnModel().getColumn(1).setPreferredWidth(64);
+			table.getColumnModel().getColumn(2).setPreferredWidth(195);
+			table.getColumnModel().getColumn(3).setPreferredWidth(68);
+			table.getColumnModel().getColumn(4).setPreferredWidth(50);
+			table.getColumnModel().getColumn(5).setPreferredWidth(108);
+			table.addPropertyChangeListener(new PropertyChangeListener() {
+				
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					if ("tableCellEditor".equals(evt.getPropertyName()) && evt.getOldValue() != null) {
+						DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+						int selectedIndex = table.getSelectedRow();
+						DefaultCellEditor temp = (DefaultCellEditor) evt.getOldValue();
+						double quantity = (double) temp.getCellEditorValue();
+						double price = (double) dtm.getValueAt(selectedIndex, 3);
+						double lineTotal = price * quantity;
+						dtm.setValueAt(lineTotal, selectedIndex, 5);
+						
+						setTotalOrder(dtm);
+						
+					}
+				}
+				
+			});
+			
+			JPanel southPanel = new JPanel();
+			frmOrderForm.getContentPane().add(southPanel, BorderLayout.SOUTH);
+			southPanel.setLayout(new GridLayout(0, 2, 0, 0));
+			
+			JPanel panel = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panel.setAlignmentY(Component.TOP_ALIGNMENT);
+			panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+			southPanel.add(panel);
+			
+			JLabel lblTotal = new JLabel("Total");
+			lblTotal.setFont(new Font("Dialog", Font.BOLD, 20));
+			panel.add(lblTotal);
+			
+			txtTotal = new JTextField();
+			txtTotal.setFont(new Font("Dialog", Font.BOLD, 20));
+			txtTotal.setEditable(false);
+			txtTotal.setColumns(10);
+			panel.add(txtTotal);
+			
+			JPanel panel_1 = new JPanel();
+			FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
+			flowLayout_1.setAlignment(FlowLayout.RIGHT);
+			southPanel.add(panel_1);
+			
+			btnConfirm = new JButton("Confirm");
+			btnConfirm.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PreparedStatement statement;
+					try {
+						// get max code
+						statement = CONNECTION.prepareStatement("SELECT Max(code) code FROM `order`;");
+						ResultSet resultSet = statement.executeQuery();
+						String maxCode = null;
+						if (resultSet.next()) {
+							maxCode = resultSet.getString("code");
+						}
+						String newCode = String.valueOf(Integer.valueOf(maxCode) + 1);
+						resultSet.close();
+						statement.close();
+						
+						statement = CONNECTION.prepareStatement("insert into `order`(code, note) values(?, ?);");
+						statement.setString(1, newCode);
+						statement.setString(2, txtNote.getText());
+						statement.executeUpdate();
+						statement.close();
+						
+						for (int i = 0; i < table.getRowCount(); i++) {
+							statement = CONNECTION.prepareStatement("insert into `order_detail`(code, line, itemcode, name, price, quantity)"
+							+ " values(?, ?, ?, ?, ?, ?);");
+							statement.setString(1, newCode);
+							statement.setInt(2, (int) table.getValueAt(i, 0));
+							statement.setString(3, (String) table.getValueAt(i, 1));
+							statement.setString(4, (String) table.getValueAt(i, 2));
+							statement.setDouble(5, Double.valueOf(table.getValueAt(i, 3).toString()));
+							statement.setDouble(6, Double.valueOf(table.getValueAt(i, 4).toString()));
+							statement.executeUpdate();
+						}
+						
+						isAddMode = false;
+						enableDisableElements();
+						
+						displayLastOrder();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					
+					
+				}
+			});
+			btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			panel_1.add(btnConfirm);
+			
+			JPanel northPanel = new JPanel();
+			frmOrderForm.getContentPane().add(northPanel, BorderLayout.NORTH);
+			GridBagLayout gbl_northPanel = new GridBagLayout();
+			gbl_northPanel.columnWidths = new int[] { 709, 0 };
+			gbl_northPanel.rowHeights = new int[] { 50, 78, 0 };
+			gbl_northPanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+			gbl_northPanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+			northPanel.setLayout(gbl_northPanel);
+			
+			JPanel panel_2 = new JPanel();
+			FlowLayout flowLayout_4 = (FlowLayout) panel_2.getLayout();
+			flowLayout_4.setAlignment(FlowLayout.LEFT);
+			GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+			gbc_panel_2.fill = GridBagConstraints.BOTH;
+			gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+			gbc_panel_2.gridx = 0;
+			gbc_panel_2.gridy = 0;
+			northPanel.add(panel_2, gbc_panel_2);
+			
+			JButton btnNew = new JButton("New");
+			btnNew.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					isAddMode = true;
+					enableDisableElements();
+					txtCode.setText("");
+					txtNote.setText("");
+					txtDate.setText("");
+					txtTotal.setText("");
+					table.setEnabled(true);
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					while (dtm.getRowCount() > 0) {
+						dtm.removeRow(0);
+					}
+				}
+			});
+			btnNew.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnNew);
+			
+			JButton btnFind = new JButton("Find");
+			btnFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnFind);
+			
+			JLabel lblNewLabel = new JLabel("Code");
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(lblNewLabel);
+			
+			txtCode = new JTextField();
+			txtCode.setEditable(false);
+			txtCode.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			txtCode.setColumns(10);
+			panel_2.add(txtCode);
+			
+			JButton btnFirst = new JButton("First");
+			btnFirst.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayFirstOrder();
+				}
+			});
+			btnFirst.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnFirst);
+			
+			JButton btnPrevious = new JButton("Prev");
+			btnPrevious.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayPrevOrder();
+				}
+			});
+			btnPrevious.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnPrevious);
+			
+			JButton btnNext = new JButton("Next");
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayNextOrder();
+				}
+			});
+			btnNext.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnNext);
+			
+			JButton btnLast = new JButton("Last");
+			btnLast.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayLastOrder();
+				}
+			});
+			btnLast.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnLast);
+			
+			JLabel lblDate = new JLabel("Date");
+			lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(lblDate);
+			
+			txtDate = new JTextField();
+			txtDate.setHorizontalAlignment(SwingConstants.RIGHT);
+			txtDate.setEditable(false);
+			txtDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			txtDate.setColumns(12);
+			panel_2.add(txtDate);
+			
+			JPanel panel_4 = new JPanel();
+			FlowLayout flowLayout_3 = (FlowLayout) panel_4.getLayout();
+			flowLayout_3.setAlignment(FlowLayout.LEADING);
+			GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+			gbc_panel_4.anchor = GridBagConstraints.SOUTH;
+			gbc_panel_4.fill = GridBagConstraints.BOTH;
+			gbc_panel_4.gridx = 0;
+			gbc_panel_4.gridy = 1;
+			northPanel.add(panel_4, gbc_panel_4);
+			
+			btnAddItem = new JButton("Add Item");
+			btnAddItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String query = "SELECT code, name, price FROM item WHERE quantity > 0;";
+					SelectForm selectForm = new SelectForm(query);
+					selectForm.setOnSelectListener(new OnSelectListener() {
+						@Override
+						public void select(Object[] values) {
+							if (values != null && values.length > 0) {
+								DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+								
+								int line = dtm.getRowCount() + 1;
+								String code = (String) values[0];
+								String name = (String) values[1];
+								double price = ((BigDecimal) values[2]).doubleValue();
+								double quantity = 1;
+								double lineTotal = price * quantity;
+								
+								Object[] orderLine = new Object[] { line, code, name, price, 1, 1 * price, lineTotal };
+								dtm.addRow(orderLine);
+								
+								setTotalOrder(dtm);
+							}
+						}
+					});
+					selectForm.setVisible(true);
+					
+				}
+			});
+			btnAddItem.setFont(new Font("Tashoma", Font.PLAIN, 16));
+			panel_4.add(btnAddItem);
+			
+			btnDeleteItem = new JButton("Remove Item");
+			btnDeleteItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedIndex = table.getSelectedRow();
+					if (selectedIndex < 0)
+					return;
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					dtm.removeRow(selectedIndex);
+					for (int i = 0; i < dtm.getRowCount(); i++) {
+						dtm.setValueAt(i + 1, i, 0);
+					}
+					
+					setTotalOrder(dtm);
+				}
+			});
+			btnDeleteItem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_4.add(btnDeleteItem);
+			
+			Component rigidArea_1 = Box.createRigidArea(new Dimension(100, 20));
+			panel_4.add(rigidArea_1);
+			
+			JLabel lblNote = new JLabel("Note");
+			lblNote.setVerticalAlignment(SwingConstants.TOP);
+			lblNote.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_4.add(lblNote);
+			
+			txtNote = new JTextArea();
+			txtNote.setRows(3);
+			txtNote.setColumns(30);
+			panel_4.add(txtNote);
+			
+			displayLastOrder();
+			
+		}
+		
+		private void displayFirstOrder() {
+			try {
+				PreparedStatement statement = CONNECTION
+				.prepareStatement("select * from `order` t1 where t1.code = (select min(code)  from `order` t2);");
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayPrevOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < ?) limit 1;");
+				String currentCode = txtCode.getText();
+				statement.setString(1, currentCode);
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayNextOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > ?) limit 1;");
+				String currentCode = txtCode.getText();
+				statement.setString(1, currentCode);
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayLastOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1");
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayOrder(PreparedStatement statement) throws SQLException {
+			// initial order header query
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				String code = resultSet.getString("code");
+				txtCode.setText(code);
+				txtDate.setText(resultSet.getString("date"));
+				txtNote.setText(resultSet.getString("note"));
+				resultSet.close();
+				statement.close();
+				
+				// detail order detail query
+				statement = CONNECTION
+				.prepareStatement("select line, itemcode, name, price, quantity, (quantity * price) total "
+				+ "from `order_detail` t1 where t1.code = ?");
+				statement.setString(1, code);
+				resultSet = statement.executeQuery();
+				
+				double grandTotal = 0;
+				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+				while (dtm.getRowCount() > 0) {
+					dtm.removeRow(0);
+				}
+				while (resultSet.next()) {
+					int line = resultSet.getInt("line");
+					String itemcode = resultSet.getString("itemcode");
+					String name = resultSet.getString("name");
+					double quantity = resultSet.getInt("quantity");
+					double price = resultSet.getInt("price");
+					double total = resultSet.getInt("total");
+					grandTotal = grandTotal + total;
+					
+					dtm.addRow(new Object[] { line, itemcode, name, price, quantity, total });
+				}
+				
+				setTotalOrder(dtm);
+			}
+			
+			resultSet.close();
+			statement.close();
+		}
+		
+		public void enableDisableElements() {
+			if (isAddMode) {
+				table.setEnabled(true);
+				btnAddItem.setEnabled(true);
+				btnDeleteItem.setEnabled(true);
+				btnConfirm.setEnabled(true);
+				txtNote.setEnabled(true);
+			} else {
+				table.setEnabled(false);
+				btnAddItem.setEnabled(false);
+				btnDeleteItem.setEnabled(false);
+				btnConfirm.setEnabled(false);
+				txtNote.setEnabled(true);
+			}
+		}
+		
+		private void setTotalOrder(DefaultTableModel dtm) {
+			double total = 0;
+			for (int i = 0; i < dtm.getRowCount(); i++) {
+				double t = (double) dtm.getValueAt(i, 5);
+				total = total + t;
+			}
+			txtTotal.setText(String.valueOf(total));
+		}
+	}
+	
+\end{lstlisting}
+
+
+\subsubsection{Import dan Deklarasi}
+Kode ini dimulai dengan mengimpor berbagai paket yang diperlukan:
+
+\begin{lstlisting}[style=javaStyle]
+	import java.awt.EventQueue;
+	import javax.swing.JFrame;
+	import javax.swing.JScrollPane;
+	import javax.swing.JTable;
+	import javax.swing.table.DefaultTableModel;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+	import javax.swing.JButton;
+	import javax.swing.JLabel;
+	import javax.swing.JTextField;
+	import javax.swing.JTextArea;
+	import javax.swing.JPanel;
+	import java.awt.BorderLayout;
+	import java.awt.FlowLayout;
+	import java.awt.GridBagLayout;
+	import java.awt.GridBagConstraints;
+	import java.awt.Insets;
+	import java.awt.event.ActionListener;
+	import java.awt.event.ActionEvent;
+	import java.awt.event.WindowAdapter;
+	import java.awt.event.WindowEvent;
+\end{lstlisting}
+
+\subsubsection{Kelas OrderForm}
+Kelas utama adalah \texttt{OrderForm}, yang memiliki beberapa atribut untuk menyimpan informasi form, seperti \texttt{JFrame}, \texttt{JTable}, dan \texttt{JTextField}.
+
+\begin{lstlisting}[style=javaStyle]
+	public class OrderForm {
+		private JFrame frmOrderForm;
+		private JTable table;
+		private JTextField txtTotal;
+		private JTextField txtCode;
+		private JTextField txtDate;
+		private JTextArea txtNote;
+		public static Connection CONNECTION;
+		public boolean isAddMode = false;
+		private JButton btnAddItem;
+		private JButton btnDeleteItem;
+		private JButton btnConfirm;
+\end{lstlisting}
+	
+\subsubsection{Metode Utama}
+Metode \texttt{main} untuk menjalankan aplikasi ini, yang akan menginisialisasi koneksi ke database dan menampilkan form pemesanan.
+	
+\begin{lstlisting}[style=javaStyle]
+		public static void main(String[] args) throws ClassNotFoundException, SQLException {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "");
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						OrderForm window = new OrderForm();
+						window.frmOrderForm.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+\end{lstlisting}
+	
+\subsubsection{Inisialisasi Form}
+Metode \texttt{initialize} untuk mengatur tampilan dan komponen dalam \texttt{JFrame}.
+	
+\begin{lstlisting}[style=javaStyle]
+		private void initialize() throws SQLException {
+			frmOrderForm = new JFrame();
+			frmOrderForm.setTitle("Order Form");
+			frmOrderForm.setBounds(100, 100, 710, 421);
+			frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
+			// Tambahkan JScrollPane dan JTable
+			JScrollPane scrollPane = new JScrollPane();
+			frmOrderForm.getContentPane().add(scrollPane, BorderLayout.CENTER);
+			table = new JTable();
+			table.setModel(new DefaultTableModel(...));
+			scrollPane.setViewportView(table);
+			// Panel dan Komponen lainnya
+		}
+\end{lstlisting}
+	
+\subsubsection{Aksi Tombol}
+Kode ini juga mendefinisikan aksi untuk tombol yang digunakan dalam form, seperti tombol untuk menambah dan mengkonfirmasi pesanan.
+	
+\begin{lstlisting}[style=javaStyle]
+		btnConfirm = new JButton("Confirm");
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Kode untuk menyimpan data ke database
+			}
+		});
+\end{lstlisting}
+
+
+\section{Soal Studi Kasus}
+
+\subsection{Pembuatan Database Sederhana untuk Sistem Perpustakaan}
+
+Dalam studi kasus ini, kita akan membuat skema database sederhana untuk sistem perpustakaan menggunakan SQL. Database ini akan terdiri dari tiga tabel utama: \texttt{Buku}, \texttt{Anggota}, dan \texttt{Peminjaman}. Setiap tabel akan memiliki kolom khusus yang memungkinkan kita untuk mengelola informasi buku, anggota perpustakaan, dan riwayat peminjaman.
+
+Gunakan database yang sudah dibuat dari pertemuan 12. Jika belum, silahkan ikuti instruksi yang ada sebelumnya.
+
+\subsection{Pembuatan Form dan Implementasi CRUD}
+Setelah database selesai dibuat, Anda perlu membuat form untuk mengelola data buku, anggota, dan peminjaman. Form ini akan digunakan untuk melakukan operasi CRUD. Berikut adalah rincian mengenai masing-masing operasi:
+
+\begin{itemize}
+	\item \textbf{Create}:
+	\begin{itemize}
+		\item Buat form untuk menambah buku baru, anggota baru, dan peminjaman baru.
+		\item Form harus berisi field yang sesuai dengan kolom yang ada di tabel.
+	\end{itemize}
+	
+	\item \textbf{Read}:
+	\begin{itemize}
+		\item Tampilkan daftar buku, anggota, dan peminjaman yang ada di database.
+		\item Buat tampilan yang memungkinkan pengguna untuk melihat detail dari setiap entri.
+	\end{itemize}
+	
+	\item \textbf{Update}:
+	\begin{itemize}
+		\item Buat form untuk mengedit informasi buku, anggota, dan peminjaman yang sudah ada.
+		\item Pastikan form diisi dengan data yang sudah ada sehingga pengguna dapat melakukan perubahan.
+	\end{itemize}
+	
+	\item \textbf{Delete}:
+	\begin{itemize}
+		\item Sediakan opsi untuk menghapus buku, anggota, dan peminjaman dari database.
+		\item Pastikan untuk meminta konfirmasi sebelum penghapusan dilakukan.
+	\end{itemize}
+\end{itemize}
+
+Pada akhir studi kasus ini, Anda akan memiliki database \texttt{Perpustakaan} yang dapat digunakan untuk mengelola informasi buku, anggota, dan transaksi peminjaman buku, serta form yang mendukung operasi CRUD untuk manajemen data.
+
