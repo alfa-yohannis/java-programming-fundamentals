@@ -77,6 +77,116 @@ Pewarisan memungkinkan sebuah kelas (kelas turunan) untuk mewarisi atribut dan m
 
 Pada contoh di atas, metode \texttt{getArea()} yang dideklarasikan dalam kelas \texttt{Rectangle} menggantikan metode \texttt{getArea()} yang dideklarasikan dalam kelas \texttt{Shape}. Dengan menggunakan \texttt{@Override}, kita menandakan bahwa metode ini menggantikan implementasi metode yang sama dari kelas dasar, sehingga meningkatkan kejelasan dan mencegah potensi kesalahan.
 
+\subsection{Interface}
+
+\textbf{Interface} adalah sebuah kontrak dalam pemrograman berorientasi objek yang mendefinisikan metode tanpa memberikan implementasinya. Interface berguna untuk mendefinisikan perilaku umum yang harus dimiliki oleh berbagai kelas tanpa memerlukan pewarisan langsung. Setiap kelas yang mengimplementasikan sebuah interface harus menyediakan implementasi untuk semua metode yang didefinisikan dalam interface tersebut.
+
+\textbf{Contoh Interface:}
+
+\begin{lstlisting}[style=JavaStyle, caption={Drawable.java}]
+	package edu.example;
+	
+	public interface Drawable {
+		void draw();
+	}
+\end{lstlisting}
+
+Pada contoh di atas, \texttt{Drawable} adalah interface dengan metode \texttt{draw()} yang harus diimplementasikan oleh kelas apa pun yang mengimplementasikan interface ini. Interface ini memungkinkan berbagai kelas untuk memiliki metode \texttt{draw()} dengan cara yang sesuai dengan kelas masing-masing.
+
+\subsection{Implementasi Kelas \texttt{Rectangle}}
+
+Kelas \texttt{Rectangle} adalah salah satu kelas turunan dari \texttt{Shape} yang juga mengimplementasikan interface \texttt{Drawable}. Kelas ini memiliki atribut untuk lebar (\texttt{width}) dan tinggi (\texttt{height}) serta metode untuk menghitung luas dan menggambar persegi panjang.
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public class Rectangle extends Shape implements Drawable {
+		private double width;
+		private double height;
+		
+		public Rectangle(String color, double width, double height) {
+			super(color);
+			this.width = width;
+			this.height = height;
+		}
+		
+		@Override
+		public double getArea() {
+			return width * height;
+		}
+		
+		@Override
+		public void draw() {
+			System.out.println("Drawing a rectangle with width " + width + " and height " + height);
+		}
+	}
+\end{lstlisting}
+
+Pada contoh di atas, kelas \texttt{Rectangle} mengimplementasikan interface \texttt{Drawable} dan menyediakan implementasi untuk metode \texttt{draw()}. Selain itu, kelas ini mengoverride metode abstrak \texttt{getArea()} dari \texttt{Shape} untuk menghitung luas persegi panjang.
+
+\subsection{Implementasi Kelas \texttt{Triangle}}
+
+Sebagai tambahan dari \texttt{Rectangle}, kita juga dapat membuat kelas \texttt{Triangle} yang mengimplementasikan interface \texttt{Drawable} dan mewarisi kelas abstrak \texttt{Shape}. Kelas \texttt{Triangle} ini akan memiliki metode untuk menghitung luas dan menggambar segitiga.
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public class Triangle extends Shape implements Drawable {
+		private double base;
+		private double height;
+		
+		public Triangle(String color, double base, double height) {
+			super(color);
+			this.base = base;
+			this.height = height;
+		}
+		
+		@Override
+		public double getArea() {
+			return 0.5 * base * height;
+		}
+		
+		@Override
+		public void draw() {
+			System.out.println("Drawing a triangle with base " + base + " and height " + height);
+		}
+	}
+\end{lstlisting}
+
+Pada contoh di atas, kelas \texttt{Triangle} mengimplementasikan interface \texttt{Drawable} dan menyediakan implementasi untuk metode \texttt{draw()}. Selain itu, kelas ini mengoverride metode abstrak \texttt{getArea()} untuk menghitung luas segitiga.
+
+\subsection{Demonstrasi Polimorfisme dengan \texttt{Rectangle} dan \texttt{Triangle}}
+
+Polimorfisme memungkinkan kita untuk menggunakan objek \texttt{Rectangle} dan \texttt{Triangle} secara seragam melalui referensi kelas abstrak \texttt{Shape} atau interface \texttt{Drawable}. Berikut adalah contoh kode yang menunjukkan cara menggunakan polimorfisme dalam program untuk menggambar dan menghitung luas bentuk-bentuk ini.
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.example;
+	
+	public class ShapeDemo {
+		public static void main(String[] args) {
+			Shape[] shapes = {
+				new Rectangle("blue", 4, 5),
+				new Triangle("green", 3, 6)
+			};
+			
+			for (Shape shape : shapes) {
+				System.out.println("Color: " + shape.getColor());
+				System.out.println("Area: " + shape.getArea());
+				
+				if (shape instanceof Drawable) {
+					((Drawable) shape).draw();
+				}
+				
+				System.out.println();
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Penjelasan Kode:}
+Pada contoh di atas, array \texttt{shapes} berisi objek \texttt{Rectangle} dan \texttt{Triangle}. Dengan menggunakan referensi \texttt{Shape}, kita dapat memanggil metode \texttt{getColor()} dan \texttt{getArea()} untuk masing-masing objek tanpa harus mengetahui tipe spesifiknya. Selain itu, kita menggunakan polimorfisme dengan interface \texttt{Drawable} untuk memanggil metode \texttt{draw()} pada objek yang mengimplementasikan interface ini.
+
+
 \subsection{Implementasi dan Penggunaan}
 
 Kelas abstrak, pewarisan, dan \texttt{override} digunakan untuk membangun struktur hierarki yang lebih kompleks dengan kode yang dapat digunakan kembali. Kelas turunan dapat memperluas fungsionalitas kelas dasar, menyesuaikan perilaku metode, dan memperbaiki implementasi metode abstrak sesuai dengan kebutuhan aplikasi.
@@ -292,150 +402,662 @@ Kelas abstrak, pewarisan, dan \texttt{override} digunakan untuk membangun strukt
 
 \textbf{Penjelasan:} Kelas \texttt{Main} adalah kelas utama yang menampilkan dan memproses daftar pertanyaan. Program membuat beberapa pertanyaan dari berbagai jenis, menambahkannya ke dalam daftar, dan kemudian menampilkan setiap pertanyaan satu per satu. Pengguna diminta untuk memberikan jawaban, yang kemudian diperiksa dengan metode \texttt{checkSubmittedAnswer()}. Hasil dari setiap jawaban ditampilkan setelah input.
 
-\section{Latihan dan Contoh Kode}
+\section{Latihan}
 
-\subsection{Latihan 1: Kelas Abstrak untuk Bentuk Geometris}
 
-Buatlah kelas abstrak \texttt{GeometricShape} yang memiliki atribut \texttt{color} dan metode abstrak \texttt{getArea()}. Buat dua kelas turunan \texttt{Circle} dan \texttt{Triangle} yang mengimplementasikan metode \texttt{getArea()} untuk menghitung luas masing-masing bentuk. Buatlah main method untuk menguji kelas-kelas ini.
+Kerjakanlah contoh-contoh kasus berikut! Ketik kode program dan jalankan! Amati struktur, output, dan perilaku program. Cobalah menjawab pertanyaan-pertanyaan yang diberikan untuk meningkatkan pemahaman mengenai konsep yang diajarkan dengan mengisi persegi kosong yang sediakan.
 
-\begin{lstlisting}[style=JavaStyle]
-	package edu.example;
+\subsection{Contoh Sistem Pembayaran Online}
+
+\subsubsection{Langkah 1: Kelas Abstrak dan Pewarisan}
+
+\textbf{Kode:} Mendefinisikan kelas abstrak \texttt{Payment} dan kelas konkret \texttt{CreditCardPayment} dan \texttt{PayPalPayment}.
+
+\begin{lstlisting}[style=JavaStyle, caption={Payment.java}]
+	package com.example.payment;
 	
-	public abstract class GeometricShape {
-		private String color;
+	public abstract class Payment {
+		double amount;
 		
-		public GeometricShape(String color) {
-			this.color = color;
+		public Payment(double amount) {
+			this.amount = amount;
 		}
 		
-		public String getColor() {
-			return color;
-		}
+		public abstract void processPayment();
 		
-		public abstract double getArea();
-	}
-	
-	class Circle extends GeometricShape {
-		private double radius;
-		
-		public Circle(String color, double radius) {
-			super(color);
-			this.radius = radius;
-		}
-		
-		@Override
-		public double getArea() {
-			return Math.PI * radius * radius;
-		}
-	}
-	
-	class Triangle extends GeometricShape {
-		private double base;
-		private double height;
-		
-		public Triangle(String color, double base, double height) {
-			super(color);
-			this.base = base;
-			this.height = height;
-		}
-		
-		@Override
-		public double getArea() {
-			return 0.5 * base * height;
-		}
-	}
-	
-	public class Main {
-		public static void main(String[] args) {
-			Circle circle = new Circle("Red", 5);
-			Triangle triangle = new Triangle("Blue", 10, 7);
-			
-			System.out.println("Circle Area: " + circle.getArea());
-			System.out.println("Triangle Area: " + triangle.getArea());
+		public void displayAmount() {
+			System.out.println("Payment Amount: $" + amount);
 		}
 	}
 \end{lstlisting}
 
-\subsection{Latihan 2: Sistem Manajemen Produk di Toko Online}
-
-Buatlah kelas abstrak \texttt{Product} yang memiliki atribut \texttt{name}, \texttt{price}, dan metode abstrak \texttt{calculateDiscountedPrice()}. Buat kelas turunan \texttt{Electronics} dan \texttt{Clothing} yang masing-masing mengimplementasikan metode \texttt{calculateDiscountedPrice()} dengan logika diskon yang berbeda. Implementasikan main method untuk membuat daftar produk, menampilkan harga asli, dan harga setelah diskon.
-
-\begin{lstlisting}[style=JavaStyle]
-	package edu.example;
+\begin{lstlisting}[style=JavaStyle, caption={CreditCardPayment.java}]
+	package com.example.payment.types;
 	
-	public abstract class Product {
-		private String name;
-		private double price;
-		
-		public Product(String name, double price) {
-			this.name = name;
-			this.price = price;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public double getPrice() {
-			return price;
-		}
-		
-		public abstract double calculateDiscountedPrice();
-	}
+	import com.example.payment.Payment;
 	
-	class Electronics extends Product {
-		
-		public Electronics(String name, double price) {
-			super(name, price);
+	public class CreditCardPayment extends Payment {
+		public CreditCardPayment(double amount) {
+			super(amount);
 		}
 		
 		@Override
-		public double calculateDiscountedPrice() {
-			return getPrice() * 0.9; // 10% discount for electronics
-		}
-	}
-	
-	class Clothing extends Product {
-		
-		public Clothing(String name, double price) {
-			super(name, price);
-		}
-		
-		@Override
-		public double calculateDiscountedPrice() {
-			return getPrice() * 0.8; // 20% discount for clothing
-		}
-	}
-	
-	public class Main {
-		public static void main(String[] args) {
-			Product laptop = new Electronics("Laptop", 1000);
-			Product tShirt = new Clothing("T-Shirt", 50);
-			
-			System.out.println(laptop.getName() + " original price: $" + laptop.getPrice() + 
-			", discounted price: $" + laptop.calculateDiscountedPrice());
-			System.out.println(tShirt.getName() + " original price: $" + tShirt.getPrice() + 
-			", discounted price: $" + tShirt.calculateDiscountedPrice());
+		public void processPayment() {
+			System.out.println("Processing credit card payment of $" + amount);
 		}
 	}
 \end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={PayPalPayment.java}]
+	package com.example.payment.types;
+	
+	import com.example.payment.Payment;
+	
+	public class PayPalPayment extends Payment {
+		public PayPalPayment(double amount) {
+			super(amount);
+		}
+		
+		@Override
+		public void displayAmount() {
+			System.out.println("Payment Amount: USD" + amount);
+		}
+		
+		@Override
+		public void processPayment() {
+			System.out.println("Processing PayPal payment of USD" + amount);
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
+\begin{enumerate}
+	\item Cobalah buat object dari kelas abstrak dalam metode \texttt{main}! Coba jalankan program. Bagaimankah hasilnya? Mengapa demikian?
+	\begin{lstlisting}[style=JavaStyle, caption={TestAbstractClassInstantiation.java}]
+		package com.example.payment.system;
+		
+		import com.example.payment.Payment;
+		
+		public class TestAbstractClassInstantiation {
+			public static void main(String[] args) {
+				Payment payment = new Payment(100.0);
+				System.out.println("End");
+			}
+		}
+	\end{lstlisting}
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Coba buat objek dari kelas-kelas yang di-\texttt{extends} dari kelas abstrak? Coba jalankan program. Bagaimankah hasilnya? Mengapa demikian?
+	\begin{lstlisting}[style=JavaStyle, caption={TestSubclassInstantiation.java}]
+		package com.example.payment.system;
+		
+		import com.example.payment.Payment;
+		import com.example.payment.types.CreditCardPayment;
+		import com.example.payment.types.PayPalPayment;
+		
+		public class TestSubclassInstantiation {
+			public static void main(String[] args) {
+				// Membuat objek dari kelas-kelas turunan
+				Payment creditCardPayment = new CreditCardPayment(200.0);
+				Payment payPalPayment = new PayPalPayment(150.0);
+				System.out.println("End");
+			}
+		}
+	\end{lstlisting}
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Coba hapus metode \texttt{processPayment()} dari kelas-kelas yang di-extends dari kelas abstrak. Coba jalankan program. Bagaimankah hasilnya? Mengapa demikian?
+	\begin{lstlisting}[style=JavaStyle, caption={TestSubclassInstantiation.java}]
+		package com.example.payment.system;
+		
+		import com.example.payment.Payment;
+		import com.example.payment.types.CreditCardPayment;
+		import com.example.payment.types.PayPalPayment;
+		
+		public class TestSubclassInstantiation {
+			public static void main(String[] args) {
+				// Membuat objek dari kelas-kelas turunan
+				Payment creditCardPayment = new CreditCardPayment(200.0);
+				Payment payPalPayment = new PayPalPayment(150.0);
+				
+				// Memproses setiap pembayaran
+				creditCardPayment.processPayment();
+				creditCardPayment.displayAmount();
+				
+				System.out.println();
+				
+				payPalPayment.processPayment();
+				payPalPayment.displayAmount();
+				
+				System.out.println("End");
+			}
+		}
+	\end{lstlisting}
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa \texttt{creditCardPayment} dapat menampilkan \texttt{Payment Amount: \$} walaupun metode untuk menampilkan teks tersebut TIDAK terdapat dalam kelas \texttt{creditCardPayment}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa objek \texttt{paypalPayment} menampilkan \texttt{Payment Amount: \textbf{USD}} sedangkan \texttt{creditCardPayment} menampikan \texttt{Payment Amount: \textbf{\$}}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa \texttt{Payment} didefinisikan sebagai kelas abstrak daripada kelas biasa?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana pewarisan dari \texttt{Payment} ke \texttt{CreditCardPayment} dan \texttt{PayPalPayment} mengurangi redundansi?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Apa manfaat dari struktur ini jika kita ingin menambahkan metode pembayaran baru di masa depan?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
+\subsubsection{Langkah 2: Implementasi Interface}
+
+\textbf{Kode:} Mengimplementasikan antarmuka \texttt{Refundable} untuk \texttt{DebitCardPayment}.
+
+\begin{lstlisting}[style=JavaStyle, caption={Refundable.java}]
+	package com.example.payment.features;
+	
+	public interface Refundable {
+		void refund();
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={DebitCardPayment.java}]
+	package com.example.payment.types;
+	
+	import com.example.payment.Payment;
+	import com.example.payment.features.Refundable;
+	
+	public class DebitCardPayment extends Payment implements Refundable {
+		public DebitCardPayment(double amount) {
+			super(amount);
+		}
+		
+		@Override
+		public void processPayment() {
+			System.out.println("Processing debit card payment of $" + amount);
+		}
+		
+		@Override
+		public void refund() {
+			System.out.println("Refunding debit card payment of $" + amount);
+		}
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={PaymentApp.java}]
+	package com.example.payment;
+	
+	import com.example.payment.types.DebitCardPayment;
+	
+	public class PaymentApp {
+		public static void main(String[] args) {
+			// Membuat objek dari kelas DebitCardPayment
+			DebitCardPayment debitCardPayment = new DebitCardPayment(100.0);
+			
+			// Memproses pembayaran
+			debitCardPayment.processPayment();
+			
+			// Melakukan pengembalian dana (refund)
+			debitCardPayment.refund();
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
+\begin{enumerate}
+	\item Coba hapus metode \texttt{refund()} yang ada di dalam kelas yang mengimplementasikan (\texttt{implements}) \texttt{Refundable}, bukan yang ada di dalam \texttt{interface}? Coba jalankan program. Apa yang terjadi? Mengapa demikian?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana penerapan antarmuka \texttt{Refundable} memengaruhi kelas \texttt{DebitCardPayment}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Apa keuntungan dari menggunakan antarmuka seperti \texttt{Refundable} dalam sistem pembayaran?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana desain ini memudahkan penambahan tipe pembayaran baru yang mendukung pengembalian dana di masa depan?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
+\subsubsection{Langkah 3: Demonstrasi Polimorfisme}
+
+Ubah 2 kelas \texttt{*Payment} sebelumnya dengan mengimplementasikan interface \texttt{Refundable} pada kedua kelas tersebut! 
+
+\begin{lstlisting}[style=JavaStyle, caption={CreditCardPayment.java}]
+	package com.example.payment.types;
+	
+	import com.example.payment.Payment;
+	import com.example.payment.features.Refundable;
+	
+	public class CreditCardPayment extends Payment implements Refundable {
+		public CreditCardPayment(double amount) {
+			super(amount);
+		}
+		
+		@Override
+		public void processPayment() {
+			System.out.println("Processing credit card payment of $" + amount);
+		}
+		
+		@Override
+		public void refund() {
+			System.out.println("Refunding credit card payment of $" + amount);
+		}
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={PayPalPayment.java}]
+	package com.example.payment.types;
+	
+	import com.example.payment.Payment;
+	import com.example.payment.features.Refundable;
+	
+	public class PayPalPayment extends Payment implements Refundable {
+		public PayPalPayment(double amount) {
+			super(amount);
+		}
+		
+		@Override
+		public void displayAmount() {
+			System.out.println("Payment Amount: USD" + amount);
+		}
+		
+		@Override
+		public void processPayment() {
+			System.out.println("Processing PayPal payment of USD" + amount);
+		}
+		
+		@Override
+		public void refund() {
+			System.out.println("Refunding PayPal payment of USD" + amount);
+		}
+	}
+\end{lstlisting}
+
+Buat dan jalankan kode berikut kelas \texttt{PaymentSystem}. 
+
+\begin{lstlisting}[style=JavaStyle, caption={PaymentSystem.java}]
+	package com.example.payment.system;
+	
+	import com.example.payment.Payment;
+	import com.example.payment.features.Refundable;
+	import com.example.payment.types.CreditCardPayment;
+	import com.example.payment.types.PayPalPayment;
+	import com.example.payment.types.DebitCardPayment;
+	
+	public class PaymentSystem {
+		public static void main(String[] args) {
+			Payment[] payments = {
+				new CreditCardPayment(100),
+				new PayPalPayment(150),
+				new DebitCardPayment(200)
+			};
+			
+			for (Payment payment : payments) {
+				payment.processPayment();
+				if (payment instanceof Refundable) {
+					((Refundable) payment).refund();
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
+\begin{enumerate}
+	\item Mengapa masing-masing objek menampilkan output yang berbeda walaupun mereka sama-sama mengeksekusi metode \texttt{refund}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana polimorfisme memungkinkan kita untuk menangani berbagai jenis pembayaran menggunakan referensi \texttt{Payment} tunggal?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa polimorfisme bermanfaat untuk menangani berbagai metode pembayaran dengan cara yang lebih fleksibel?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Jelaskan bagaimana desain ini akan mendukung penambahan tipe pembayaran tambahan dengan perubahan kode minimal.
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
+
+
+\subsubsection{Langkah 4: Menyimpulkan}
+Dari eksperimen di atas, buatlah pengertian dan manfaat dari konsep-konsep berikut dalam konteks pemrograman berorientasi objek dengan menggunakan kata-kata Anda sendiri.
+\begin{enumerate}
+	\item Kelas Abstrak
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Pewarisan/\textit{Inheritance} (\texttt{extends})
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Overriding
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Interface
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Polimorfisme
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm,  boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
 
 \section{Soal}
 
+Kerjakanlah contoh-contoh kasus berikut! Ketik kode program dan jalankan! Amati struktur, output, dan perilaku program. Cobalah menjawab pertanyaan-pertanyaan yang diberikan untuk meningkatkan pemahaman mengenai konsep yang diajarkan dengan mengisi persegi kosong yang sediakan.
+
+\subsection{Contoh Sistem Pemesanan Transportasi}
+
+\subsubsection{Langkah 1: Kelas Abstrak dan Pewarisan}
+
+\textbf{Kode:} Mendefinisikan kelas abstrak \texttt{Vehicle} dan kelas konkret \texttt{Car} serta \texttt{Bus}.
+
+\begin{lstlisting}[style=JavaStyle, caption={Vehicle.java}]
+	package com.example.transport;
+	
+	public abstract class Vehicle {
+		String id;
+		
+		public Vehicle(String id) {
+			this.id = id;
+		}
+		
+		public abstract double calculateFare(double distance);
+		
+		public void displayType() {
+			System.out.println("Vehicle ID: " + id);
+		}
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={Car.java}]
+	package com.example.transport.types;
+	
+	import com.example.transport.Vehicle;
+	
+	public class Car extends Vehicle {
+		public Car(String id) {
+			super(id);
+		}
+		
+		@Override
+		public double calculateFare(double distance) {
+			return distance * 0.5;
+		}
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={Bus.java}]
+	package com.example.transport.types;
+	
+	import com.example.transport.Vehicle;
+	
+	public class Bus extends Vehicle {
+		public Bus(String id) {
+			super(id);
+		}
+		
+		@Override
+		public double calculateFare(double distance) {
+			return distance * 0.2;
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
 \begin{enumerate}
-	
-	\item \textbf{Soal 1 : Sistem Penilaian Mata Pelajaran di Sekolah}
-	\begin{itemize}
-		\item Buatlah kelas abstrak \texttt{Subject} yang memiliki atribut \texttt{name} dan metode abstrak \texttt{calculateGrade()}.
-		\item Buat kelas turunan \texttt{Mathematics} dan \texttt{Science} yang masing-masing mengimplementasikan metode \texttt{calculateGrade()} dengan logika perhitungan nilai akhir yang berbeda, misalnya berdasarkan ujian akhir, tugas, dan partisipasi.
-		\item Buat main method untuk menampilkan nama mata pelajaran dan nilai akhir siswa.
-	\end{itemize}
-	
-	\item \textbf{Soal 2 : Sistem Inventarisasi Barang di Gudang}
-	\begin{itemize}
-		\item Buatlah kelas abstrak \texttt{InventoryItem} yang memiliki atribut \texttt{itemName}, \texttt{quantity}, dan metode abstrak \texttt{calculateStockValue()}.
-		\item Buat kelas turunan \texttt{PerishableItem} dan \texttt{NonPerishableItem} yang masing-masing mengimplementasikan metode \texttt{calculateStockValue()} dengan mempertimbangkan durasi penyimpanan untuk barang yang mudah rusak dan jumlah yang tersedia.
-		\item Implementasikan main method untuk menghitung dan menampilkan nilai stok dari masing-masing barang.
-	\end{itemize}
-	
+	\item Cobalah buat objek dari kelas abstrak dalam metode \texttt{main}! Apa hasilnya? Mengapa demikian?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Coba buat objek dari kelas-kelas turunan dari kelas abstrak \texttt{Vehicle}. Apa hasilnya? Mengapa demikian?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana mendefinisikan \texttt{Vehicle} sebagai kelas abstrak membantu mengelompokkan atribut dan metode umum untuk semua tipe kendaraan?
+	\begin{tcolorbox}[colback=white, colframe=black, width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Apa manfaat pewarisan saat mengimplementasikan tipe kendaraan yang berbeda seperti \texttt{Car} dan \texttt{Bus}?
+	\begin{tcolorbox}[colback=white, colframe=black, width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Dalam skenario apa Anda mempertimbangkan untuk menggunakan pola ini dalam aplikasi lain?
+	\begin{tcolorbox}[colback=white, colframe=black, width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
 \end{enumerate}
+
+\subsubsection{Langkah 2: Implementasi Interface}
+
+\textbf{Kode:} Mengimplementasikan antarmuka \texttt{Trackable} untuk \texttt{Train}.
+
+\begin{lstlisting}[style=JavaStyle, caption={Trackable.java}]
+	package com.example.transport.features;
+	
+	public interface Trackable {
+		void getLocation();
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaStyle, caption={Train.java}]
+	package com.example.transport.types;
+	
+	import com.example.transport.Vehicle;
+	import com.example.transport.features.Trackable;
+	
+	public class Train extends Vehicle implements Trackable {
+		public Train(String id) {
+			super(id);
+		}
+		
+		@Override
+		public double calculateFare(double distance) {
+			return distance * 0.3;
+		}
+		
+		@Override
+		public void getLocation() {
+			System.out.println("Tracking train location for ID: " + id);
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
+\begin{enumerate}
+	\item Bagaimana antarmuka \texttt{Trackable} memungkinkan \texttt{Train} memiliki perilaku unik tanpa mengubah kelas \texttt{Vehicle}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa memisahkan perilaku pelacakan lokasi ke dalam antarmuka merupakan hal yang bermanfaat?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Bagaimana Anda akan menggunakan antarmuka \texttt{Trackable} untuk tipe kendaraan lain yang memerlukan pelacakan?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
+\subsubsection{Langkah 3: Demonstrasi Polimorfisme}
+
+\textbf{Kode:} Menunjukkan perilaku polimorfisme dengan kelas \texttt{BookingSystem}.
+
+\begin{lstlisting}[style=JavaStyle, caption={BookingSystem.java}]
+	package com.example.transport.system;
+	
+	import com.example.transport.Vehicle;
+	import com.example.transport.features.Trackable;
+	import com.example.transport.types.Car;
+	import com.example.transport.types.Bus;
+	import com.example.transport.types.Train;
+	
+	public class BookingSystem {
+		public static void main(String[] args) {
+			Vehicle[] vehicles = {
+				new Car("C123"),
+				new Bus("B456"),
+				new Train("T789")
+			};
+			
+			for (Vehicle vehicle : vehicles) {
+				vehicle.displayType();
+				System.out.println("Fare for 100 miles: $" + vehicle.calculateFare(100));
+				if (vehicle instanceof Trackable) {
+					((Trackable) vehicle).getLocation();
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Pertanyaan Refleksi:}
+\begin{enumerate}
+	\item Bagaimana polimorfisme memungkinkan kita menggunakan referensi \texttt{Vehicle} untuk mengelola berbagai jenis kendaraan?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Fleksibilitas apa yang ditambahkan oleh desain ini jika kita perlu menambahkan tipe kendaraan baru, seperti \texttt{Taxi}?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+	\item Mengapa polimorfisme berguna dalam sistem seperti sistem pemesanan transportasi?
+	\begin{tcolorbox}[colback=white, colframe=black,  width=\linewidth, height=3cm, boxrule=1pt, sharp corners]
+	\end{tcolorbox}
+\end{enumerate}
+
+%
+%\subsection{Contoh Sistem Manajemen Karyawan}
+%
+%\subsubsection{Langkah 1: Kelas Abstrak dan Pewarisan}
+%
+%\textbf{Kode:} Mendefinisikan kelas abstrak \texttt{Employee} dan membuat subclass untuk \texttt{FullTimeEmployee} dan \texttt{PartTimeEmployee}.
+%
+%\begin{lstlisting}[style=JavaStyle, caption={Employee.java}]
+%	package com.example.employee;
+%	
+%	public abstract class Employee {
+	%		String name;
+	%		
+	%		public Employee(String name) {
+		%			this.name = name;
+		%		}
+	%		
+	%		public abstract double calculateCompensation();
+	%		
+	%		public void displayEmployee() {
+		%			System.out.println("Employee Name: " + name);
+		%		}
+	%	}
+%\end{lstlisting}
+%
+%\begin{lstlisting}[style=JavaStyle, caption={FullTimeEmployee.java dan PartTimeEmployee.java}]
+%	package com.example.employee.types;
+%	
+%	import com.example.employee.Employee;
+%	
+%	public class FullTimeEmployee extends Employee {
+	%		public FullTimeEmployee(String name) {
+		%			super(name);
+		%		}
+	%		
+	%		@Override
+	%		public double calculateCompensation() {
+		%			return 5000; // Gaji tetap
+		%		}
+	%	}
+%	
+%	public class PartTimeEmployee extends Employee {
+	%		public PartTimeEmployee(String name) {
+		%			super(name);
+		%		}
+	%		
+	%		@Override
+	%		public double calculateCompensation() {
+		%			return 3000; // Gaji tetap
+		%		}
+	%	}
+%\end{lstlisting}
+%
+%\textbf{Pertanyaan Refleksi:}
+%\begin{itemize}
+%	\item Cobalah buat object dari kelas abstrak dalam metode \texttt{main}! Apakah bisa atau tidak? Jika tidak bisa, mengapa?
+%	\item Cobat buat objek dari kelas-kelas yang diturun dari kelas abstrak? Apakah bisa atau tidak? Jika bisa, mengapa?
+%	\item Bagaimana menggunakan kelas abstrak \texttt{Employee} membantu standarisasi perilaku karyawan?
+%	\item Apa manfaat pewarisan saat mendefinisikan tipe karyawan berbeda dengan metode kompensasi unik?
+%	\item Dalam konteks apa lagi desain ini bisa diterapkan?
+%\end{itemize}
+%
+%\subsubsection{Langkah 2: Implementasi Interface}
+%
+%\textbf{Kode:} Mengimplementasikan antarmuka \texttt{Promotable} untuk kelas \texttt{Contractor}.
+%
+%\begin{lstlisting}[style=JavaStyle, caption={Promotable.java}]
+%	package com.example.employee.features;
+%	
+%	public interface Promotable {
+	%		void promote();
+	%	}
+%\end{lstlisting}
+%
+%\begin{lstlisting}[style=JavaStyle, caption={Contractor.java}]
+%	package com.example.employee.types;
+%	
+%	import com.example.employee.Employee;
+%	import com.example.employee.features.Promotable;
+%	
+%	public class Contractor extends Employee implements Promotable {
+	%		public Contractor(String name) {
+		%			super(name);
+		%		}
+	%		
+	%		@Override
+	%		public double calculateCompensation() {
+		%			return 4000; // Gaji tetap
+		%		}
+	%		
+	%		@Override
+	%		public void promote() {
+		%			System.out.println("Promoting contractor: " + name);
+		%		}
+	%	}
+%\end{lstlisting}
+%
+%\textbf{Pertanyaan Refleksi:}
+%\begin{itemize}
+%	\item Apa keuntungan dari antarmuka \texttt{Promotable} bagi kelas \texttt{Contractor}?
+%	\item Mengapa kita memilih menggunakan antarmuka daripada menambahkan metode \texttt{promote} langsung ke \texttt{Employee}?
+%	\item Bagaimana pendekatan ini memudahkan penerapan promosi untuk tipe karyawan tertentu?
+%\end{itemize}
+%
+%\subsubsection{Langkah 3: Demonstrasi Polimorfisme}
+%
+%\textbf{Kode:} Menunjukkan perilaku polimorfisme dengan kelas \texttt{EmployeeManagementSystem}.
+%
+%\begin{lstlisting}[style=JavaStyle, caption={EmployeeManagementSystem.java}]
+%	package com.example.employee.system;
+%	
+%	import com.example.employee.Employee;
+%	import com.example.employee.features.Promotable;
+%	import com.example.employee.types.FullTimeEmployee;
+%	import com.example.employee.types.PartTimeEmployee;
+%	import com.example.employee.types.Contractor;
+%	
+%	public class EmployeeManagementSystem {
+	%		public static void main(String[] args) {
+		%			Employee[] employees = {
+			%				new FullTimeEmployee("Alice"),
+			%				new PartTimeEmployee("Bob"),
+			%				new Contractor("Charlie")
+			%			};
+		%			
+		%			for (Employee employee : employees) {
+			%				employee.displayEmployee();
+			%				System.out.println("Compensation: $" + employee.calculateCompensation());
+			%				if (employee instanceof Promotable) {
+				%					((Promotable) employee).promote();
+				%				}
+			%			}
+		%		}
+	%	}
+%\end{lstlisting}
+%
+%\textbf{Pertanyaan Refleksi:}
+%\begin{itemize}
+%	\item Bagaimana polimorfisme memungkinkan kita untuk menangani berbagai tipe karyawan melalui referensi \texttt{Employee} tunggal?
+%	\item Bagaimana pendekatan ini mendukung skalabilitas jika tipe karyawan baru diperkenalkan?
+%	\item Apa keuntungan polimorfisme dalam sistem yang mengelola berbagai jenis entitas seperti karyawan?
+%\end{itemize}

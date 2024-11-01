@@ -1,382 +1,697 @@
-\chapter{Array dan ArrayList}
+\chapter{Looping}
 
-\section{Array dan ArrayList di Java}
+\section{Looping di Java}
 
-\subsection{Array}
+Looping adalah salah satu konsep dasar dalam pemrograman yang memungkinkan eksekusi sebuah blok kode berulang kali, selama kondisi tertentu terpenuhi. Di Java, terdapat beberapa jenis loop yang sering digunakan, yaitu:
 
-Array adalah struktur data yang menyimpan sekumpulan elemen dengan tipe yang sama dalam urutan tertentu. Array memiliki ukuran tetap yang ditentukan saat deklarasi. Beberapa karakteristik array di Java adalah:
-
-\begin{itemize}
-	\item \textbf{Deklarasi dan Inisialisasi:} Array dapat dideklarasikan dengan menyebutkan tipe data diikuti oleh nama array dan ukuran array. Contoh:
-	\begin{lstlisting}[style=JavaStyle]
-		int[] numbers = new int[5];
-	\end{lstlisting}
-	Array dapat diinisialisasi dengan nilai-nilai pada saat deklarasi:
-	\begin{lstlisting}[style=JavaStyle]
-		int[] numbers = {1, 2, 3, 4, 5};
-	\end{lstlisting}
-	\item \textbf{Akses Elemen:} Elemen array diakses menggunakan indeks, yang dimulai dari 0:
-	\begin{lstlisting}[style=JavaStyle]
-		int firstNumber = numbers[0]; // Mengakses elemen pertama
-	\end{lstlisting}
-	\item \textbf{Ukuran Array:} Ukuran array tetap dan dapat diakses dengan menggunakan \texttt{length}:
-	\begin{lstlisting}[style=JavaStyle]
-		int size = numbers.length;
-	\end{lstlisting}
-\end{itemize}
-
-\subsection{ArrayList}
-
-`ArrayList` adalah implementasi dari interface `List` yang menggunakan array dinamis untuk menyimpan elemen. Beberapa karakteristik `ArrayList` di Java adalah:
-
-\begin{itemize}
-	\item \textbf{Deklarasi dan Inisialisasi:} `ArrayList` dapat dideklarasikan dan diinisialisasi dengan tipe data generik. Contoh:
-	\begin{lstlisting}[style=JavaStyle]
-		ArrayList<Integer> list = new ArrayList<>();
-	\end{lstlisting}
-	\item \textbf{Menambahkan dan Mengakses Elemen:} Elemen dapat ditambahkan dengan metode \texttt{add} dan diakses dengan metode \texttt{get}:
-	\begin{lstlisting}[style=JavaStyle]
-		list.add(10);
-		int element = list.get(0);
-	\end{lstlisting}
-	\item \textbf{Menghapus Elemen:} Elemen dapat dihapus dengan metode \texttt{remove}:
-	\begin{lstlisting}[style=JavaStyle]
-		list.remove(0); // Menghapus elemen pada indeks 0
-	\end{lstlisting}
-	\item \textbf{Ukuran ArrayList:} Ukuran `ArrayList` dapat diakses dengan menggunakan metode \texttt{size}:
-	\begin{lstlisting}[style=JavaStyle]
-		int size = list.size();
-	\end{lstlisting}
-\end{itemize}
-
-\subsection{Konversi Antara Array dan ArrayList}
-
-Mengonversi antara `Array` dan `ArrayList` memungkinkan fleksibilitas dalam manipulasi data. Berikut adalah metode umum untuk konversi:
-
-\begin{itemize}
-	\item \textbf{ArrayList ke Array:} Gunakan metode \texttt{toArray(T[] a)} atau stream untuk mengonversi `ArrayList` menjadi array:
-	\begin{lstlisting}[style=JavaStyle]
-		Integer[] array = list.toArray(new Integer[0]);
-		Integer[] array2 = list.stream().toArray(Integer[]::new);
-	\end{lstlisting}
-	\item \textbf{Array ke ArrayList:} Gunakan metode \texttt{Arrays.asList(T... a)} untuk mengonversi array menjadi `ArrayList`:
-	\begin{lstlisting}[style=JavaStyle]
-		ArrayList<Integer> newList = new ArrayList<>(Arrays.asList(array));
-	\end{lstlisting}
-\end{itemize}
-
-\section{Penggunaan Array di Java}
+\subsection{Loop \texttt{for}}
+Loop \texttt{for} digunakan ketika jumlah iterasi sudah diketahui sebelumnya. Loop ini memiliki tiga bagian utama: inisialisasi, kondisi, dan iterasi. Sintaks dasar dari \texttt{for} loop adalah sebagai berikut:
 
 \begin{lstlisting}[style=JavaStyle]
-	package org.alfa.pertemuan06.arrayandlist;
+	for (initialization; condition; iteration) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Loop \texttt{while}}
+Loop \texttt{while} digunakan ketika jumlah iterasi tidak diketahui dan bergantung pada kondisi yang diberikan. Loop ini akan terus berjalan selama kondisi yang diberikan bernilai \texttt{true}. Berikut adalah sintaks dasar dari \texttt{while} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	while (condition) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Loop \texttt{do-while}}
+Loop \texttt{do-while} mirip dengan loop \texttt{while}, namun perbedaannya adalah loop ini akan mengeksekusi blok kode terlebih dahulu, sebelum memeriksa kondisi. Oleh karena itu, loop ini akan selalu dieksekusi setidaknya sekali, terlepas dari apakah kondisi awalnya \texttt{true} atau \texttt{false}. Berikut adalah sintaks dasar dari \texttt{do-while} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	do {
+		// block of code to be executed
+	} while (condition);
+\end{lstlisting}
+
+\subsection{Loop \texttt{for-each}}
+Loop \texttt{for-each} digunakan untuk iterasi melalui elemen-elemen dalam koleksi atau array. Ini adalah cara yang lebih sederhana dan lebih aman untuk mengulangi setiap elemen dalam sebuah koleksi. Berikut adalah sintaks dasar dari \texttt{for-each} loop:
+
+\begin{lstlisting}[style=JavaStyle]
+	for (type element : collection) {
+		// block of code to be executed
+	}
+\end{lstlisting}
+
+\subsection{Contoh Penggunaan Looping}
+Berikut adalah contoh sederhana yang menggunakan berbagai jenis loop di atas untuk menampilkan tabel perkalian:
+
+\begin{lstlisting}[style=JavaStyle]
+	// Contoh penggunaan loop
+	for (int i = 1; i <= 3; i++) {
+		for (int j = 1; j <= 3; j++) {
+			System.out.print(i + "x" + j + "=" + (i * j) + " ");
+		}
+		System.out.println();
+	}
+\end{lstlisting}
+
+
+
+
+\section{Looping pada Tipe Data Primitif di Java}
+
+Kelas \texttt{PrimitiveLoop} dalam kode berikut ini menampilkan penggunaan berbagai jenis looping untuk melakukan perhitungan perkalian sederhana. Program ini mengilustrasikan penggunaan loop \texttt{while}, \texttt{do-while}, \texttt{for}, dan \texttt{for-in}.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
 	
-	import java.util.Arrays;
-	
-	public class ArrayDemo {
+	public class PrimitiveLoop {
 		public static void main(String[] args) {
-			int[] a = null;
-			int[] b = new int[] {};
-			int[] c = { 1, 2, 3 };
-			double[] d = new double[] { 1, 2, 3, 4 };
-			double[] e = Arrays.copyOfRange(d, 1, 4);
 			
-			System.out.println(Arrays.toString(a));
-			System.out.println(Arrays.toString(b));
-			System.out.println(Arrays.toString(c));
-			System.out.println(Arrays.toString(d));
-			System.out.println(Arrays.toString(e));
+			executeWhileLoop(2, 1, 10);
+			System.out.println();
 			
-			System.out.print(d[0]);
-			System.out.print(", " + d[1]);
-			System.out.print(", " + d[3]);
+			executeDoWhile(3, 1, 10);
+			System.out.println();
 			
-			int[] f = new int[3];
-			f[2] = 99;
-			f[1] = 100;
-			f[0] = 31;
+			executeForLoop(4, 1, 10);
+			System.out.println();
 			
-			System.out.print(f[0]);
-			System.out.print(", " + f[1]);
-			System.out.print(", " + f[2]);
+			executeForIn(5, new int[] { 1, 2, 3, 4, 100, 6, 7, 8, 9, 10 });
+		}
+		
+		public static void executeWhileLoop(int value, int from, int to) {
+			while (from <= to) {
+				System.out.println(value + " * " + from + " = " + (value * from));
+				from++;
+			}
+		}
+		
+		public static void executeDoWhile(int value, int from, int to) {
+			do {
+				System.out.println(value + " * " + from + " = " + (value * from));
+				from++;
+			} while (from <= to);
+		}
+		
+		public static void executeForLoop(int value, int from, int to) {
+			for (int f = from ; f <= to ; f++) {
+				System.out.println(value + " * " + f + " = " + (value * f));
+			}
+		}
+		
+		public static void executeForIn(int value, int[] array) {
+			for (int element : array) {
+				System.out.println(value + " * " + element + " = " + (value * element));
+			}
 		}
 	}
 \end{lstlisting}
 
 \subsection{Pembahasan}
-
-\subsubsection{Deklarasi dan Inisialisasi Array}
-
-Dalam kode di atas, beberapa array dideklarasikan dan diinisialisasi dengan cara yang berbeda:
+Kelas ini menunjukkan bagaimana looping digunakan untuk menghitung hasil perkalian dari sebuah nilai dengan serangkaian angka. Berikut adalah penjelasan masing-masing metode:
 
 \begin{itemize}
-	\item \textbf{Array \texttt{a}:} Dideklarasikan tetapi tidak diinisialisasi, sehingga nilainya \texttt{null}.
-	\item \textbf{Array \texttt{b}:} Dideklarasikan dan diinisialisasi sebagai array kosong. \texttt{b.length} akan mengembalikan \texttt{0}.
-	\item \textbf{Array \texttt{c}:} Dideklarasikan dan diinisialisasi dengan tiga elemen \{1, 2, 3\}.
-	\item \textbf{Array \texttt{d}:} Dideklarasikan dan diinisialisasi dengan empat elemen \{1, 2, 3, 4\}.
-	\item \textbf{Array \texttt{e}:} Dibuat dengan menggunakan metode \texttt{Arrays.copyOfRange()} untuk menyalin elemen dari indeks 1 hingga 3 dari array \texttt{d}. Ini akan menghasilkan array \{2, 3, 4\}.
+	\item \textbf{Loop \texttt{while} (Metode \texttt{executeWhileLoop}):} \\
+	Metode ini menggunakan loop \texttt{while} untuk melakukan iterasi dari nilai awal \texttt{from} hingga nilai akhir \texttt{to}. Pada setiap iterasi, hasil perkalian \texttt{value} dengan \texttt{from} dicetak, kemudian nilai \texttt{from} diinkrementasi. Loop \texttt{while} digunakan ketika kita ingin memastikan bahwa kondisi tertentu terpenuhi sebelum melakukan eksekusi blok kode di dalam loop.
+	
+	\item \textbf{Loop \texttt{do-while} (Metode \texttt{executeDoWhile}):} \\
+	Metode ini mirip dengan loop \texttt{while}, tetapi dalam loop \texttt{do-while}, blok kode dieksekusi setidaknya sekali, bahkan jika kondisi loop tidak terpenuhi. Pada setiap iterasi, perkalian antara \texttt{value} dengan \texttt{from} dicetak, dan kemudian \texttt{from} diinkrementasi. Loop ini berguna ketika kita ingin memastikan bahwa blok kode dieksekusi minimal satu kali.
+	
+	\item \textbf{Loop \texttt{for} (Metode \texttt{executeForLoop}):} \\
+	Metode ini menggunakan loop \texttt{for} untuk iterasi dari \texttt{from} hingga \texttt{to}. Pada setiap iterasi, perkalian antara \texttt{value} dengan indeks \texttt{f} dicetak. Loop \texttt{for} adalah pilihan yang baik ketika kita tahu sebelumnya berapa kali kita ingin melakukan iterasi. Kode juga mencakup contoh lain (dalam komentar) di mana nilai \texttt{from} diubah langsung di dalam loop.
+	
+	\item \textbf{Loop \texttt{for-in} (Metode \texttt{executeForIn}):} \\
+	Metode ini menggunakan loop \texttt{for-in} untuk iterasi melalui elemen-elemen dalam array. Pada setiap iterasi, nilai elemen di dalam array dikalikan dengan \texttt{value} dan hasilnya dicetak. Loop \texttt{for-in} sangat efektif ketika kita ingin iterasi melalui setiap elemen dalam array atau koleksi tanpa harus mengkhawatirkan indeks secara eksplisit.
 \end{itemize}
 
-\subsubsection{Pencetakan Array}
 
-Kode diatas menunjukkan beberapa cara untuk mencetak elemen array:
+
+
+\section{Nested Loop dengan \texttt{while} di Java}
+
+Kelas \texttt{Latihan} dalam kode berikut ini menampilkan penggunaan nested loop (loop bersarang) untuk mencetak pola angka secara menurun. Kode ini terdiri dari dua loop \texttt{while} yang bersarang satu sama lain untuk menghasilkan output yang diinginkan.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class Latihan {
+		
+		public static void main (String[] args) {
+			int start = 5;
+			int end = 1;
+			int i = start;
+			while (i >= end) {
+				int j = i;
+				while (j >= end) {
+					System.out.print(j);
+					j--;
+				}
+				System.out.println();
+				i--;
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Program ini menggunakan nested loop (loop bersarang) untuk mencetak angka secara menurun dalam bentuk pola piramida terbalik. Berikut adalah penjelasan setiap bagian dari kode:
+
 \begin{itemize}
-	\item \texttt{System.out.println(Arrays.toString(array))}: Digunakan untuk mencetak elemen array dalam format string yang terpisah oleh koma.
-	\item \texttt{System.out.print()}: Digunakan untuk mencetak elemen array satu per satu dengan pemisah yang ditentukan.
+	\item \textbf{Deklarasi Variabel:}\\
+	Program dimulai dengan mendeklarasikan dua variabel, \texttt{start} dan \texttt{end}, yang masing-masing bernilai 5 dan 1. Variabel \texttt{i} diinisialisasi dengan nilai \texttt{start}, yaitu 5.
+	
+	\item \textbf{Loop \texttt{while} Luar:} \\
+	Loop \texttt{while} pertama (\texttt{while (i >= end)}) adalah loop luar yang mengontrol jumlah baris yang dicetak. Loop ini akan terus berjalan selama \texttt{i} lebih besar atau sama dengan \texttt{end}. Setelah setiap iterasi, nilai \texttt{i} dikurangi satu untuk mengurangi jumlah angka yang akan dicetak pada baris berikutnya.
+	
+	\item \textbf{Loop \texttt{while} Dalam:} \\
+	Di dalam loop luar, ada loop \texttt{while} kedua (\texttt{while (j >= end)}) yang bertanggung jawab untuk mencetak angka-angka pada setiap baris. Loop ini diinisialisasi dengan \texttt{j} yang dimulai dari nilai \texttt{i} dan berkurang hingga mencapai \texttt{end}. Pada setiap iterasi loop dalam ini, nilai \texttt{j} dicetak dan kemudian dikurangi satu.
+	
+	\item \textbf{Mencetak Baris Baru:} \\
+	Setelah loop dalam selesai (yakni setelah mencetak angka pada baris tertentu), \texttt{System.out.println()} dipanggil untuk mencetak baris baru, sehingga baris berikutnya dimulai pada baris baru di konsol.
+	
+	\item \textbf{Dekrementasi \texttt{i}:} \\
+	Setelah mencetak seluruh angka untuk baris tertentu, nilai \texttt{i} dikurangi satu (\texttt{i--}), yang menyebabkan loop luar mengulang dan mencetak baris baru dengan satu angka lebih sedikit dari baris sebelumnya.
 \end{itemize}
 
-\subsubsection{Inisialisasi dan Pencetakan Array Baru}
+\subsection{Hasil Program}
+Jika program dijalankan, output yang dihasilkan akan membentuk pola angka menurun sebagai berikut:
+
+\begin{verbatim}
+	54321
+	4321
+	321
+	21
+	1
+\end{verbatim}
+
+
+\section{Nested Loop untuk Perkalian di Java}
+
+Pada contoh kode ini, kita akan melihat bagaimana penggunaan nested loop (loop bersarang) dapat digunakan untuk mencetak tabel perkalian sederhana. Kode ini memiliki dua bagian utama: metode \texttt{main} dan metode \texttt{executeNestedLoop} yang melakukan sebagian besar pekerjaan.
+
+\subsection{Kode Java}
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
+	
+	public class NestedLoop {
+		
+		public static void main(String[] args) {
+			executeNestedLoop(1, 3, 1, 3);
+			System.out.println();
+		}
+		
+		public static void executeNestedLoop(int startRow, int endRow, int fromCol, int toCol) {
+			for (; startRow <= endRow; startRow++) {
+				int temp = fromCol;
+				while (fromCol <= toCol) {
+					System.out.print(startRow + "x" + fromCol + "=" + (startRow * fromCol) + " ");
+					fromCol++;
+				}
+				fromCol = temp;
+				System.out.println();
+			}
+		}
+	}
+\end{lstlisting}
+
+\subsection{Pembahasan}
+Program ini menggunakan kombinasi dari loop \texttt{for} dan \texttt{while} untuk menghasilkan tabel perkalian dalam bentuk nested loop. Berikut adalah penjelasan dari setiap bagian kode:
 
 \begin{itemize}
-	\item \textbf{Array \texttt{f}:} Dideklarasikan dengan ukuran 3 dan diinisialisasi dengan nilai \{31, 100, 99\}.
-	\item \texttt{System.out.print(f[0]); System.out.print(", " + f[1]); System.out.print(", " + f[2]);}: Digunakan untuk mencetak elemen-elemen array \texttt{f} dengan pemisah koma.
+	\item \textbf{Metode \texttt{main}:}\\
+	Metode ini hanya memanggil metode \texttt{executeNestedLoop} dengan parameter yang sudah ditentukan. Di sini, \texttt{startRow} dimulai dari 1, \texttt{endRow} diakhiri pada 3, \texttt{fromCol} dimulai dari 1, dan \texttt{toCol} diakhiri pada 3. Ini berarti bahwa metode \texttt{executeNestedLoop} akan menghasilkan tabel perkalian untuk angka dari 1 hingga 3.
+	
+	\item \textbf{Loop \texttt{for} (Loop Luar):} \\
+	Loop \texttt{for} pertama (\texttt{for (; startRow <= endRow; startRow++)}) adalah loop luar yang mengontrol baris-baris dalam tabel perkalian. Loop ini berjalan dari \texttt{startRow} hingga \texttt{endRow}, sehingga dalam contoh ini akan berjalan untuk baris 1, 2, dan 3.
+	
+	\item \textbf{Loop \texttt{while} (Loop Dalam):} \\
+	Di dalam loop \texttt{for}, terdapat loop \texttt{while} (\texttt{while (fromCol <= toCol)}) yang bertanggung jawab untuk mencetak setiap elemen dalam baris. Loop ini mencetak hasil perkalian dari \texttt{startRow} dengan nilai-nilai dari \texttt{fromCol} hingga \texttt{toCol}. Setelah setiap iterasi, nilai \texttt{fromCol} ditingkatkan (\texttt{fromCol++}).
+	
+	\item \textbf{Pengaturan Ulang Nilai Kolom:} \\
+	Setelah loop \texttt{while} selesai untuk satu baris, nilai \texttt{fromCol} direset ke nilai awalnya (\texttt{fromCol = temp;}) sehingga loop dapat mulai dari kolom pertama lagi untuk baris berikutnya.
+	
+	\item \textbf{Mencetak Baris Baru:} \\
+	Setelah mencetak semua kolom untuk baris tertentu, \texttt{System.out.println();} dipanggil untuk memindahkan output ke baris berikutnya di konsol. Ini memastikan bahwa hasil perkalian untuk baris berikutnya dicetak pada baris yang berbeda.
 \end{itemize}
 
-\section{Penggunaan ArrayList di Java}
+\subsection{Hasil Program}
+Jika program ini dijalankan, output yang dihasilkan akan terlihat seperti ini:
+
+\begin{verbatim}
+	1x1=1 1x2=2 1x3=3 
+	2x1=2 2x2=4 2x3=6 
+	3x1=3 3x2=6 3x3=9 
+\end{verbatim}
+
+
+\section{Contoh Studi Kasus: Proses Looping pada Daftar Akun Bank di Java}
+
+\subsection{Kelas \texttt{BankAccount}}
+Kelas \texttt{BankAccount} digunakan untuk merepresentasikan akun bank dengan atribut dasar seperti nomor akun, nama pemilik, dan saldo. Kelas ini menyediakan metode untuk menyimpan uang (\texttt{save}), menarik uang (\texttt{withdraw}), serta metode untuk mendapatkan informasi dasar seperti nomor akun, nama, dan saldo.
 
 \begin{lstlisting}[style=JavaStyle]
-	package org.alfa.pertemuan06.arrayandlist;
+	package org.alfa.pertemuan07.looping;
+	
+	public class BankAccount {
+		private String accountNumber;
+		private String name;
+		private double balance = 0.0;
+		
+		public BankAccount(String accountNumber, String name) {
+			this.name = name;
+			this.accountNumber = accountNumber;
+		}
+		
+		public double getBalance() {
+			return this.balance;
+		}
+		
+		public void save(double amount) {
+			this.balance = this.balance + amount;
+		}
+		
+		public void withdraw(double amount) {
+			this.balance = this.balance - amount;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getAccountNumber() {
+			return accountNumber;
+		}
+		
+		@Override
+		public String toString() {
+			return "{" + this.accountNumber + ", " + this.name + ", " + this.balance + "}";
+		}
+	}
+\end{lstlisting}
+
+\subsection{Kelas \texttt{ObjectLoop}}
+Kelas \texttt{ObjectLoop} berfokus pada pengelolaan objek \texttt{BankAccount} yang disimpan dalam sebuah \texttt{ArrayList}. Kelas ini menampilkan beberapa metode looping yang digunakan untuk mengakses dan memanipulasi data dalam daftar tersebut.
+
+\begin{lstlisting}[style=JavaStyle]
+	package org.alfa.pertemuan07.looping;
 	
 	import java.util.ArrayList;
-	import java.util.Arrays;
+	import java.util.Iterator;
+	import java.util.List;
 	
-	public class ArrayListDemo {
+	public class ObjectLoop {
 		public static void main(String[] args) {
-			ArrayList<Integer> a = null;
-			ArrayList<Integer> b = new ArrayList<Integer>();
-			ArrayList<Integer> c = 
-			new ArrayList<>(Arrays.asList(73, 101, 6));
+			ArrayList<BankAccount> accountList = new ArrayList<>();
+			accountList.add(new BankAccount("1001", "Alice"));
+			accountList.get(accountList.size() - 1).save(100);
+			accountList.add(new BankAccount("1002", "Bob"));
+			accountList.get(accountList.size() - 1).save(200);
+			accountList.add(new BankAccount("1003", "Charlie"));
+			accountList.get(accountList.size() - 1).save(300);
+			System.out.println(accountList);
 			
-			b.add(99);
-			System.out.println(b);
-			b.add(97);
-			b.add(0, 98);
-			System.out.println(b);
-			b.add(97);
-			System.out.println(b);
+			executeForIn(accountList);
+			System.out.println();
 			
-			System.out.println("b's Size = " + b.size());
+			executeIterator(accountList);
+			System.out.println();
 			
-			b.remove(0);
-			System.out.println(b);
+			executeForEach(accountList);
+			System.out.println();
 			
-			b.remove(97);
-			Integer z = 97;
-			b.remove(z);
-			System.out.println(b);
+			System.out.println();
 			
-			System.out.println("c(0) = " + c.get(0));
-			System.out.println("c(2) = " + c.get(c.size() - 1));
+			int i = 0;
+			while (i < accountList.size()) {
+				BankAccount ba = accountList.get(i);
+				System.out.println(ba.getName());
+				i++;
+			}
 			
-			System.out.println(c);
-			c.add(1, 999);
-			System.out.println("c(0) = " + c.get(0));
-			System.out.println("c(1) = " + c.get(1));
-			System.out.println(c);
+			System.out.println();
+			for (int k = 0; k < accountList.size(); k++) {
+				BankAccount ba = accountList.get(k);
+				System.out.println(ba.getName());
+			}
+		}
+		
+		public static void executeForIn(List<BankAccount> bankAccountList) {
+			System.out.print("Account number: ");
+			for (BankAccount bankAccount : bankAccountList) {
+				System.out.print(bankAccount.getAccountNumber() + " ");
+			}
+		}
+		
+		public static void executeIterator(List<BankAccount> bankAccountList) {
+			System.out.print("Name: ");
+			Iterator<BankAccount> iterator = bankAccountList.iterator();
+			while (iterator.hasNext()) {
+				BankAccount bankAccount = iterator.next();
+				System.out.print(bankAccount.getName() + " ");
+			}
+		}
+		
+		public static void executeForEach(List<BankAccount> bankAccountList) {
+			System.out.print("Balance: ");
+			bankAccountList.forEach(bankAccount -> {
+				System.out.print(bankAccount.getBalance() + " ");
+			});
 		}
 	}
 \end{lstlisting}
 
 \subsection{Pembahasan}
 
-\subsubsection{Deklarasi dan Inisialisasi ArrayList}
-
-Dalam kode di atas, beberapa `ArrayList` dideklarasikan dan diinisialisasi dengan cara yang berbeda:
-
 \begin{itemize}
-	\item \textbf{ArrayList \texttt{a}:} Dideklarasikan tetapi tidak diinisialisasi, sehingga nilainya \texttt{null}.
-	\item \textbf{ArrayList \texttt{b}:} Dideklarasikan dan diinisialisasi sebagai `ArrayList` kosong.
-	\item \textbf{ArrayList \texttt{c}:} Dideklarasikan dan diinisialisasi dengan tiga elemen \{73, 101, 6\} menggunakan metode \texttt{Arrays.asList()}.
+	\item \textbf{Konstruksi Kelas \texttt{BankAccount}:} \\
+	Kelas \texttt{BankAccount} memiliki konstruktor yang menerima dua parameter: \texttt{accountNumber} dan \texttt{name}, yang digunakan untuk menginisialisasi atribut terkait. Saldo (\texttt{balance}) diinisialisasi dengan nilai 0.0.
+	
+	\item \textbf{Metode \texttt{save} dan \texttt{withdraw}:} \\
+	Metode \texttt{save} digunakan untuk menambahkan sejumlah uang ke saldo akun, sedangkan \texttt{withdraw} digunakan untuk mengurangi saldo.
 \end{itemize}
 
-\subsubsection{Operasi pada ArrayList}
 
-Kode diatas menunjukkan beberapa operasi dasar dengan `ArrayList`:
-
-\begin{itemize}
-	\item \texttt{add(element)}: Menambahkan elemen ke dalam `ArrayList`. Misalnya, \texttt{b.add(99)} menambahkan nilai 99 ke dalam `b`.
-	\item \texttt{add(index, element)}: Menambahkan elemen pada posisi tertentu. Misalnya, \texttt{b.add(0, 98)} menambahkan nilai 98 di posisi indeks 0.
-	\item \texttt{remove(index)}: Menghapus elemen pada posisi tertentu. Misalnya, \texttt{b.remove(0)} menghapus elemen pada indeks 0.
-	\item \texttt{remove(element)}: Menghapus elemen yang spesifik. Misalnya, \texttt{b.remove(z)} menghapus nilai yang sama dengan nilai variabel \texttt{z}.
-	\item \texttt{size()}: Mengembalikan jumlah elemen dalam `ArrayList`. Misalnya, \texttt{b.size()} mengembalikan ukuran dari `b`.
-\end{itemize}
-
-\subsubsection{Mengakses dan Memodifikasi Elemen}
+Teknik looping yang digunakan dalam kode di atas untuk mengakses daftar akun bank antara lain:
 
 \begin{itemize}
-	\item \textbf{Mengakses Elemen:} Elemen `ArrayList` dapat diakses menggunakan metode \texttt{get(index)}. Misalnya, \texttt{c.get(0)} mengakses elemen pertama dari `c`.
-	\item \textbf{Modifikasi Elemen:} Elemen `ArrayList` dapat dimodifikasi menggunakan metode \texttt{add(index, element)}. Misalnya, \texttt{c.add(1, 999)} menambahkan nilai 999 di posisi indeks 1.
+	\item \textbf{Loop \texttt{for-in} (Metode \texttt{executeForIn}):} \\
+	Metode \texttt{executeForIn} menggunakan loop \texttt{for-in} untuk iterasi melalui \texttt{List} objek \texttt{BankAccount}. Loop ini digunakan untuk mencetak nomor akun dari setiap \texttt{BankAccount} dalam daftar. Loop \texttt{for-in} sangat berguna saat Anda ingin mengakses setiap elemen dalam daftar secara langsung.
+	
+	\item \textbf{Iterator (Metode \texttt{executeIterator}):} \\
+	Metode \texttt{executeIterator} memanfaatkan \texttt{Iterator} untuk iterasi melalui \texttt{List} objek \texttt{BankAccount}. Dalam loop ini, kita menggunakan metode \texttt{hasNext()} untuk memeriksa apakah masih ada elemen berikutnya dalam daftar, dan \texttt{next()} untuk mengakses elemen tersebut. Teknik ini memberikan kontrol yang lebih besar atas iterasi, terutama jika Anda perlu memodifikasi daftar saat iterasi berlangsung.
+	
+	\item \textbf{Loop \texttt{forEach} (Metode \texttt{executeForEach}):} \\
+	Metode \texttt{executeForEach} menggunakan ekspresi lambda dalam loop \texttt{forEach} untuk mengakses dan mencetak saldo dari setiap \texttt{BankAccount} dalam daftar. Loop \texttt{forEach} ini sangat berguna dalam Java karena sintaksnya yang ringkas dan kemampuannya untuk mendefinisikan tindakan yang harus dilakukan pada setiap elemen dalam daftar.
+	
+	\item \textbf{Loop \texttt{while}:} \\
+	Loop \texttt{while} digunakan untuk iterasi selama kondisi tertentu terpenuhi. Dalam contoh ini, loop \texttt{while} digunakan untuk mencetak nama dari setiap akun bank dalam daftar. Nilai \texttt{i} diinkrementasi setiap kali iterasi dilakukan sampai mencapai ukuran daftar.
+	
+	\item \textbf{Loop \texttt{for} biasa:} \\
+	Loop \texttt{for} biasa digunakan untuk iterasi melalui elemen daftar dengan memanfaatkan indeks. Dalam contoh ini, loop \texttt{for} digunakan untuk mencetak nama dari setiap \texttt{BankAccount} dengan menggunakan indeks \texttt{k} yang diinkrementasi pada setiap iterasi.
 \end{itemize}
 
-\subsubsection{Array of Objects}
 
-Bagian kode yang dikomentari juga menunjukkan penggunaan array objek. `Object[]` dapat digunakan untuk menyimpan berbagai tipe objek:
+\section{Recursive Loop di Java}
 
-\begin{itemize}
-	\item \textbf{Array \texttt{person}:} Dideklarasikan dengan ukuran 10 dan diisi dengan nilai yang berbeda, termasuk `String` dan `Double`.
-	\item \textbf{Array \texttt{people}:} Dideklarasikan dengan ukuran 100 dan diisi dengan array \texttt{person}.
-\end{itemize}
+Rekursi adalah salah satu teknik dalam pemrograman di mana suatu fungsi memanggil dirinya sendiri. Teknik ini sering digunakan untuk menyelesaikan masalah yang dapat dipecah menjadi sub-masalah yang lebih kecil dengan pola yang sama. Dalam Java, metode rekursif harus memiliki sebuah \textit{base case} untuk menghentikan rekursi agar tidak terjadi \textit{infinite loop}. 
 
-\section{Konversi Antara Array dan ArrayList di Java}
+Ketika suatu metode dipanggil secara rekursif, Java akan menyimpan informasi dari pemanggilan sebelumnya di dalam \textit{call stack}. Setelah \textit{base case} tercapai, semua panggilan rekursif akan dievaluasi mundur (\textit{backtracking}) sampai ke pemanggilan pertama. Oleh karena itu, penting untuk memastikan bahwa setiap fungsi rekursif akan mencapai \textit{base case} dalam kondisi tertentu.
+
+\subsection{Contoh: Menghitung Penjumlahan Bilangan dari 1 hingga n}
+
+Misalkan ingin menghitung jumlah bilangan dari 1 hingga \( n \). Masalah ini dapat diselesaikan dengan mudah menggunakan rekursi. Secara matematis, penjumlahan bilangan dari 1 hingga \( n \) dapat didefinisikan sebagai:
+
+\[
+sum(n) = n + sum(n-1)
+\]
+
+dengan \textit{base case} jika \( n = 1 \), maka \( sum(1) = 1 \).
+
+Berikut adalah implementasi sederhana dalam Java:
 
 \begin{lstlisting}[style=JavaStyle]
-	package org.alfa.pertemuan06.arrayandlist;
-	
-	import java.util.ArrayList;
-	import java.util.Arrays;
-	
-	public class Coversion {
+	public class SumRecursive {
 		public static void main(String[] args) {
-			ArrayList<Integer> list = new ArrayList<>();
-			list.add(3);
-			list.add(2);
-			list.add(1);
-			System.out.println("List: " + list);
-			
-			Integer[] array = list.toArray(new Integer[0]);
-			System.out.println("Array 1: " + Arrays.toString(array));
-			
-			Integer[] array2 = list.stream().toArray(Integer[]::new);
-			System.out.println("Array 2: " + Arrays.toString(array2));
-			
-			ArrayList<Integer> newList = new ArrayList<>(Arrays.asList(array));
-			System.out.println("New List: " + newList);
-			
-			int[] a = new int[list.size()];
-			a[2] = list.get(0); 
-			a[1] = list.get(1); 
-			a[0] = list.get(2);
-			System.out.println("Array a: " + Arrays.toString(a));
-			
-			ArrayList<Integer> l = new ArrayList<>();
-			l.add(a[2]);
-			l.add(a[1]);
-			l.add(a[0]);
-			System.out.println("List l: " + l.toString());
+			int number = 5;
+			System.out.println("Jumlah dari 1 hingga " + number + " adalah: " + sum(number));
+		}
+		
+		public static int sum(int n) {
+			if (n == 1) {
+				return 1; // Base case
+			} else {
+				return n + sum(n - 1); // Recursive case
+			}
 		}
 	}
 \end{lstlisting}
 
-\subsection{Pembahasan}
+Pada kode di atas, metode \texttt{sum(int n)} dipanggil secara rekursif. Jika nilai \( n \) sama dengan 1, maka fungsi tersebut akan mengembalikan nilai 1 sebagai hasil dari \textit{base case}. Jika nilai \( n \) lebih besar dari 1, maka fungsi tersebut akan menghitung \( n + sum(n-1) \), di mana nilai dari \texttt{sum(n-1)} akan dihitung dengan cara yang sama hingga mencapai \textit{base case}.
 
-\subsubsection{Konversi dari ArrayList ke Array}
+\subsection{Penjelasan Proses Rekursi}
 
-Beberapa metode untuk mengonversi `ArrayList` ke array ditunjukkan dalam kode:
+Proses rekursi dapat dijelaskan dengan melihat alur eksekusi metode \texttt{sum} untuk nilai \( n = 3 \). Berikut urutan pemanggilan yang terjadi:
 
-\begin{itemize}
-	\item \textbf{Metode \texttt{toArray(T[] a)}:} Mengonversi `ArrayList` menjadi array dengan jenis yang sama. Misalnya, \texttt{list.toArray(new Integer[0])} mengonversi `list` menjadi array \texttt{Integer}.
-	\item \textbf{Metode Stream \texttt{toArray()} :} Menggunakan stream untuk mengonversi `ArrayList` menjadi array. Misalnya, \texttt{list.stream().toArray(Integer[]::new)} mengonversi `list` menjadi array \texttt{Integer[]}.
-\end{itemize}
+1. \texttt{sum(3)} dipanggil.
+2. \texttt{sum(3)} memanggil \texttt{sum(2)}.
+3. \texttt{sum(2)} memanggil \texttt{sum(1)}.
+4. \texttt{sum(1)} mengembalikan 1 sebagai nilai dari \textit{base case}.
+5. \texttt{sum(2)} mengembalikan \( 2 + 1 = 3 \).
+6. \texttt{sum(3)} mengembalikan \( 3 + 3 = 6 \).
 
-\subsubsection{Konversi dari Array ke ArrayList}
+Dari urutan pemanggilan tersebut, dapat dilihat bahwa hasil akhir dari \texttt{sum(3)} adalah 6.
 
-\begin{itemize}
-	\item \textbf{Metode \texttt{Arrays.asList(T... a)}:} Mengonversi array menjadi `ArrayList`. Misalnya, \texttt{new ArrayList<>(Arrays.asList(array))} mengonversi array \texttt{array} menjadi `ArrayList`.
-\end{itemize}
+\subsection{Kelebihan dan Kekurangan Penggunaan Rekursi}
 
-\subsubsection{Manipulasi Array dan ArrayList}
+Kelebihan utama dari penggunaan rekursi adalah membuat kode lebih sederhana dan mudah dibaca untuk masalah yang memiliki struktur berulang. Selain itu, rekursi cocok digunakan untuk menyelesaikan masalah yang dapat dipecah menjadi sub-masalah, seperti pencarian pada struktur data berbentuk pohon (tree). 
 
-\begin{itemize}
-	\item \textbf{Array dari List:} Membuat array \texttt{int} dan menyalin elemen dari `ArrayList` ke array tersebut. Misalnya, \texttt{a[2] = list.get(0)} menyalin elemen pertama dari `list` ke posisi ketiga dari array \texttt{a}.
-	\item \textbf{List dari Array:} Membuat `ArrayList` baru dari array \texttt{int}. Misalnya, \texttt{l.add(a[2])} menambahkan elemen array ke dalam `ArrayList`.
-\end{itemize}
+Namun, rekursi juga memiliki beberapa kekurangan. Pemanggilan fungsi secara rekursif akan menyimpan banyak \textit{frame} di dalam \textit{call stack}, yang dapat menyebabkan \textit{memory overhead} jika dilakukan terlalu dalam atau terlalu sering. Jika \textit{base case} tidak didefinisikan dengan baik, maka akan terjadi \textit{StackOverflowError} akibat dari pemanggilan rekursif tanpa akhir.
+
+Oleh karena itu, penggunaan rekursi harus dipertimbangkan dengan baik, terutama ketika memproses data dalam jumlah besar atau melakukan operasi yang membutuhkan banyak pemanggilan rekursif.
+
 
 \section{Latihan dan Contoh Kode}
 
-Berikut adalah beberapa latihan untuk membantu Anda memahami penggunaan Array, ArrayList, dan konversi di Java.
 
-\begin{enumerate}
-	
-	\item \textbf{Latihan 1: Mengelola Data Mahasiswa}
-	
-	Tugas: Buatlah sebuah program yang mengelola data mahasiswa dengan menggunakan \texttt{ArrayList}. Tambahkan nama mahasiswa ke dalam list, cetak semua nama, hapus nama tertentu, dan cetak ukuran list setelah penghapusan.
-	
-	\begin{lstlisting}[style=JavaStyle]
-		package org.alfa.pertemuan06.arrayandlist;
-		
-		import java.util.ArrayList;
-		
-		public class StudentListDemo {
-			
-			public static void main(String[] args) {
-				ArrayList<String> students = new ArrayList<>();
-				students.add("Alice");
-				students.add("Bob");
-				students.add("Charlie");
-				
-				System.out.println("Students: " + students);
-				
-				students.remove("Bob");
-				System.out.println("Students after removal: " + students);
-				System.out.println("Number of students: " + students.size());
+Berikut adalah beberapa soal latihan yang mencakup penggunaan looping \texttt{for}, \texttt{while}, \texttt{do-while}, \texttt{for-in}, \texttt{nested loop}, rekursif, dan pengkondisian tanpa menggunakan struktur data seperti \texttt{array}, \texttt{list}, \texttt{map}, atau \texttt{set}.
+
+\subsection{1. Looping dengan \texttt{for}}
+Buatlah program yang menampilkan deret bilangan ganjil dari 1 hingga 15 menggunakan loop \texttt{for}. Gunakan pengkondisian untuk mengecek apakah sebuah bilangan merupakan bilangan ganjil.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class OddNumbers {
+		public static void main(String[] args) {
+			System.out.println("Deret bilangan ganjil dari 1 hingga 15:");
+			for (int i = 1; i <= 15; i++) {
+				if (i % 2 != 0) { // Mengecek apakah i adalah bilangan ganjil
+					System.out.print(i + " ");
+				}
 			}
 		}
-	\end{lstlisting}
-	
-	\item \textbf{Latihan 2: Konversi Array ke ArrayList dan Sebaliknya}
-	
-	Tugas: Buatlah program yang mengonversi array string menjadi \texttt{ArrayList}, tambahkan beberapa elemen ke \texttt{ArrayList}, konversi kembali ke array, dan cetak hasilnya.
-	
-	\begin{lstlisting}[style=JavaStyle]
-		package org.alfa.pertemuan06.arrayandlist;
-		
-		import java.util.ArrayList;
-		import java.util.Arrays;
-		
-		public class ConversionDemo {
-			
-			public static void main(String[] args) {
-				String[] array = {"Red", "Green", "Blue"};
-				ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
-				
-				list.add("Yellow");
-				list.add("Purple");
-				
-				String[] newArray = list.toArray(new String[0]);
-				System.out.println("New Array: " + Arrays.toString(newArray));
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Deret bilangan ganjil dari 1 hingga 15:
+	1 3 5 7 9 11 13 15
+\end{lstlisting}
+
+\subsection{2. Looping dengan \texttt{while}}
+Buatlah program yang menampilkan bilangan kelipatan 3 dari 3 hingga 30 menggunakan loop \texttt{while}. Gunakan pengkondisian untuk memastikan bilangan adalah kelipatan 3.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class MultiplesOfThree {
+		public static void main(String[] args) {
+			int i = 1;
+			System.out.println("Bilangan kelipatan 3 dari 3 hingga 30:");
+			while (i <= 30) {
+				if (i % 3 == 0) { // Mengecek apakah i adalah kelipatan 3
+					System.out.print(i + " ");
+				}
+				i++;
 			}
 		}
-	\end{lstlisting}
-	
-	\item \textbf{Latihan 3: Array Multi-Dimensi dan ArrayList}
-	
-	Tugas: Buatlah program yang menggunakan array dua dimensi untuk menyimpan nilai integer. Konversikan baris pertama dari array dua dimensi ke dalam \texttt{ArrayList}, kemudian cetak hasilnya.
-	
-	\begin{lstlisting}[style=JavaStyle]
-		package org.alfa.pertemuan06.arrayandlist;
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Bilangan kelipatan 3 dari 3 hingga 30:
+	3 6 9 12 15 18 21 24 27 30
+\end{lstlisting}
+
+\subsection{3. Looping dengan \texttt{do-while}}
+Buatlah program yang menampilkan angka-angka dari 10 hingga 1 menggunakan loop \texttt{do-while}. Tambahkan pengkondisian untuk menampilkan pesan "Genap" jika angka yang ditampilkan merupakan bilangan genap.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class Countdown {
+		public static void main(String[] args) {
+			int i = 10;
+			System.out.println("Penghitungan mundur dari 10 hingga 1:");
+			do {
+				if (i % 2 == 0) { // Mengecek apakah i adalah bilangan genap
+					System.out.print(i + " (Genap) ");
+				} else {
+					System.out.print(i + " ");
+				}
+				i--;
+			} while (i >= 1);
+		}
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Penghitungan mundur dari 10 hingga 1:
+	10 (Genap) 9 8 (Genap) 7 6 (Genap) 5 4 (Genap) 3 2 (Genap) 1
+\end{lstlisting}
+
+\subsection{4. Looping dengan \texttt{for-in} (enhanced \texttt{for} loop)}
+Buatlah program yang menampilkan huruf-huruf dari kata \texttt{"JAVA"} menggunakan loop \texttt{for-in}. Tambahkan pengkondisian untuk menampilkan huruf kapital yang ada di dalam kata tersebut.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class ForInExample {
+		public static void main(String[] args) {
+			String word = "JAVA";
+			System.out.println("Huruf kapital dari kata \"" + word + "\":");
+			for (char c : word.toCharArray()) {
+				if (Character.isUpperCase(c)) { // Mengecek apakah huruf adalah kapital
+					System.out.print(c + " ");
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Huruf kapital dari kata "JAVA":
+	J A V A
+\end{lstlisting}
+
+\subsection{5. Nested Loop}
+Buatlah program yang menampilkan pola segitiga siku-siku dengan simbol \texttt{*} sebanyak 5 baris. Tambahkan pengkondisian untuk mengganti simbol pada baris ketiga menjadi tanda \texttt{\#}.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class RightTriangle {
+		public static void main(String[] args) {
+			System.out.println("Pola segitiga siku-siku:");
+			for (int i = 1; i <= 5; i++) {
+				for (int j = 1; j <= i; j++) {
+					if (i == 3) { // Ubah simbol pada baris ketiga menjadi #
+						System.out.print("# ");
+					} else {
+						System.out.print("* ");
+					}
+				}
+				System.out.println();
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Pola segitiga siku-siku:
+	* 
+	* * 
+	# # # 
+	* * * * 
+	* * * * * 
+\end{lstlisting}
+
+\subsection{6. Rekursif: Menghitung Faktorial}
+Buatlah program untuk menghitung faktorial dari suatu bilangan \( n \) menggunakan metode rekursif. Tambahkan pengkondisian untuk memastikan input adalah bilangan positif.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class Factorial {
+		public static void main(String[] args) {
+			int number = -5;
+			if (number < 0) {
+				System.out.println("Bilangan harus positif.");
+			} else {
+				System.out.println("Faktorial dari " + number + " adalah: " + factorial(number));
+			}
+		}
 		
-		import java.util.ArrayList;
-		import java.util.Arrays;
+		public static int factorial(int n) {
+			if (n == 1) {
+				return 1; // Base case
+			} else {
+				return n * factorial(n - 1); // Recursive case
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Bilangan harus positif.
+\end{lstlisting}
+
+\subsection{7. Rekursif: Mencetak Bilangan Berurutan}
+Buatlah program untuk mencetak bilangan berurutan dari 1 hingga \( n \) menggunakan metode rekursif. Tambahkan pengkondisian untuk memastikan nilai input \( n \) tidak lebih dari 10.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class PrintNumbers {
+		public static void main(String[] args) {
+			int number = 15;
+			if (number > 10) {
+				System.out.println("Input tidak boleh lebih dari 10.");
+			} else {
+				System.out.print("Bilangan dari 1 hingga " + number + ": ");
+				printNumbers(number);
+			}
+		}
 		
-		public class MultiDimArrayDemo {
+		public static void printNumbers(int n) {
+			if (n == 1) {
+				System.out.print(n + " ");
+			} else {
+				printNumbers(n - 1);
+				System.out.print(n + " ");
+			}
+		}
+	}
+\end{lstlisting}
+
+\textbf{Output}:
+\begin{lstlisting}[language=bash]
+	Input tidak boleh lebih dari 10.
+\end{lstlisting}
+
+
+\subsection{8. Menampilkan Angka Prima dari 1 sampai 50}
+
+Buatlah sebuah program Java yang menampilkan semua angka prima dari 1 sampai 50. Gunakan \texttt{for loop} bersarang untuk mengecek keprimaan setiap angka.
+
+\begin{lstlisting}[style=JavaStyle]
+	public class AngkaPrima {
+		
+		public static void main(String[] args) {
+			int limit = 50;
 			
-			public static void main(String[] args) {
-				int[][] matrix = {
-					{1, 2, 3},
-					{4, 5, 6},
-					{7, 8, 9}
-				};
+			System.out.print("Angka prima antara 1 dan " + limit + ": ");
+			for (int i = 2; i <= limit; i++) {
+				boolean isPrima = true;
 				
-				ArrayList<Integer> firstRow = new ArrayList<>();
-				for (int num : matrix[0]) {
-					firstRow.add(num);
+				for (int j = 2; j <= i / 2; j++) {
+					if (i % j == 0) {
+						isPrima = false;
+						break;
+					}
 				}
 				
-				System.out.println("First Row as ArrayList: " + firstRow); // First Row as ArrayList: [1, 2, 3]
+				if (isPrima) {
+					System.out.print(i + " ");
+				}
 			}
 		}
-	\end{lstlisting}
-\end{enumerate}
+	}
+\end{lstlisting}
+
 
 \section{Soal}
 
-Berikut adalah beberapa latihan yang berkaitan dengan penggunaan Array dan ArrayList di Java:
+Berikut adalah beberapa soal latihan yang merupakan kombinasi dari topik-topik looping, rekursif, dan pengkondisian.
 
-\begin{enumerate}
-	
-	\item \textbf{Soal 1:} Tulis program yang mengelola daftar tugas menggunakan \texttt{ArrayList}. Tambahkan beberapa tugas ke dalam daftar, tandai tugas sebagai selesai dengan menghapusnya dari daftar, dan cetak daftar tugas yang tersisa setelah beberapa tugas dihapus.
-	
-	\item \textbf{Soal 2:} Tulis program yang menginisialisasi array dua dimensi dengan nilai acak antara 1 hingga 100. Konversikan setiap baris dari array dua dimensi ke dalam \texttt{ArrayList}, lalu cetak \texttt{ArrayList} dari setiap baris.
-	
-	\item \textbf{Soal 3:} Tulis program yang mengelola daftar nilai siswa menggunakan \texttt{ArrayList} dengan tipe data \texttt{Double}. Tambahkan beberapa nilai ke dalam daftar, hitung rata-rata nilai, dan cetak daftar nilai yang lebih besar dari rata-rata tersebut.
-	
-\end{enumerate}
+\subsection*{1. Looping dengan \texttt{for}}
+Dengan menggunakan \texttt{for}, buatlah program yang menampilkan bilangan genap dari 1 hingga 50. Tambahkan pengkondisian untuk memberikan label "Genap" pada setiap bilangan genap yang ditampilkan.
+
+\subsection*{2. Nested Loop}
+Buatlah program yang mencetak pola segitiga terbalik dengan simbol \texttt{*} sebanyak 5 baris. Di setiap baris, jika indeks baris genap, gunakan simbol \texttt{\#} sebagai pengganti \texttt{*} untuk mencetak pola tersebut.
+
+\subsection{3. Looping dengan \texttt{while}}
+Buatlah program yang meminta pengguna memasukkan sebuah bilangan bulat positif \( n \), dan kemudian mencetak deret angka dari 1 hingga \( n \) menggunakan loop \texttt{while}. Tambahkan pengkondisian untuk memastikan bahwa bilangan yang dimasukkan adalah positif, dan tampilkan pesan kesalahan jika bilangan negatif.
+
+
+\subsection*{4. Looping dengan \texttt{do-while}}
+Buatlah program yang meminta pengguna memasukkan bilangan bulat positif. Gunakan loop \texttt{do-while} untuk menampilkan tabel pangkat dari bilangan bulat tersebut dari 2 sampai 10. Tambahkan pengkondisian untuk memastikan bahwa bilangan yang dimasukkan adalah positif.
+
+\subsection*{5. Looping dengan \texttt{for-in}}
+Buatlah program yang menampilkan karakter-karakter dari suatu kalimat yang diberikan oleh pengguna. Gunakan loop \texttt{for-in} untuk mengakses setiap karakter dalam kalimat tersebut, dan hitung dan tampilkan jumlah huruf vokal.
+
+\subsection*{6. Kombinasi Looping dan Rekursif}
+Buatlah program yang mencetak bilangan dari 1 hingga \( n \) menggunakan metode rekursif. Pastikan bahwa \( n \) adalah bilangan positif, dan jika tidak, tampilkan pesan yang sesuai.
