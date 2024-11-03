@@ -12,7 +12,7 @@ public class TestConnection {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection connection = DriverManager //
-					.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "1234");
+					.getConnection("jdbc:mysql://localhost:3306/pradita", "alfa", "1234");
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("select * from item");

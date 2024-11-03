@@ -68,7 +68,7 @@ public class OrderForm {
 	private JTextField txtCode;
 	private JTextField txtDate;
 	private JTextArea txtNote;
-
+ 
 	public static Connection CONNECTION;
 
 	public boolean isAddMode = false;
@@ -88,7 +88,7 @@ public class OrderForm {
 		// initialize connection to database
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		CONNECTION = DriverManager //
-		    .getConnection("jdbc:mysql://localhost:3306/pradita", "root", "1234");
+		    .getConnection("jdbc:mysql://localhost:3306/pradita", "alfa", "1234");
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -131,7 +131,7 @@ public class OrderForm {
 		frmOrderForm.setTitle("Order Form");
 		frmOrderForm.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		frmOrderForm.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 16));
-		frmOrderForm.setBounds(100, 100, 710, 421);
+		frmOrderForm.setBounds(100, 100, 893, 421);
 		frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -566,7 +566,7 @@ public class OrderForm {
 		ResultSet resultSet = statement.executeQuery();
 		if (resultSet.next()) {
 			String code = resultSet.getString("code");
-			txtCode.setText(code);
+			txtCode.setText(code); 
 			txtDate.setText(resultSet.getString("date"));
 			txtNote.setText(resultSet.getString("note"));
 			resultSet.close();

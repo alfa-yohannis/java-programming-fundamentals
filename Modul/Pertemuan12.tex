@@ -1,356 +1,270 @@
-\chapter{Database MySQL}
+\chapter{Database Application dengan Java: Bagian 1}
 
-\section{Pengenalan Database MySQL pada Java}
+\section{Database, CRUD, dan State Management}
 
-\subsection{Pendahuluan}
+\subsection{Database Connection and Operations}
 
-MySQL adalah salah satu sistem manajemen basis data relasional (RDBMS) yang paling populer di dunia. MySQL digunakan secara luas karena kecepatan, skalabilitas, dan kemudahan penggunaannya. Dalam pengembangan aplikasi Java, MySQL sering digunakan sebagai database untuk menyimpan dan mengelola data. Untuk menghubungkan aplikasi Java dengan MySQL, kita menggunakan Java Database Connectivity (JDBC).
-
-\subsection{Langkah-langkah Menggunakan MySQL di Java}
-
-Berikut adalah langkah-langkah untuk menghubungkan aplikasi Java dengan database MySQL:
-
-\subsubsection{1. Instalasi MySQL}
-
-Sebelum memulai, pastikan Anda telah menginstal MySQL di sistem Anda. Anda dapat mengunduh dan menginstalnya dari situs web resmi MySQL.\\
-
-Silahkan tonton video berikut untuk panduan lebih lanjut\\ \url{https://www.youtube.com/watch?v=Ev_h-6OkvA4&list=PLl9D0-J08TNXNjQPwWMVOUrqA-oiDrGyk&index=13}
-
-\subsubsection{2. Menyiapkan Database MySQL}
-
-Setelah MySQL terinstal, Anda dapat membuat database yang akan digunakan dalam aplikasi Java Anda. Misalnya, kita akan membuat database \texttt{studentdb} dan tabel \texttt{students} untuk menyimpan data mahasiswa. 
-
-Untuk bagian ini, kamu dapat membuat database dengan alternatif seperti PHPMyAdmin, DBeaver, atau MySQL Workbench(Hanya untul SQL versi 8.5 kebawah). Bahkan kamu juga bisa membuat tabel dengan command prompt saja (lihat pada link youtube untuk tata cara dengan MySQL Workbench)
-
-\subsubsection{2.1 Persiapan Database dengan MySQL dan DBeaver}
-
-Sebelum memasuki persiapan ini, pastikan telah menonton video untuk mengetahui cara mengaktifkan koneksi dengan CLI (Command Line).
+Koneksi database dan operasi SQL memungkinkan aplikasi untuk berinteraksi dengan basis data MySQL. Dalam kode ini, beberapa kelas dan metode Java digunakan untuk menghubungkan aplikasi dengan database dan melakukan operasi seperti memasukkan, memperbarui, atau mengambil data.
 
 \begin{itemize}
-	\item Download Dbeaver melalui link berikut \\ \url{https://dbeaver.io/download/}
-	
-	\item Setelah instalasi telah dilakukan, buka Dbeaver
-	
-	\item Pada bagian kiri atas, pilih New Database Connection
-	
-	\item Pilih MySQL , kemudian klik Next\\
-	\includegraphics[width=0.33\textwidth]{assets/pertemuan12/dbeaver-select-connection.png}
-	
-	\item Pada halaman Connection Settings, tidak perlu mengubah konten yang ada, langsung klik Finish\\
-	\includegraphics[width=0.33\textwidth]{assets/pertemuan12/dbeaver-connection-settings.png}
-	
-	\item Setelah telah terkoneksi, expand bagian koneksi yang telah dibuat 
-	
-	\item Expand menu Databases
-	
-	\item Klik kanan pada menu Databases, kemudian pilih Create New Databases
-	
-	\item Masukkan nama studentdb pada nama database, kemudian klik OK
-	
-	\item Pada nama database studentdb, klik kanan, pilih SQL Editor dan pilih create New Script
-	
-	\item Masukkan script berikut, kemudian run
+	\item \texttt{Connection}: Kelas yang digunakan untuk membuat koneksi ke database MySQL. Koneksi ini mengizinkan aplikasi untuk berinteraksi dengan database secara langsung.
 	\begin{lstlisting}[style=JavaStyle]
-		USE studentdb;
-		
-		CREATE TABLE students (
-			id INT AUTO_INCREMENT PRIMARY KEY,
-			name VARCHAR(50),
-			age INT,
-			major VARCHAR(50)
-		);
+		Connection conn = DriverManager.getConnection(dbURL, username, password);
 	\end{lstlisting}
-	\includegraphics[width=0.33\textwidth]{assets/pertemuan12/dbeaver-script-create-table.png}
 	
-	\item Database dan table sudah berhasil dibuat!\\
-	\includegraphics[width=0.8\textwidth]{assets/pertemuan12/dbeaver-table-success-script.png}
+	\item \texttt{PreparedStatement}: Kelas yang digunakan untuk mengeksekusi pernyataan SQL dengan aman. Dengan menggunakan placeholder \texttt{?}, kelas ini memungkinkan parameterisasi yang membantu mencegah injeksi SQL.
+	\begin{lstlisting}[style=JavaStyle]
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO orders (name, quantity) VALUES (?, ?)");
+		ps.setString(1, "Produk A");
+		ps.setInt(2, 5);
+	\end{lstlisting}
 	
+	\item \texttt{ResultSet}: Objek yang berfungsi untuk menampung hasil dari perintah SQL \texttt{SELECT} dan memungkinkan pengambilan data baris demi baris.
+	\begin{lstlisting}[style=JavaStyle]
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			String name = rs.getString("name");
+			int quantity = rs.getInt("quantity");
+		}
+	\end{lstlisting}
 \end{itemize}
 
-\subsubsection{3. Menambahkan MySQL Connector ke Proyek Java}
+\subsection{Updating Table Data}
 
-Agar aplikasi Java dapat berkomunikasi dengan MySQL, Anda perlu menambahkan \texttt{MySQL Connector/J} ke dalam proyek Anda. \texttt{MySQL Connector/J} adalah driver JDBC yang menyediakan koneksi antara Java dan MySQL.
+Penggunaan \texttt{JTable} memungkinkan aplikasi untuk menampilkan data dalam format tabel dan mendukung pengeditan langsung. Dalam kode ini, setiap perubahan pada kuantitas produk akan menghitung ulang total harga untuk setiap baris di tabel secara dinamis.
 
-\begin{enumerate}
-	\item Unduh \texttt{MySQL Connector/J} dari situs web MySQL.
-	\item Tambahkan file \texttt{.jar} ke dalam build path proyek Java Anda.
-	\begin{itemize}
-		\item Jika menggunakan Eclipse, klik kanan pada proyek Anda > \texttt{Properties} > \texttt{Java Build Path} > \texttt{Libraries} > \texttt{Add External JARs...} > pilih \texttt{mysql-connector-java-x.x.xx-bin.jar}.
+\begin{itemize}
+	\item \texttt{JTable}: Komponen Swing yang digunakan untuk menampilkan data dalam bentuk tabel. Di sini, \texttt{JTable} menampilkan daftar produk dan kolom kuantitas yang dapat diedit.
+	\begin{lstlisting}[style=JavaStyle]
+		JTable table = new JTable();
+	\end{lstlisting}
+	
+	\item \texttt{PropertyChangeListener}: Antarmuka yang mendeteksi perubahan pada komponen \texttt{JTable}. Dalam kasus ini, perubahan pada kolom \texttt{Quantity} akan memicu perhitungan ulang total setiap baris.
+	\begin{lstlisting}[style=JavaStyle]
+		table.addPropertyChangeListener(evt -> {
+			// Logika untuk memperbarui total
+		});
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{State Management}
+
+Manajemen state mengatur mode aplikasi, seperti "Add Mode" untuk menambahkan entri baru atau "Edit Mode" untuk mengubah entri yang ada. Variabel \texttt{isAddMode} dan metode bantu mengaktifkan atau menonaktifkan elemen-elemen yang sesuai dalam GUI.
+
+\begin{itemize}
+	\item \texttt{isAddMode}: Variabel boolean yang menyimpan status aplikasi saat ini, apakah sedang dalam mode penambahan data baru atau tidak.
+	\begin{lstlisting}[style=JavaStyle]
+		boolean isAddMode = true;
+	\end{lstlisting}
+	
+	\item \texttt{enableDisableElements}: Metode ini mengaktifkan atau menonaktifkan elemen-elemen UI tergantung pada status \texttt{isAddMode}. Hal ini mencegah pengguna mengakses fitur tertentu saat menambahkan data baru.
+	\begin{lstlisting}[style=JavaStyle]
+		void enableDisableElements(boolean enable) {
+			btnSave.setEnabled(enable);
+			txtName.setEditable(enable);
+		}
+	\end{lstlisting}
+\end{itemize}
+
+
+\section{Contoh Kode}
+
+Studi kasus yang digunakan sama dengan studi kasus pada pertemuan 12
+
+\subsection{Kode SQL (pradita.sql)}
+
+\begin{lstlisting}[style=sql]
+	use pradita;
+	
+	delete from order_detail where code <> '';
+	delete from `order` where code <> '';
+	delete from item where code <> '';
+	
+	insert into item(code, name, quantity, price) values('IM001', 'Indomie Goreng', 30, 4100);
+	insert into item(code, name, quantity, price) values('IM002', 'Indomie Kuah', 20, 4000);
+	
+	insert into `order`(code, note) values('10001', 'Penjualan Pertama');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10001', 1, 'IM001', 'Indomie Goreng', 1, 4100);
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10001', 2, 'IM002', 'Indomie Kuah', 2, 4000);
+	
+	insert into `order`(code, note) values('10002', 'Penjualan Kedua');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10002', 1, 'IM001', 'Indomie Goreng', 2, 4100);
+	
+	insert into `order`(code, note) values('10003', 'Penjualan Ketiga');
+	insert into order_detail(code, line, itemcode, name, quantity, price) 
+	values('10003', 1, 'IM002', 'Indomie Kuah', 4, 4000);
+	
+	select t1.code, t1.date, t1.note, t2.line, t2.itemcode, t2.name, t2.quantity, t2.price, 
+	(t2.quantity * t2.price) linetotal
+	from `order` t1, order_detail t2 where t1.code = t2.code;
+\end{lstlisting}
+
+\subsubsection{Operasi SQL pada Basis Data}
+
+Kode berikut digunakan untuk mengelola data pada tabel \texttt{order}, \texttt{order\_detail}, dan \texttt{item} di basis data \texttt{pradita}. Berikut adalah penjelasan setiap bagian dari kode SQL:
+
+\begin{itemize}
+	\item \texttt{USE pradita;} \\ 
+	Baris ini menetapkan basis data yang akan digunakan, yaitu \texttt{pradita}.
+	
+	\item \texttt{DELETE} \\ 
+	Digunakan untuk menghapus data pada tabel \texttt{order\_detail}, \texttt{order}, dan \texttt{item} di mana kolom \texttt{code} tidak kosong. Hal ini membersihkan data yang mungkin ada sebelumnya.
+	\begin{lstlisting}[style=sql]
+		delete from order_detail where code <> '';
+		delete from `order` where code <> '';
+		delete from item where code <> '';
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO item} \\ 
+	Menambahkan data baru ke dalam tabel \texttt{item}. Setiap baris menyimpan informasi produk, termasuk kode, nama, jumlah, dan harga.
+	\begin{lstlisting}[style=sql]
+		insert into item(code, name, quantity, price) values('IM001', 'Indomie Goreng', 30, 4100);
+		insert into item(code, name, quantity, price) values('IM002', 'Indomie Kuah', 20, 4000);
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO order} \\ 
+	Menambahkan data penjualan ke dalam tabel \texttt{order}, dengan kolom \texttt{code} sebagai identifikasi penjualan dan \texttt{note} sebagai catatan.
+	\begin{lstlisting}[style=sql]
+		insert into `order`(code, note) values('10001', 'Penjualan Pertama');
+	\end{lstlisting}
+	
+	\item \texttt{INSERT INTO order\_detail} \\ 
+	Menambahkan rincian penjualan ke tabel \texttt{order\_detail}. Kolom \texttt{code} menghubungkan setiap detail dengan tabel \texttt{order}, dan setiap baris mencakup kode item, nama, jumlah, dan harga.
+	\begin{lstlisting}[style=sql]
+		insert into order_detail(code, line, itemcode, name, quantity, price) 
+		values('10001', 1, 'IM001', 'Indomie Goreng', 1, 4100);
+	\end{lstlisting}
+	
+	\item \texttt{SELECT} \\ 
+	Mengambil data dari tabel \texttt{order} dan \texttt{order\_detail}. Kode ini menghasilkan daftar semua transaksi, termasuk informasi total setiap baris dengan menghitung \texttt{quantity} * \texttt{price}.
+	\begin{lstlisting}[style=sql]
+		select t1.code, t1.date, t1.note, t2.line, t2.itemcode, t2.name, t2.quantity, t2.price, 
+		(t2.quantity * t2.price) linetotal
+		from `order` t1, order_detail t2 where t1.code = t2.code;
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Kode SQL (crud.sql)}
+
+\begin{lstlisting}[style=sql]
+	# first
+	select * from `order` t1 where t1.code = (select min(code)  from `order` t2) limit 1;
+	
+	# previous
+	select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < 'TA00000002') limit 1;
+	
+	# next
+	select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > 'TA00000002') limit 1;
+	
+	# last
+	select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1;
+	select line, itemcode, name, quantity, price, (quantity * price) total from `order_detail` t1 where t1.code = (select max(code)  from `order` t2);
+	
+	#get the last code
+	SELECT Max(code) code FROM `order`
+\end{lstlisting}
+
+\subsubsection{Query SQL untuk Mengelola Data Order}
+
+\begin{itemize}
+	\item \textbf{Query Pertama: Mencari Order Terendah} \\
+	Kode ini mengambil semua kolom dari tabel \texttt{order} untuk entri dengan kode terendah.
+	\begin{lstlisting}[style=sql]
+		select * from `order` t1 where t1.code = (select min(code) from `order` t2) limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Sebelumnya: Mencari Order Sebelum Kode Tertentu} \\
+	Kode ini mencari entri dengan kode terbesar yang lebih kecil dari \texttt{'TA00000002'}.
+	\begin{lstlisting}[style=sql]
+		select * from `order` t1 where t1.code = (select max(code) from `order` t2 where t2.code < 'TA00000002') limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Berikutnya: Mencari Order Setelah Kode Tertentu} \\
+	Kode ini mencari entri dengan kode terkecil yang lebih besar dari \texttt{'TA00000002'}.
+	\begin{lstlisting}[style=sql]
+		select * from `order` t1 where t1.code = (select min(code) from `order` t2 where t2.code > 'TA00000002') limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Terakhir: Mencari Order Tertinggi} \\
+	Kode ini mengambil semua kolom dari tabel \texttt{order} untuk entri dengan kode tertinggi.
+	\begin{lstlisting}[style=sql]
+		select * from `order` t1 where t1.code = (select max(code) from `order` t2) limit 1;
+	\end{lstlisting}
+	
+	\item \textbf{Query Terakhir: Detail Order Terakhir} \\
+	Kode ini mengambil detail dari order terakhir berdasarkan kode tertinggi. Hasilnya mencakup informasi mengenai item, jumlah, harga, dan total.
+	\begin{lstlisting}[style=sql]
+		select line, itemcode, name, quantity, price, (quantity * price) total 
+		from `order_detail` t1 where t1.code = (select max(code) from `order` t2);
+	\end{lstlisting}
+	
+	\item \textbf{Query untuk Mendapatkan Kode Terakhir} \\
+	Kode ini mengambil nilai maksimum dari kolom \texttt{code} dalam tabel \texttt{order}, yang menunjukkan kode order terakhir.
+	\begin{lstlisting}[style=sql]
+		SELECT Max(code) code FROM `order`;
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Kode Java (OnSelectListener.java)}
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita.p13;
+	
+	public interface OnSelectListener {
+		
+		public void select(Object[] values);
+	}
+	
+\end{lstlisting}
+
+\subsection{Interface \texttt{OnSelectListener}}
+
+Kode berikut mendefinisikan sebuah interface dalam bahasa pemrograman Java yang digunakan untuk menangani pemilihan objek dalam konteks aplikasi. Interface ini berada dalam paket \texttt{edu.pradita.p13}. Berikut adalah rincian dari kode tersebut:
+
+\begin{itemize}
+	\item \textbf{Deklarasi Interface} \\
+	\texttt{OnSelectListener} adalah sebuah interface yang dapat diimplementasikan oleh kelas lain untuk memberikan fungsionalitas pemilihan objek. Interface ini berfungsi sebagai kontrak yang mengharuskan kelas yang mengimplementasikannya untuk menyediakan implementasi untuk metode \texttt{select}.
+		\begin{lstlisting}[style=JavaStyle]
+			public interface OnSelectListener {
+		\end{lstlisting}
+		
+		\item \textbf{Metode \texttt{select}} \\
+		Metode \texttt{select} didefinisikan dalam interface ini, yang menerima parameter berupa array objek. Metode ini akan dipanggil ketika suatu objek dipilih.
+		\begin{lstlisting}[style=JavaStyle]
+			public void select(Object[] values);
+		\end{lstlisting}
+		
+		\item \textbf{Tujuan} \\
+		Interface ini dirancang untuk memungkinkan komunikasi antara komponen dalam aplikasi, sehingga ketika sebuah item dipilih, data terkait dapat dikirim melalui parameter \texttt{values}. Kelas yang mengimplementasikan interface ini harus menyediakan logika untuk menangani data yang diterima.
 	\end{itemize}
-\end{enumerate}
 
-\subsubsection{4. Menghubungkan Java dengan MySQL Menggunakan JDBC}
 
-Berikut adalah contoh sederhana untuk menghubungkan Java dengan MySQL menggunakan JDBC:
-
-\begin{lstlisting}[style=JavaStyle]
-	import java.sql.Connection;
-	import java.sql.DriverManager;
-	import java.sql.ResultSet;
-	import java.sql.Statement;
-	
-	public class MySQLConnectionExample {
-		public static void main(String[] args) {
-			String url = "jdbc:mysql://localhost:3306/studentdb";
-			String username = "root";
-			String password = "password";
-			
-			try {
-				// Membuat koneksi ke database
-				Connection conn = DriverManager.getConnection(url, username, password);
-				System.out.println("Koneksi berhasil!");
-				
-				// Membuat statement
-				Statement stmt = conn.createStatement();
-				
-				// Mengeksekusi query
-				String sql = "SELECT * FROM students";
-				ResultSet rs = stmt.executeQuery(sql);
-				
-				// Menampilkan hasil query
-				while (rs.next()) {
-					System.out.println("ID: " + rs.getInt("id"));
-					System.out.println("Name: " + rs.getString("name"));
-					System.out.println("Age: " + rs.getInt("age"));
-					System.out.println("Major: " + rs.getString("major"));
-					System.out.println("-------------");
-				}
-				
-				// Menutup koneksi
-				conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-\end{lstlisting}
-
-\subsection{Penjelasan Kode}
-
-\begin{itemize}
-	\item \texttt{DriverManager.getConnection(url, username, password);} - Digunakan untuk membuat koneksi ke database MySQL.
-	\item \texttt{Statement stmt = conn.createStatement();} - Membuat statement untuk menjalankan query SQL.
-	\item \texttt{ResultSet rs = stmt.executeQuery(sql);} - Mengeksekusi query SQL dan menyimpan hasilnya dalam objek \texttt{ResultSet}.
-	\item \texttt{rs.getInt(), rs.getString()} - Digunakan untuk mengambil data dari kolom yang sesuai pada hasil query.
-\end{itemize}
-
-\subsection{Penutupan Koneksi}
-
-Setelah selesai menggunakan koneksi database, sangat penting untuk menutupnya dengan memanggil metode \texttt{conn.close();}. Hal ini untuk menghindari kebocoran sumber daya dan memastikan bahwa koneksi ke database dilepaskan dengan benar.
-
-\section{Contoh Kode: Manajemen Order}
-
-\subsection{Persiapan Kode SQL}
-
-\begin{lstlisting}[style=JavaStyle]
-	CREATE DATABASE IF NOT EXISTS `pradita`
-	/*!40100 DEFAULT CHARACTER SET utf8mb4 */ 
-	/*!80016 DEFAULT ENCRYPTION='N' */;
-	
-	USE `pradita`;
-	
-	-- MySQL dump 10.13 Distrib 8.0.31, for Win64 (x86_64)
-	-- Host: 127.0.0.1 Database: pradita
-	-- ------------------------------------------------------
-	-- Server version 8.0.27
-	
-	/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-	/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-	/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-	/*!50503 SET NAMES utf8 */;
-	/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-	/*!40103 SET TIME_ZONE='+00:00' */;
-	/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-	/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-	/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-	/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-	
-	-- Table structure for table `item`
-	DROP TABLE IF EXISTS `item`;
-	/*!40101 SET @saved_cs_client = @@character_set_client */;
-	/*!50503 SET character_set_client = utf8mb4 */;
-	CREATE TABLE `item` (
-	`code` varchar(5) NOT NULL,
-	`name` varchar(50) DEFAULT NULL,
-	`price` decimal(10,2) DEFAULT '0.00',
-	`quantity` decimal(10,2) DEFAULT '0.00',
-	PRIMARY KEY (`code`),
-	UNIQUE KEY `code_UNIQUE` (`code`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-	/*!40101 SET character_set_client = @saved_cs_client */;
-	
-	-- Dumping data for table `item`
-	LOCK TABLES `item` WRITE;
-	/*!40000 ALTER TABLE `item` DISABLE KEYS */;
-	INSERT INTO `item` VALUES ('AB001','Indomie Goreng',4100.00,20.00),
-	('AB002','Indomie Kuah',4000.00,10.00);
-	/*!40000 ALTER TABLE `item` ENABLE KEYS */;
-	UNLOCK TABLES;
-	
-	-- Table structure for table `order`
-	DROP TABLE IF EXISTS `order`;
-	/*!40101 SET @saved_cs_client = @@character_set_client */;
-	/*!50503 SET character_set_client = utf8mb4 */;
-	CREATE TABLE `order` (
-	`code` varchar(5) NOT NULL,
-	`date` datetime DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`code`),
-	UNIQUE KEY `code_UNIQUE` (`code`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-	/*!40101 SET character_set_client = @saved_cs_client */;
-	
-	-- Dumping data for table `order`
-	LOCK TABLES `order` WRITE;
-	/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-	INSERT INTO `order` VALUES ('O0001','2022-11-17 14:41:23');
-	/*!40000 ALTER TABLE `order` ENABLE KEYS */;
-	UNLOCK TABLES;
-	
-	-- Table structure for table `order_detail`
-	DROP TABLE IF EXISTS `order_detail`;
-	/*!40101 SET @saved_cs_client = @@character_set_client */;
-	/*!50503 SET character_set_client = utf8mb4 */;
-	CREATE TABLE `order_detail` (
-	`code` varchar(5) NOT NULL,
-	`line` int NOT NULL,
-	`itemcode` varchar(5) NOT NULL,
-	`name` varchar(50) DEFAULT NULL,
-	`price` decimal(10,2) NOT NULL DEFAULT '0.00',
-	`quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
-	PRIMARY KEY (`line`,`code`),
-	KEY `itemcode_idx` (`itemcode`),
-	KEY `code_idx` (`code`),
-	CONSTRAINT `code` FOREIGN KEY (`code`) REFERENCES `order` (`code`),
-	CONSTRAINT `itemcode` FOREIGN KEY (`itemcode`) REFERENCES `item` (`code`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-	/*!40101 SET character_set_client = @saved_cs_client */;
-	
-	-- Dumping data for table `order_detail`
-	LOCK TABLES `order_detail` WRITE;
-	/*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
-	INSERT INTO `order_detail` VALUES ('O0001',1,'AB001','Indomie Goreng',4100.00,1.00),
-	('O0001',2,'AB002','Indomie Kuah',4000.00,2.00);
-	/*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
-	UNLOCK TABLES;
-	
-	/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-	/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-	/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-	/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-	/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-	/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-	/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-	/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-\end{lstlisting}
-
-\subsubsection{Script Kode SQL dan Hasil Success}
-\includegraphics[width=1\textwidth]{assets/pertemuan12/dbeaver-database.png} 
-\includegraphics[width=1\textwidth]{assets/pertemuan12/dbeaver-success-script.png}
-
-\subsubsection{Penjelasan Kode SQL}
-
-Kode SQL yang diberikan bertujuan untuk membuat sebuah basis data bernama \texttt{pradita} dan beberapa tabel di dalamnya. 
-
-\begin{itemize}
-	\item \textbf{Membuat Basis Data:} Kode ini memastikan bahwa basis data \texttt{pradita} dibuat jika belum ada, kemudian menggunakannya.
-	\item \textbf{Membuat Tabel \texttt{item}:} Tabel ini menyimpan informasi tentang barang dengan atribut \texttt{code} sebagai kunci utama, \texttt{name} untuk nama barang, \texttt{price} untuk harga barang, dan \texttt{quantity} untuk jumlah barang.
-	\item \textbf{Membuat Tabel \texttt{order}:} Tabel ini menyimpan informasi pesanan dengan \texttt{code} sebagai kunci utama dan \texttt{date} yang merekam waktu pesanan dibuat.
-	\item \textbf{Membuat Tabel \texttt{order\_detail}:} Tabel ini menghubungkan tabel \texttt{item} dan \texttt{order}, dengan atribut \texttt{code}, \texttt{line}, \texttt{itemcode}, \texttt{name}, \texttt{price}, dan \texttt{quantity}. Tabel ini juga menerapkan hubungan kunci asing (\textit{foreign key}) dengan tabel \texttt{item} dan \texttt{order}.
-	\item \textbf{Memasukkan Data:} Kode juga memasukkan beberapa data ke dalam tabel \texttt{item}, \texttt{order}, dan \texttt{order\_detail}.
-\end{itemize}
-
-\subsection{Kode Java}
-
-\subsubsection{Kelas TestConnection}
-
-\begin{lstlisting}[style=JavaStyle]
-	package edu.pradita.p12;
-	
-	import java.sql.Connection;
-	import java.sql.DriverManager;
-	import java.sql.ResultSet;
-	import java.sql.SQLException;
-	import java.sql.Statement;
-	
-	public class TestConnection {
-		public static void main(String[] args) {
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "");
-				
-				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from item");
-				while (resultSet.next()) {
-					String code = resultSet.getString("code");
-					String name = resultSet.getString("name");
-					double price = resultSet.getDouble("price");
-					double quantity = resultSet.getDouble("quantity");
-					System.out.println(code + " " + name + " " + price + " " + ((int) quantity));
-				}
-				resultSet.close();
-				statement.close();
-				connection.close();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-\end{lstlisting}
-
-\paragraph{1. Deklarasi Paket dan Import Library}
-Kode dimulai dengan mendeklarasikan paket \texttt{edu.pradita.p12} dan mengimpor beberapa pustaka SQL dari Java seperti \texttt{Connection}, \texttt{DriverManager}, \texttt{ResultSet}, \texttt{SQLException}, dan \texttt{Statement}. Pustaka-pustaka ini digunakan untuk membuat koneksi ke basis data, menjalankan query SQL, dan menangani hasilnya.
-
-\paragraph{2. Kelas \texttt{TestConnection}}
-Kelas ini mendefinisikan \texttt{main} method, yang berfungsi sebagai titik masuk program. Tujuan utama dari kelas ini adalah melakukan koneksi ke basis data MySQL dan menampilkan data dari tabel tertentu.
-
-\paragraph{3. Langkah-langkah dalam Kelas \texttt{TestConnection}}
-\begin{itemize}
-	\item \textbf{Memuat Driver JDBC}: Program pertama kali memuat driver JDBC untuk MySQL dengan menggunakan \texttt{Class.forName("com.mysql.cj.jdbc.Driver")}. Langkah ini diperlukan agar aplikasi dapat berkomunikasi dengan basis data MySQL.
-	
-	\item \textbf{Membuat Koneksi}: Menggunakan \texttt{DriverManager.getConnection} untuk membuat koneksi ke basis data \texttt{pradita} yang di-host di \texttt{localhost} pada port \texttt{3306}. Kredensial pengguna basis data, yaitu \texttt{"root"} tanpa kata sandi, disertakan dalam koneksi ini.
-	
-	\item \textbf{Membuat \texttt{Statement} dan Menjalankan Query}: 
-	Objek \texttt{Statement} dibuat dari \texttt{Connection} untuk menjalankan pernyataan SQL. Query \texttt{SELECT * FROM item} dieksekusi untuk mengambil semua data dari tabel \texttt{item}.
-	
-	\item \textbf{Mengambil dan Menampilkan Data}: 
-	Hasil dari query disimpan dalam \texttt{ResultSet} dan diproses dalam sebuah loop \texttt{while}. Pada setiap iterasi, data dari kolom \texttt{code}, \texttt{name}, \texttt{price}, dan \texttt{quantity} diambil dari \texttt{ResultSet} menggunakan metode seperti \texttt{getString} dan \texttt{getDouble}. Data ini kemudian ditampilkan ke konsol dengan \texttt{System.out.println}.
-	
-	\item \textbf{Menutup Koneksi dan Statement}: Setelah data selesai ditampilkan, \texttt{ResultSet}, \texttt{Statement}, dan \texttt{Connection} ditutup untuk membebaskan sumber daya.
-\end{itemize}
-
-\paragraph{4. Penanganan Exception}
-Kode ini menangkap dua jenis \textit{exception} dengan menggunakan blok \texttt{try-catch}: 
-\begin{itemize}
-	\item \texttt{ClassNotFoundException} ditangani ketika driver JDBC MySQL tidak ditemukan.
-	\item \texttt{SQLException} ditangani untuk menangkap kesalahan yang terjadi saat berinteraksi dengan basis data.
-\end{itemize}
-
-Jika salah satu \textit{exception} terjadi, program akan mencetak stack trace kesalahan tersebut ke konsol menggunakan \texttt{e.printStackTrace()}.
-
-\paragraph{Kesimpulan}
-Kode ini menunjukkan cara mendasar untuk menghubungkan aplikasi Java dengan basis data MySQL, mengeksekusi query SQL, dan menampilkan hasilnya. Struktur ini dapat digunakan untuk berbagai operasi dasar basis data seperti \textit{CRUD} (Create, Read, Update, Delete) pada aplikasi Java berbasis database.
-
-\subsubsection{Kelas Order Form}
+\subsection{Kode Java (SelectForm.java)}
 
 Gunakan WindowBuilder untuk membuat form ini
 
 \begin{lstlisting}[style=JavaStyle]
-	package edu.pradita.p12;
+	package edu.pradita.p13;
 	
+	import java.awt.BorderLayout;
 	import java.awt.EventQueue;
 	
 	import javax.swing.JFrame;
-	import javax.swing.JScrollPane;
-	import javax.swing.JTable;
-	import javax.swing.table.DefaultTableModel;
-	import javax.swing.JButton;
+	import javax.swing.JPanel;
+	import javax.swing.border.EmptyBorder;
 	import java.awt.Font;
+	import java.awt.GraphicsEnvironment;
+	
 	import javax.swing.JLabel;
 	import javax.swing.JTextField;
-	import javax.swing.JTextArea;
-	import javax.swing.JPanel;
-	import java.awt.BorderLayout;
-	import java.awt.FlowLayout;
+	import javax.swing.JTable;
+	import javax.swing.JScrollPane;
+	import javax.swing.table.DefaultTableModel;
+	import javax.swing.table.TableColumn;
+	import javax.swing.JButton;
 	import javax.swing.BoxLayout;
 	import java.awt.Component;
 	import java.awt.GridLayout;
@@ -358,9 +272,280 @@ Gunakan WindowBuilder untuk membuat form ini
 	import java.awt.GridBagLayout;
 	import java.awt.GridBagConstraints;
 	import java.awt.Insets;
+	import java.awt.Point;
+	
+	import javax.swing.ListSelectionModel;
+	import java.awt.event.ActionListener;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.ResultSetMetaData;
+	import java.sql.SQLException;
+	import java.awt.event.ActionEvent;
+	import java.awt.Window.Type;
+	
+	public class SelectForm extends JFrame {
+		
+		private JPanel contentPane;
+		private JTable table;
+		private JTextField textField;
+		private OnSelectListener onSelectListener = new OnSelectListener() {
+			@Override
+			public void select(Object[] values) {
+			}
+		};
+		private String query;
+		
+		/**
+		* Create the frame.
+		*/
+		public SelectForm(String query) {
+			setAlwaysOnTop(true);
+			setType(Type.UTILITY);
+			setTitle("Select Form");
+			setFont(new Font("Tahoma", Font.PLAIN, 16));
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setBounds(100, 100, 350, 270);
+			contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(contentPane);
+			contentPane.setLayout(new BorderLayout(0, 4));
+			
+			Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+			this.setLocation(centerPoint.x - (int) this.getSize().getWidth() / 2,
+			centerPoint.y - (int) this.getSize().getHeight() / 2);
+			
+			JPanel panel = new JPanel();
+			contentPane.add(panel, BorderLayout.SOUTH);
+			panel.setLayout(new GridLayout(1, 2, 0, 0));
+			
+			JButton btnCancel = new JButton("Cancel");
+			btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SelectForm.this.setVisible(false);
+					SelectForm.this.dispose();
+				}
+			});
+			btnCancel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			btnCancel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+			btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel.add(btnCancel);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			contentPane.add(scrollPane, BorderLayout.CENTER);
+			
+			table = new JTable();
+			table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setModel(
+			new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Code", "Description" }) {
+				Class[] columnTypes = new Class[] { String.class, String.class };
+				
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				
+				boolean[] columnEditables = new boolean[] { false, false };
+				
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.getColumnModel().getColumn(0).setPreferredWidth(71);
+			table.getColumnModel().getColumn(1).setPreferredWidth(204);
+			scrollPane.setViewportView(table);
+			
+			JPanel panel_1 = new JPanel();
+			contentPane.add(panel_1, BorderLayout.NORTH);
+			panel_1.setLayout(new BorderLayout(10, 0));
+			
+			JLabel lblFind = new JLabel("Find:");
+			lblFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_1.add(lblFind, BorderLayout.WEST);
+			
+			textField = new JTextField();
+			lblFind.setLabelFor(textField);
+			textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			textField.setColumns(10);
+			panel_1.add(textField);
+			
+			JButton btnFind = new JButton("Find");
+			btnFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_1.add(btnFind, BorderLayout.EAST);
+			
+			JButton btnSelect = new JButton("Select");
+			btnSelect.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					int row = table.getSelectedRow();
+					int colCount = dtm.getColumnCount();
+					Object[] values = new Object[colCount];
+					for (int col = 0; col < dtm.getColumnCount(); col++) {
+						Object val = dtm.getValueAt(row, col);
+						values[col] = val;
+					}
+					SelectForm.this.onSelectListener.select(values);
+					SelectForm.this.setVisible(false);
+					SelectForm.this.dispose();
+				}
+			});
+			
+			btnSelect.setAlignmentX(Component.CENTER_ALIGNMENT);
+			btnSelect.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel.add(btnSelect);
+			
+			try {
+				this.query = query;
+				PreparedStatement statement = OrderForm.CONNECTION.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery();
+				
+				ResultSetMetaData metadata = resultSet.getMetaData();
+				int colCount = metadata.getColumnCount();
+				
+				String[] columnNames = new String[colCount];
+				for (int i = 1; i <= colCount; i++) {
+					String colName = metadata.getColumnName(i);
+					columnNames[i - 1] = colName;
+				}
+				
+				Class<?>[] columnTypes = new Class<?>[colCount];
+				for (int i = 0; i < colCount; i++) {
+					columnTypes[i] = String.class;
+				}
+				
+				boolean[] columnEditables = new boolean[colCount];
+				for (int i = 0; i < colCount; i++) {
+					columnEditables[i] = false;
+				}
+				
+				DefaultTableModel dtm = new DefaultTableModel( //
+				new Object[][] {}, // data
+				columnNames // columns
+				) {
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+					
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
+				
+				// add the rows
+				while (resultSet.next()) {
+					Object[] values = new Object[colCount];
+					for (int i = 1; i <= colCount; i++) {
+						values[i - 1] = resultSet.getObject(i);
+					}
+					dtm.addRow(values);
+				}
+				resultSet.close();
+				statement.close();
+				
+				table.setModel(dtm);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public OnSelectListener getOnSelectListener() {
+			return onSelectListener;
+		}
+		
+		public void setOnSelectListener(OnSelectListener onSelectListener) {
+			this.onSelectListener = onSelectListener;
+		}
+		
+	}
+\end{lstlisting}
+
+\subsubsection{Deklarasi Kelas}
+
+\texttt{SelectForm} merupakan kelas yang memperluas \texttt{JFrame}, yang berfungsi sebagai jendela untuk menampilkan form pemilihan. Kelas ini memiliki beberapa komponen, termasuk panel, tabel, dan tombol.
+
+\begin{itemize}
+	\item \textbf{Variabel Instance}:
+	\begin{itemize}
+		\item \texttt{contentPane}: Panel utama untuk menyusun komponen.
+		\item \texttt{table}: Tabel untuk menampilkan data.
+		\item \texttt{textField}: Field input untuk mencari data.
+		\item \texttt{onSelectListener}: Instance dari interface \texttt{OnSelectListener} untuk menangani pemilihan data.
+		\item \texttt{query}: String untuk menyimpan query SQL.
+	\end{itemize}
+	
+	\item \textbf{Konstruktor}:
+	Konstruktor \texttt{SelectForm(String query)} mengatur pengaturan jendela, menginisialisasi komponen, dan menjalankan query untuk mendapatkan data yang ditampilkan pada tabel.
+	\begin{itemize}
+		\item Mengatur judul jendela, jenis, dan ukuran.
+		\item Membuat panel dan mengatur layout.
+		\item Menambahkan tombol \texttt{Cancel} dan \texttt{Select}.
+		\item Mengisi tabel dengan data dari database menggunakan \texttt{PreparedStatement}.
+	\end{itemize}
+	
+	\item \textbf{Tombol Aksi}:
+	Tombol \texttt{Cancel} menutup jendela, sedangkan tombol \texttt{Select} mengambil data yang dipilih dari tabel dan memanggil metode \texttt{select} pada \texttt{onSelectListener}.
+\end{itemize}
+
+\subsubsection{Metode}
+
+\begin{itemize}
+	\item \texttt{getOnSelectListener()} dan \texttt{setOnSelectListener(OnSelectListener onSelectListener)}: Metode getter dan setter untuk mengatur listener pemilihan.
+\end{itemize}
+
+
+\subsection{Kode Java (OrderForm.java)}
+
+Gunakan WindowBuilder untuk membuat form ini
+
+\begin{lstlisting}[style=JavaStyle]
+	package edu.pradita.p13;
+	
+	import java.awt.EventQueue;
+	
+	import javax.swing.JFrame;
+	import javax.swing.JScrollPane;
+	import javax.swing.JTable;
+	import javax.swing.table.DefaultTableModel;
+	
+	import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+	
+	import javax.swing.JButton;
+	import java.awt.Font;
+	import java.awt.GraphicsEnvironment;
+	
+	import javax.swing.JLabel;
+	import javax.swing.JTextField;
+	import javax.swing.JTextArea;
+	import javax.swing.JPanel;
+	import java.awt.BorderLayout;
+	import java.awt.FlowLayout;
+	import javax.swing.BoxLayout;
+	import javax.swing.DefaultCellEditor;
+	
+	import java.awt.Component;
+	import java.awt.GridLayout;
+	import javax.swing.SwingConstants;
+	import java.awt.GridBagLayout;
+	import java.awt.GridBagConstraints;
+	import java.awt.Insets;
+	import java.awt.Point;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+	import java.util.Arrays;
+	
 	import javax.swing.Box;
 	import java.awt.Dimension;
 	import javax.swing.ListSelectionModel;
+	import java.awt.event.WindowAdapter;
+	import java.awt.event.WindowEvent;
+	import java.beans.PropertyChangeEvent;
+	import java.beans.PropertyChangeListener;
+	import java.math.BigDecimal;
+	import java.awt.event.ActionListener;
+	import java.awt.event.ActionEvent;
 	
 	public class OrderForm {
 		
@@ -369,11 +554,28 @@ Gunakan WindowBuilder untuk membuat form ini
 		private JTextField txtTotal;
 		private JTextField txtCode;
 		private JTextField txtDate;
+		private JTextArea txtNote;
+		
+		public static Connection CONNECTION;
+		
+		public boolean isAddMode = false;
+		private JButton btnAddItem;
+		private JButton btnDeleteItem;
+		private JButton btnConfirm;
 		
 		/**
 		* Launch the application.
+		* 
+		* @throws ClassNotFoundException
+		* @throws SQLException
 		*/
-		public static void main(String[] args) {
+		public static void main(String[] args) throws ClassNotFoundException, SQLException {
+			
+			// initialize connection to database
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			CONNECTION = DriverManager //
+			.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "");
+			
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
@@ -388,48 +590,88 @@ Gunakan WindowBuilder untuk membuat form ini
 		
 		/**
 		* Create the application.
+		* 
+		* @throws SQLException
 		*/
-		public OrderForm() {
+		public OrderForm() throws SQLException {
 			initialize();
 		}
 		
 		/**
 		* Initialize the contents of the frame.
+		* 
+		* @throws SQLException
 		*/
-		private void initialize() {
+		private void initialize() throws SQLException {
 			frmOrderForm = new JFrame();
+			frmOrderForm.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosed(WindowEvent e) {
+					try {
+						CONNECTION.close();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
 			frmOrderForm.setTitle("Order Form");
 			frmOrderForm.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			frmOrderForm.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 16));
-			frmOrderForm.setBounds(100, 100, 723, 421);
+			frmOrderForm.setBounds(100, 100, 710, 421);
 			frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
+			
+			Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+			frmOrderForm.setLocation(centerPoint.x - (int) frmOrderForm.getSize().getWidth() / 2,
+			centerPoint.y - (int) frmOrderForm.getSize().getHeight() / 2);
 			
 			JScrollPane scrollPane = new JScrollPane();
 			frmOrderForm.getContentPane().add(scrollPane, BorderLayout.CENTER);
 			
 			table = new JTable();
+			table.getTableHeader().setReorderingAllowed(false);
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			table.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			scrollPane.setViewportView(table);
-			table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"No.", "Item Code", "Name", "Price", "Quantity", "Total"
-			}
-			) {
-				/**
-				* 
-				*/
-				private static final long serialVersionUID = 1L;
-				Class[] columnTypes = new Class[] {
-					Integer.class, String.class, String.class, Double.class, Double.class, Double.class
-				};
+			table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+			new String[] { "No.", "Item Code", "Name", "Price", "Quantity", "Total" }) {
+				Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
+					Double.class };
+				
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
+				
+				boolean[] columnEditables = new boolean[] { false, false, false, false, true, false };
+				
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.getColumnModel().getColumn(0).setPreferredWidth(27);
+			table.getColumnModel().getColumn(1).setPreferredWidth(64);
+			table.getColumnModel().getColumn(2).setPreferredWidth(195);
+			table.getColumnModel().getColumn(3).setPreferredWidth(68);
+			table.getColumnModel().getColumn(4).setPreferredWidth(50);
+			table.getColumnModel().getColumn(5).setPreferredWidth(108);
+			table.addPropertyChangeListener(new PropertyChangeListener() {
+				
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					if ("tableCellEditor".equals(evt.getPropertyName()) && evt.getOldValue() != null) {
+						DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+						int selectedIndex = table.getSelectedRow();
+						DefaultCellEditor temp = (DefaultCellEditor) evt.getOldValue();
+						double quantity = (double) temp.getCellEditorValue();
+						double price = (double) dtm.getValueAt(selectedIndex, 3);
+						double lineTotal = price * quantity;
+						dtm.setValueAt(lineTotal, selectedIndex, 5);
+						
+						setTotalOrder(dtm);
+						
+					}
+				}
+				
 			});
 			
 			JPanel southPanel = new JPanel();
@@ -458,17 +700,62 @@ Gunakan WindowBuilder untuk membuat form ini
 			flowLayout_1.setAlignment(FlowLayout.RIGHT);
 			southPanel.add(panel_1);
 			
-			JButton btnConfirm = new JButton("Confirm");
+			btnConfirm = new JButton("Confirm");
+			btnConfirm.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PreparedStatement statement;
+					try {
+						// get max code
+						statement = CONNECTION.prepareStatement("SELECT Max(code) code FROM `order`;");
+						ResultSet resultSet = statement.executeQuery();
+						String maxCode = null;
+						if (resultSet.next()) {
+							maxCode = resultSet.getString("code");
+						}
+						String newCode = String.valueOf(Integer.valueOf(maxCode) + 1);
+						resultSet.close();
+						statement.close();
+						
+						statement = CONNECTION.prepareStatement("insert into `order`(code, note) values(?, ?);");
+						statement.setString(1, newCode);
+						statement.setString(2, txtNote.getText());
+						statement.executeUpdate();
+						statement.close();
+						
+						for (int i = 0; i < table.getRowCount(); i++) {
+							statement = CONNECTION.prepareStatement("insert into `order_detail`(code, line, itemcode, name, price, quantity)"
+							+ " values(?, ?, ?, ?, ?, ?);");
+							statement.setString(1, newCode);
+							statement.setInt(2, (int) table.getValueAt(i, 0));
+							statement.setString(3, (String) table.getValueAt(i, 1));
+							statement.setString(4, (String) table.getValueAt(i, 2));
+							statement.setDouble(5, Double.valueOf(table.getValueAt(i, 3).toString()));
+							statement.setDouble(6, Double.valueOf(table.getValueAt(i, 4).toString()));
+							statement.executeUpdate();
+						}
+						
+						isAddMode = false;
+						enableDisableElements();
+						
+						displayLastOrder();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					
+					
+				}
+			});
 			btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			panel_1.add(btnConfirm);
 			
 			JPanel northPanel = new JPanel();
 			frmOrderForm.getContentPane().add(northPanel, BorderLayout.NORTH);
 			GridBagLayout gbl_northPanel = new GridBagLayout();
-			gbl_northPanel.columnWidths = new int[]{709, 0};
-			gbl_northPanel.rowHeights = new int[] {50, 78, 0};
-			gbl_northPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-			gbl_northPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+			gbl_northPanel.columnWidths = new int[] { 709, 0 };
+			gbl_northPanel.rowHeights = new int[] { 50, 78, 0 };
+			gbl_northPanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+			gbl_northPanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 			northPanel.setLayout(gbl_northPanel);
 			
 			JPanel panel_2 = new JPanel();
@@ -482,6 +769,21 @@ Gunakan WindowBuilder untuk membuat form ini
 			northPanel.add(panel_2, gbc_panel_2);
 			
 			JButton btnNew = new JButton("New");
+			btnNew.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					isAddMode = true;
+					enableDisableElements();
+					txtCode.setText("");
+					txtNote.setText("");
+					txtDate.setText("");
+					txtTotal.setText("");
+					table.setEnabled(true);
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					while (dtm.getRowCount() > 0) {
+						dtm.removeRow(0);
+					}
+				}
+			});
 			btnNew.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			panel_2.add(btnNew);
 			
@@ -499,17 +801,51 @@ Gunakan WindowBuilder untuk membuat form ini
 			txtCode.setColumns(10);
 			panel_2.add(txtCode);
 			
-			Component rigidArea = Box.createRigidArea(new Dimension(100, 20));
-			panel_2.add(rigidArea);
+			JButton btnFirst = new JButton("First");
+			btnFirst.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayFirstOrder();
+				}
+			});
+			btnFirst.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnFirst);
+			
+			JButton btnPrevious = new JButton("Prev");
+			btnPrevious.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayPrevOrder();
+				}
+			});
+			btnPrevious.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnPrevious);
+			
+			JButton btnNext = new JButton("Next");
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayNextOrder();
+				}
+			});
+			btnNext.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnNext);
+			
+			JButton btnLast = new JButton("Last");
+			btnLast.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					OrderForm.this.displayLastOrder();
+				}
+			});
+			btnLast.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			panel_2.add(btnLast);
 			
 			JLabel lblDate = new JLabel("Date");
 			lblDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			panel_2.add(lblDate);
 			
 			txtDate = new JTextField();
+			txtDate.setHorizontalAlignment(SwingConstants.RIGHT);
 			txtDate.setEditable(false);
 			txtDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			txtDate.setColumns(10);
+			txtDate.setColumns(12);
 			panel_2.add(txtDate);
 			
 			JPanel panel_4 = new JPanel();
@@ -522,11 +858,54 @@ Gunakan WindowBuilder untuk membuat form ini
 			gbc_panel_4.gridy = 1;
 			northPanel.add(panel_4, gbc_panel_4);
 			
-			JButton btnAddItem = new JButton("Add Item");
-			btnAddItem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnAddItem = new JButton("Add Item");
+			btnAddItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String query = "SELECT code, name, price FROM item WHERE quantity > 0;";
+					SelectForm selectForm = new SelectForm(query);
+					selectForm.setOnSelectListener(new OnSelectListener() {
+						@Override
+						public void select(Object[] values) {
+							if (values != null && values.length > 0) {
+								DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+								
+								int line = dtm.getRowCount() + 1;
+								String code = (String) values[0];
+								String name = (String) values[1];
+								double price = ((BigDecimal) values[2]).doubleValue();
+								double quantity = 1;
+								double lineTotal = price * quantity;
+								
+								Object[] orderLine = new Object[] { line, code, name, price, 1, 1 * price, lineTotal };
+								dtm.addRow(orderLine);
+								
+								setTotalOrder(dtm);
+							}
+						}
+					});
+					selectForm.setVisible(true);
+					
+				}
+			});
+			btnAddItem.setFont(new Font("Tashoma", Font.PLAIN, 16));
 			panel_4.add(btnAddItem);
 			
-			JButton btnDeleteItem = new JButton("Remove Item");
+			btnDeleteItem = new JButton("Remove Item");
+			btnDeleteItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedIndex = table.getSelectedRow();
+					if (selectedIndex < 0)
+					return;
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					dtm.removeRow(selectedIndex);
+					for (int i = 0; i < dtm.getRowCount(); i++) {
+						dtm.setValueAt(i + 1, i, 0);
+					}
+					
+					setTotalOrder(dtm);
+				}
+			});
 			btnDeleteItem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			panel_4.add(btnDeleteItem);
 			
@@ -538,273 +917,275 @@ Gunakan WindowBuilder untuk membuat form ini
 			lblNote.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			panel_4.add(lblNote);
 			
-			JTextArea txtNote = new JTextArea();
+			txtNote = new JTextArea();
 			txtNote.setRows(3);
 			txtNote.setColumns(30);
 			panel_4.add(txtNote);
-			table.getColumnModel().getColumn(0).setPreferredWidth(27);
-			table.getColumnModel().getColumn(1).setPreferredWidth(64);
-			table.getColumnModel().getColumn(2).setPreferredWidth(195);
-			table.getColumnModel().getColumn(3).setPreferredWidth(68);
-			table.getColumnModel().getColumn(4).setPreferredWidth(50);
-			table.getColumnModel().getColumn(5).setPreferredWidth(108);
+			
+			displayLastOrder();
+			
+		}
+		
+		private void displayFirstOrder() {
+			try {
+				PreparedStatement statement = CONNECTION
+				.prepareStatement("select * from `order` t1 where t1.code = (select min(code)  from `order` t2);");
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayPrevOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < ?) limit 1;");
+				String currentCode = txtCode.getText();
+				statement.setString(1, currentCode);
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayNextOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > ?) limit 1;");
+				String currentCode = txtCode.getText();
+				statement.setString(1, currentCode);
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayLastOrder() {
+			try {
+				PreparedStatement statement = CONNECTION.prepareStatement(
+				"select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1");
+				displayOrder(statement);
+				isAddMode = false;
+				enableDisableElements();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		private void displayOrder(PreparedStatement statement) throws SQLException {
+			// initial order header query
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				String code = resultSet.getString("code");
+				txtCode.setText(code);
+				txtDate.setText(resultSet.getString("date"));
+				txtNote.setText(resultSet.getString("note"));
+				resultSet.close();
+				statement.close();
+				
+				// detail order detail query
+				statement = CONNECTION
+				.prepareStatement("select line, itemcode, name, price, quantity, (quantity * price) total "
+				+ "from `order_detail` t1 where t1.code = ?");
+				statement.setString(1, code);
+				resultSet = statement.executeQuery();
+				
+				double grandTotal = 0;
+				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+				while (dtm.getRowCount() > 0) {
+					dtm.removeRow(0);
+				}
+				while (resultSet.next()) {
+					int line = resultSet.getInt("line");
+					String itemcode = resultSet.getString("itemcode");
+					String name = resultSet.getString("name");
+					double quantity = resultSet.getInt("quantity");
+					double price = resultSet.getInt("price");
+					double total = resultSet.getInt("total");
+					grandTotal = grandTotal + total;
+					
+					dtm.addRow(new Object[] { line, itemcode, name, price, quantity, total });
+				}
+				
+				setTotalOrder(dtm);
+			}
+			
+			resultSet.close();
+			statement.close();
+		}
+		
+		public void enableDisableElements() {
+			if (isAddMode) {
+				table.setEnabled(true);
+				btnAddItem.setEnabled(true);
+				btnDeleteItem.setEnabled(true);
+				btnConfirm.setEnabled(true);
+				txtNote.setEnabled(true);
+			} else {
+				table.setEnabled(false);
+				btnAddItem.setEnabled(false);
+				btnDeleteItem.setEnabled(false);
+				btnConfirm.setEnabled(false);
+				txtNote.setEnabled(true);
+			}
+		}
+		
+		private void setTotalOrder(DefaultTableModel dtm) {
+			double total = 0;
+			for (int i = 0; i < dtm.getRowCount(); i++) {
+				double t = (double) dtm.getValueAt(i, 5);
+				total = total + t;
+			}
+			txtTotal.setText(String.valueOf(total));
 		}
 	}
 	
 \end{lstlisting}
 
-\paragraph{1. Package dan Import}
-\begin{itemize}
-	\item Baris pertama mendeklarasikan package \texttt{edu.pradita.p12}.
-	\item Kode berikutnya mengimpor pustaka Java untuk antarmuka pengguna (\texttt{javax.swing.*}) dan elemen layout (\texttt{java.awt.*}) yang dibutuhkan.
-\end{itemize}
 
-\paragraph{2. Deklarasi Kelas \texttt{OrderForm}}
-\begin{itemize}
-	\item Kelas \texttt{OrderForm} merupakan kelas utama yang memiliki elemen-elemen antarmuka pengguna seperti \texttt{JFrame}, \texttt{JTable}, dan \texttt{JTextField}.
-	\item Atribut yang digunakan antara lain:
-	\begin{itemize}
-		\item \texttt{frmOrderForm}: Objek \texttt{JFrame} utama yang menjadi wadah komponen antarmuka.
-		\item \texttt{table}: Komponen tabel untuk menampilkan data pesanan.
-		\item \texttt{txtTotal}, \texttt{txtCode}, \texttt{txtDate}: \texttt{JTextField} untuk menampilkan total harga, kode item, dan tanggal.
-	\end{itemize}
-\end{itemize}
+\subsubsection{Import dan Deklarasi}
+Kode ini dimulai dengan mengimpor berbagai paket yang diperlukan:
 
-\paragraph{3. \texttt{main} Method}
-\begin{itemize}
-	\item Method \texttt{main} menjalankan aplikasi dengan memanggil \texttt{OrderForm} dan menampilkannya menggunakan \texttt{EventQueue}.
-\end{itemize}
-
-\paragraph{4. Konstruktor \texttt{OrderForm}}
-\begin{itemize}
-	\item Konstruktor \texttt{OrderForm} memanggil method \texttt{initialize()} untuk mengatur antarmuka pengguna.
-\end{itemize}
-
-\paragraph{5. Method \texttt{initialize}}
-\begin{itemize}
-	\item Method ini berfungsi untuk mengatur komponen GUI.
-	\item Berikut adalah komponen-komponen utama yang diatur dalam \texttt{initialize()}:
-	
-	\subparagraph{5.1. \texttt{JFrame} dan \texttt{JScrollPane}}
-	\begin{itemize}
-		\item \texttt{frmOrderForm} adalah objek \texttt{JFrame} utama. Di dalamnya terdapat \texttt{JScrollPane} yang menampung tabel untuk menampilkan data pesanan.
-	\end{itemize}
-	
-	\subparagraph{5.2. \texttt{JTable} (Tabel)}
-	\begin{itemize}
-		\item \texttt{table}: Tabel menampilkan data pesanan dengan kolom seperti "No.", "Item Code", "Name", "Price", "Quantity", dan "Total".
-		\item Model tabel diset menggunakan \texttt{DefaultTableModel} dengan tipe data yang didefinisikan pada masing-masing kolom.
-	\end{itemize}
-	
-	\subparagraph{5.3. Panel Bagian Bawah (South Panel)}
-	\begin{itemize}
-		\item Terdapat dua panel dalam bagian bawah untuk menampilkan \texttt{Total} dan \texttt{Confirm} button.
-		\item Label \texttt{Total} dan field \texttt{txtTotal} untuk menampilkan total harga pesanan.
-	\end{itemize}
-	
-	\subparagraph{5.4. Panel Bagian Atas (North Panel)}
-	\begin{itemize}
-		\item Panel ini berisi tombol-tombol \texttt{New}, \texttt{Find}, \texttt{Add Item}, dan \texttt{Remove Item}.
-		\item Selain itu, terdapat input \texttt{txtCode}, \texttt{txtDate}, dan area teks \texttt{txtNote} untuk menambahkan catatan.
-	\end{itemize}
-\end{itemize}
-
-\paragraph{Kesimpulan}
-Kode ini membentuk antarmuka untuk formulir pemesanan dengan fitur tabel data, kalkulasi total harga, dan area catatan. Struktur layout yang digunakan memungkinkan pengaturan posisi komponen yang fleksibel dengan bantuan \texttt{BorderLayout}, \texttt{GridLayout}, dan \texttt{FlowLayout}.
-
-
-\subsubsection{Kelas Select Form}
-
-Gunakan WindowBuilder untuk membuat form ini
-
-\begin{lstlisting}[style=JavaStyle]
-	package edu.pradita.p12;
-	
-	import java.awt.BorderLayout;
+\begin{lstlisting}[style=javaStyle]
 	import java.awt.EventQueue;
-	
 	import javax.swing.JFrame;
-	import javax.swing.JPanel;
-	import javax.swing.border.EmptyBorder;
-	import java.awt.Font;
+	import javax.swing.JScrollPane;
+	import javax.swing.JTable;
+	import javax.swing.table.DefaultTableModel;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+	import javax.swing.JButton;
 	import javax.swing.JLabel;
 	import javax.swing.JTextField;
-	import javax.swing.JTable;
-	import javax.swing.JScrollPane;
-	import javax.swing.table.DefaultTableModel;
-	import javax.swing.JButton;
-	import javax.swing.BoxLayout;
-	import java.awt.Component;
-	import java.awt.GridLayout;
-	import javax.swing.SwingConstants;
+	import javax.swing.JTextArea;
+	import javax.swing.JPanel;
+	import java.awt.BorderLayout;
+	import java.awt.FlowLayout;
 	import java.awt.GridBagLayout;
 	import java.awt.GridBagConstraints;
 	import java.awt.Insets;
-	import javax.swing.ListSelectionModel;
-	
-	public class SelectForm extends JFrame {
-		
-		private JPanel contentPane;
+	import java.awt.event.ActionListener;
+	import java.awt.event.ActionEvent;
+	import java.awt.event.WindowAdapter;
+	import java.awt.event.WindowEvent;
+\end{lstlisting}
+
+\subsubsection{Kelas OrderForm}
+Kelas utama adalah \texttt{OrderForm}, yang memiliki beberapa atribut untuk menyimpan informasi form, seperti \texttt{JFrame}, \texttt{JTable}, dan \texttt{JTextField}.
+
+\begin{lstlisting}[style=javaStyle]
+	public class OrderForm {
+		private JFrame frmOrderForm;
 		private JTable table;
-		private JTextField textField;
-		
-		/**
-		* Launch the application.
-		*/
-		public static void main(String[] args) {
+		private JTextField txtTotal;
+		private JTextField txtCode;
+		private JTextField txtDate;
+		private JTextArea txtNote;
+		public static Connection CONNECTION;
+		public boolean isAddMode = false;
+		private JButton btnAddItem;
+		private JButton btnDeleteItem;
+		private JButton btnConfirm;
+\end{lstlisting}
+	
+\subsubsection{Metode Utama}
+Metode \texttt{main} untuk menjalankan aplikasi ini, yang akan menginisialisasi koneksi ke database dan menampilkan form pemesanan.
+	
+\begin{lstlisting}[style=javaStyle]
+		public static void main(String[] args) throws ClassNotFoundException, SQLException {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/pradita", "root", "");
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						SelectForm frame = new SelectForm();
-						frame.setVisible(true);
+						OrderForm window = new OrderForm();
+						window.frmOrderForm.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
 		}
-		
-		/**
-		* Create the frame.
-		*/
-		public SelectForm() {
-			setTitle("Select Form");
-			setFont(new Font("Tahoma", Font.PLAIN, 16));
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 350, 270);
-			contentPane = new JPanel();
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			contentPane.setLayout(new BorderLayout(0, 4));
-			
-			JPanel panel = new JPanel();
-			contentPane.add(panel, BorderLayout.SOUTH);
-			panel.setLayout(new GridLayout(1, 2, 0, 0));
-			
-			JButton btnCancel = new JButton("Cancel");
-			btnCancel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			btnCancel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-			btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			panel.add(btnCancel);
-			
-			JButton btnNewButton = new JButton("OK");
-			btnNewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			panel.add(btnNewButton);
-			
-			JScrollPane scrollPane = new JScrollPane();
-			contentPane.add(scrollPane, BorderLayout.CENTER);
-			
-			table = new JTable();
-			table.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			table.setEnabled(false);
-			table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-			},
-			new String[] {
-				"Code", "Description"
-			}
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, String.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			});
-			table.getColumnModel().getColumn(0).setPreferredWidth(71);
-			table.getColumnModel().getColumn(1).setPreferredWidth(204);
-			scrollPane.setViewportView(table);
-			
-			JPanel panel_1 = new JPanel();
-			contentPane.add(panel_1, BorderLayout.NORTH);
-			panel_1.setLayout(new BorderLayout(10, 0));
-			
-			JLabel lblFind = new JLabel("Find:");
-			lblFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			panel_1.add(lblFind, BorderLayout.WEST);
-			
-			textField = new JTextField();
-			lblFind.setLabelFor(textField);
-			textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			textField.setColumns(10);
-			panel_1.add(textField);
-			
-			JButton btnFind = new JButton("Find");
-			btnFind.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			panel_1.add(btnFind, BorderLayout.EAST);
-		}
-		
-	}
 \end{lstlisting}
-
-
-\paragraph{1. Deklarasi Paket dan Import Library}
-Kode ini dimulai dengan mendeklarasikan paket \texttt{edu.pradita.p12} dan mengimpor beberapa pustaka dari \textit{Swing} dan \textit{AWT} untuk membuat antarmuka grafis. Beberapa pustaka utama yang digunakan adalah \texttt{JFrame}, \texttt{JTable}, dan \texttt{JScrollPane}.
-
-\paragraph{2. Kelas \texttt{SelectForm}}
-Kelas \texttt{SelectForm} diperluas dari \texttt{JFrame}, yang memungkinkan untuk membuat jendela utama aplikasi GUI. Berikut komponen-komponen utama di dalamnya:
-
-\begin{itemize}
-	\item \texttt{JPanel} dan \texttt{contentPane}: Panel utama dengan tata letak \texttt{BorderLayout} yang berfungsi sebagai kontainer untuk komponen lain di jendela.
-	\item \texttt{JTable}: Komponen untuk menampilkan data dalam bentuk tabel. Tabel ini diatur agar tidak dapat diedit (\texttt{setEnabled(false)}) dan menggunakan \texttt{DefaultTableModel} dengan dua kolom: \textit{Code} dan \textit{Description}.
-\end{itemize}
-
-\paragraph{3. Metode \texttt{main}}
-Metode ini berfungsi sebagai titik masuk aplikasi. \texttt{EventQueue.invokeLater} digunakan untuk menjalankan aplikasi dalam \textit{event-dispatching thread}, yang diperlukan untuk aplikasi GUI berbasis \texttt{Swing}.
-
-\paragraph{4. Konstruktor \texttt{SelectForm}}
-Konstruktor ini menginisialisasi komponen GUI dalam jendela utama:
-\begin{itemize}
-	\item \textbf{Tata Letak Utama dan Ukuran Jendela}: Menyetel judul jendela, font, operasi \texttt{EXIT\_ON\_CLOSE}, dan ukuran jendela.
-	\item \textbf{Panel Selatan (\texttt{panel})}: Digunakan untuk menempatkan dua tombol, yaitu \texttt{OK} dan \texttt{Cancel}, dengan \texttt{GridLayout} 1x2 untuk menata tombol secara horizontal.
-	\item \textbf{\texttt{JTable} dalam \texttt{JScrollPane}}: \texttt{JScrollPane} digunakan untuk memungkinkan tabel di-\texttt{scroll} bila datanya lebih banyak dari ukuran jendela. Tabel ini menampilkan dua kolom dengan data kosong.
-	\item \textbf{Panel Pencarian}: Bagian atas jendela memiliki label "Find", kolom input teks (\texttt{JTextField}), dan tombol "Find". Bagian ini memungkinkan pengguna untuk memasukkan kata kunci pencarian untuk mencari data di tabel.
-\end{itemize}
-
-\paragraph{5. Interaksi Pengguna}
-Kode ini mendefinisikan elemen interaktif seperti tombol \texttt{OK}, \texttt{Cancel}, dan \texttt{Find}. Pada kode ini, fungsionalitas tombol tersebut belum diimplementasikan, sehingga hanya elemen antarmuka yang terlihat.
-
-
+	
+\subsubsection{Inisialisasi Form}
+Metode \texttt{initialize} untuk mengatur tampilan dan komponen dalam \texttt{JFrame}.
+	
+\begin{lstlisting}[style=javaStyle]
+		private void initialize() throws SQLException {
+			frmOrderForm = new JFrame();
+			frmOrderForm.setTitle("Order Form");
+			frmOrderForm.setBounds(100, 100, 710, 421);
+			frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
+			// Tambahkan JScrollPane dan JTable
+			JScrollPane scrollPane = new JScrollPane();
+			frmOrderForm.getContentPane().add(scrollPane, BorderLayout.CENTER);
+			table = new JTable();
+			table.setModel(new DefaultTableModel(...));
+			scrollPane.setViewportView(table);
+			// Panel dan Komponen lainnya
+		}
+\end{lstlisting}
+	
+\subsubsection{Aksi Tombol}
+Kode ini juga mendefinisikan aksi untuk tombol yang digunakan dalam form, seperti tombol untuk menambah dan mengkonfirmasi pesanan.
+	
+\begin{lstlisting}[style=javaStyle]
+		btnConfirm = new JButton("Confirm");
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Kode untuk menyimpan data ke database
+			}
+		});
+\end{lstlisting}
 
 
 \section{Soal Studi Kasus}
 
 \subsection{Pembuatan Database Sederhana untuk Sistem Perpustakaan}
+
 Dalam studi kasus ini, kita akan membuat skema database sederhana untuk sistem perpustakaan menggunakan SQL. Database ini akan terdiri dari tiga tabel utama: \texttt{Buku}, \texttt{Anggota}, dan \texttt{Peminjaman}. Setiap tabel akan memiliki kolom khusus yang memungkinkan kita untuk mengelola informasi buku, anggota perpustakaan, dan riwayat peminjaman.
 
+Gunakan database yang sudah dibuat dari pertemuan 12. Jika belum, silahkan ikuti instruksi yang ada sebelumnya.
+
+\subsection{Pembuatan Form dan Implementasi CRUD}
+Setelah database selesai dibuat, Anda perlu membuat form untuk mengelola data buku, anggota, dan peminjaman. Form ini akan digunakan untuk melakukan operasi CRUD. Berikut adalah rincian mengenai masing-masing operasi:
+
 \begin{itemize}
-	\item \textbf{Tabel Buku}:
+	\item \textbf{Create}:
 	\begin{itemize}
-		\item Tabel ini berfungsi untuk menyimpan informasi tentang buku yang tersedia di perpustakaan.
-		\item Kolom yang dibutuhkan antara lain \texttt{ID\_Buku}, \texttt{Judul}, \texttt{Penulis}, dan \texttt{Tahun\_Terbit}.
+		\item Buat form untuk menambah buku baru, anggota baru, dan peminjaman baru.
+		\item Form harus berisi field yang sesuai dengan kolom yang ada di tabel.
 	\end{itemize}
 	
-	\item \textbf{Tabel Anggota}:
+	\item \textbf{Read}:
 	\begin{itemize}
-		\item Tabel ini berfungsi untuk menyimpan informasi tentang anggota perpustakaan.
-		\item Kolom yang dibutuhkan antara lain \texttt{ID\_Anggota}, \texttt{Nama}, \texttt{Alamat}, dan \texttt{Nomor\_Telepon}.
+		\item Tampilkan daftar buku, anggota, dan peminjaman yang ada di database.
+		\item Buat tampilan yang memungkinkan pengguna untuk melihat detail dari setiap entri.
 	\end{itemize}
 	
-	\item \textbf{Tabel Peminjaman}:
+	\item \textbf{Update}:
 	\begin{itemize}
-		\item Tabel ini mencatat transaksi peminjaman buku oleh anggota.
-		\item Kolom yang dibutuhkan antara lain \texttt{ID\_Peminjaman}, \texttt{ID\_Buku}, \texttt{ID\_Anggota}, \texttt{Tanggal\_Pinjam}, dan \texttt{Tanggal\_Kembali}.
+		\item Buat form untuk mengedit informasi buku, anggota, dan peminjaman yang sudah ada.
+		\item Pastikan form diisi dengan data yang sudah ada sehingga pengguna dapat melakukan perubahan.
+	\end{itemize}
+	
+	\item \textbf{Delete}:
+	\begin{itemize}
+		\item Sediakan opsi untuk menghapus buku, anggota, dan peminjaman dari database.
+		\item Pastikan untuk meminta konfirmasi sebelum penghapusan dilakukan.
 	\end{itemize}
 \end{itemize}
 
-\subsubsection{Instruksi Studi Kasus}
-Tugas Anda adalah untuk menulis kode SQL yang:
+Pada akhir studi kasus ini, Anda akan memiliki database \texttt{Perpustakaan} yang dapat digunakan untuk mengelola informasi buku, anggota, dan transaksi peminjaman buku, serta form yang mendukung operasi CRUD untuk manajemen data.
 
-\begin{enumerate}
-	\item Membuat database dengan nama \texttt{Perpustakaan}.
-	\item Membuat tabel \texttt{Buku}, \texttt{Anggota}, dan \texttt{Peminjaman} dengan kolom-kolom yang telah disebutkan.
-	\item Menetapkan \texttt{primary key} pada masing-masing tabel.
-	\item Menambahkan \texttt{foreign key} yang sesuai untuk menghubungkan tabel \texttt{Peminjaman} dengan tabel \texttt{Buku} dan \texttt{Anggota}.
-	\item Memasukkan setidaknya tiga data contoh ke dalam masing-masing tabel.
-	\item Setelah membuat database, gunakan bahasa pemrograman Java untuk melakukan tes koneksi pada database berikut.
-\end{enumerate}
-
-Pada akhir studi kasus ini, Anda akan memiliki database \texttt{Perpustakaan} yang dapat digunakan untuk mengelola informasi buku, anggota, dan transaksi peminjaman buku.

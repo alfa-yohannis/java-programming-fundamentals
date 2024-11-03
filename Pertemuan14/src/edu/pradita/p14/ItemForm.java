@@ -44,7 +44,7 @@ public class ItemForm extends JFrame {
 	private JTable table;
 	private String query;
 
-	/**
+	/** 
 	 * Create the frame.
 	 */
 	public ItemForm() {

@@ -38,6 +38,33 @@
 	%	showstringspaces=false
 }
 
+\lstdefinestyle{sql}{
+	language=sql,
+	keywords={use, insert, into, values, select, from,
+	update, set, delete, create, where, join, left, right, inner, order, by},
+	ndkeywords={max, min},
+	ndkeywordstyle=\color{purple}\bfseries,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{red},
+	breaklines=true,
+	showstringspaces=false,
+	tabsize=2,
+	captionpos=b,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	frame=lines,
+	backgroundcolor=\color{lightgray!10},
+	comment=[l]{\#},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{gray}\ttfamily,
+	string=[s]{'}{'},
+	morestring=[s]{"}{"},
+	%	stringstyle=\color{teal}\ttfamily,
+	%	showstringspaces=false
+}
+
 
 \begin{document}
 		
@@ -85,5 +112,6 @@
 	\include{Pertemuan11.tex}
 	\include{Pertemuan12.tex}
 	\include{Pertemuan13.tex}
+	\include{Pertemuan14.tex}
 		
 \end{document}

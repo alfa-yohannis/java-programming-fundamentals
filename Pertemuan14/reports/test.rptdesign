@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.24" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.12.0.v202211281949</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.17.0.v202409011308</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">queryText</property>
@@ -13,6 +13,42 @@
         <structure>
             <property name="name">rowFetchSize</property>
             <property name="id">6</property>
+        </structure>
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaAutoCommit</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaIsolationMode</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">odaJndiName</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">5</property>
         </structure>
     </list-property>
     <property name="units">in</property>
@@ -53,7 +89,7 @@
             </list-property>
             <property name="odaDriverClass">com.mysql.cj.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost:3306/pradita</property>
-            <property name="odaUser">root</property>
+            <property name="odaUser">alfa</property>
             <encrypted-property name="odaPassword" encryptionID="base64">MTIzNA==</encrypted-property>
         </oda-data-source>
     </data-sources>
@@ -721,6 +757,7 @@ order by
             </detail>
             <footer>
                 <row id="67">
+                    <property name="height">1.4722222222222223in</property>
                     <cell id="68"/>
                     <cell id="69"/>
                     <cell id="70"/>
