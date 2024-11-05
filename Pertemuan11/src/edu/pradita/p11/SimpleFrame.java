@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.FlowLayout;
 
 /**
  * A frame that is filled with two components.
@@ -19,9 +20,12 @@ public class SimpleFrame extends JFrame {
 
 	// constructor
 	public SimpleFrame() {
+		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		this.add(panel);
+		panel.setBounds(0, 0, 320, 199);
+		getContentPane().add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JTextField text = new JTextField("Alice", 10);
 		panel.add(text);

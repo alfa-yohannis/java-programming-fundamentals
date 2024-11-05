@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class OrderFormFX extends Application {
+public class Main extends Application {
 
     public static Connection CONNECTION;
 
@@ -25,9 +25,9 @@ public class OrderFormFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("OrderFormFX.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("Order Form");
+        primaryStage.setTitle("Main Form");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
