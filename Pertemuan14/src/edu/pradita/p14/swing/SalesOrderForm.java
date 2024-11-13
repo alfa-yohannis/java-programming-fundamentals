@@ -1,113 +1,58 @@
-package edu.pradita.p14;
+package edu.pradita.p14.swing;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.IReportEngine;
-import org.eclipse.birt.report.engine.api.IReportEngineFactory;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.PDFRenderOption;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
-
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
-
 import java.awt.Component;
-import java.awt.Desktop;
-import java.awt.GridLayout;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Point;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import javax.swing.Box;
-import java.awt.Dimension;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.math.BigDecimal;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class OrderForm {
+public class SalesOrderForm extends JPanel implements IForm {
 
-	private JFrame frmOrderForm;
+	private static final long serialVersionUID = -4059202279774436603L;
 	private JTable table;
 	private JTextField txtTotal;
 	private JTextField txtCode;
 	private JTextField txtDate;
 	private JTextArea txtNote;
- 
-	public static Connection CONNECTION;
 
 	public boolean isAddMode = false;
 	private JButton btnAddItem;
 	private JButton btnDeleteItem;
 	private JButton btnConfirm;
-	private ItemForm itemForm;
-
-	/**
-	 * Launch the application.
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-
-		// initialize connection to database
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		CONNECTION = DriverManager //
-		    .getConnection("jdbc:mysql://localhost:3306/pradita", "alfa", "1234");
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OrderForm window = new OrderForm();
-					window.frmOrderForm.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 * 
+	 * @param mainForm
+	 * 
 	 * @throws SQLException
 	 */
-	public OrderForm() throws SQLException {
+	public SalesOrderForm(MainForm mainForm) throws SQLException {
 		initialize();
 	}
 
@@ -117,79 +62,13 @@ public class OrderForm {
 	 * @throws SQLException
 	 */
 	private void initialize() throws SQLException {
-		frmOrderForm = new JFrame();
-		frmOrderForm.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				try {
-					CONNECTION.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		frmOrderForm.setTitle("Order Form");
-		frmOrderForm.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		frmOrderForm.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 16));
-		frmOrderForm.setBounds(100, 100, 893, 421);
-		frmOrderForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmOrderForm.getContentPane().setLayout(new BorderLayout(0, 0));
 
-		Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-		frmOrderForm.setLocation(centerPoint.x - (int) frmOrderForm.getSize().getWidth() / 2,
-		    centerPoint.y - (int) frmOrderForm.getSize().getHeight() / 2);
-
-		JScrollPane scrollPane = new JScrollPane();
-		frmOrderForm.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		table = new JTable();
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
-		    new String[] { "No.", "Item Code", "Name", "Price", "Quantity", "Total" }) {
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class, Double.class,
-			    Double.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-
-			boolean[] columnEditables = new boolean[] { false, false, false, false, true, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(27);
-		table.getColumnModel().getColumn(1).setPreferredWidth(64);
-		table.getColumnModel().getColumn(2).setPreferredWidth(195);
-		table.getColumnModel().getColumn(3).setPreferredWidth(68);
-		table.getColumnModel().getColumn(4).setPreferredWidth(50);
-		table.getColumnModel().getColumn(5).setPreferredWidth(108);
-		table.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ("tableCellEditor".equals(evt.getPropertyName()) && evt.getOldValue() != null) {
-					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-					int selectedIndex = table.getSelectedRow();
-					DefaultCellEditor temp = (DefaultCellEditor) evt.getOldValue();
-					double quantity = (double) temp.getCellEditorValue();
-					double price = (double) dtm.getValueAt(selectedIndex, 3);
-					double lineTotal = price * quantity;
-					dtm.setValueAt(lineTotal, selectedIndex, 5);
-
-					setTotalOrder(dtm);
-
-				}
-			}
-
-		});
+		this.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		this.setBounds(100, 100, 893, 421);
+		setLayout(new BorderLayout(0, 0));
 
 		JPanel southPanel = new JPanel();
-		frmOrderForm.getContentPane().add(southPanel, BorderLayout.SOUTH);
+		this.add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new GridLayout(0, 2, 0, 0));
 
 		JPanel panel = new JPanel();
@@ -221,7 +100,7 @@ public class OrderForm {
 				PreparedStatement statement;
 				try {
 					// get max code
-					statement = CONNECTION.prepareStatement("SELECT Max(code) code FROM `order`;");
+					statement = MainForm.CONNECTION.prepareStatement("SELECT Max(code) code FROM `order`;");
 					ResultSet resultSet = statement.executeQuery();
 					String maxCode = null;
 					if (resultSet.next()) {
@@ -231,16 +110,16 @@ public class OrderForm {
 					resultSet.close();
 					statement.close();
 
-					statement = CONNECTION.prepareStatement("insert into `order`(code, note) values(?, ?);");
+					statement = MainForm.CONNECTION.prepareStatement("insert into `order`(code, note) values(?, ?);");
 					statement.setString(1, newCode);
 					statement.setString(2, txtNote.getText());
 					statement.executeUpdate();
 					statement.close();
 
 					for (int i = 0; i < table.getRowCount(); i++) {
-						statement = CONNECTION
-						    .prepareStatement("insert into `order_detail`(code, line, itemcode, name, price, quantity)"
-						        + " values(?, ?, ?, ?, ?, ?);");
+						statement = MainForm.CONNECTION.prepareStatement(
+								"insert into `order_detail`(code, line, itemcode, name, price, quantity)"
+										+ " values(?, ?, ?, ?, ?, ?);");
 						statement.setString(1, newCode);
 						statement.setInt(2, (int) table.getValueAt(i, 0));
 						statement.setString(3, (String) table.getValueAt(i, 1));
@@ -250,7 +129,8 @@ public class OrderForm {
 						statement.executeUpdate();
 
 						// update the stock
-						statement = CONNECTION.prepareStatement("UPDATE item SET quantity = quantity - ? " + "WHERE code = ?;");
+						statement = MainForm.CONNECTION
+								.prepareStatement("UPDATE item SET quantity = quantity - ? " + "WHERE code = ?;");
 						statement.setDouble(1, Double.valueOf(table.getValueAt(i, 4).toString()));
 						statement.setString(2, (String) table.getValueAt(i, 1));
 						statement.executeUpdate();
@@ -268,9 +148,33 @@ public class OrderForm {
 		});
 		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_1.add(btnConfirm);
+		JScrollPane scrollPane = new JScrollPane();
+		this.add(scrollPane);
+
+		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+				new String[] { "No.", "Item Code", "Name", "Price", "Quantity", "Total" }) {
+			private static final long serialVersionUID = 3305501380893558451L;
+			Class<?>[] columnTypes = new Class[] { Integer.class, String.class, String.class, Double.class,
+					Double.class, Double.class };
+
+			public Class<?> getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+
+			boolean[] columnEditables = new boolean[] { false, false, false, false, true, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 
 		JPanel northPanel = new JPanel();
-		frmOrderForm.getContentPane().add(northPanel, BorderLayout.NORTH);
+		this.add(northPanel, BorderLayout.NORTH);
 		GridBagLayout gbl_northPanel = new GridBagLayout();
 		gbl_northPanel.columnWidths = new int[] { 709, 0 };
 		gbl_northPanel.rowHeights = new int[] { 50, 78, 0 };
@@ -324,7 +228,7 @@ public class OrderForm {
 		JButton btnFirst = new JButton("First");
 		btnFirst.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderForm.this.displayFirstOrder();
+				SalesOrderForm.this.displayFirstOrder();
 			}
 		});
 		btnFirst.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -333,7 +237,7 @@ public class OrderForm {
 		JButton btnPrevious = new JButton("Prev");
 		btnPrevious.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderForm.this.displayPrevOrder();
+				SalesOrderForm.this.displayPrevOrder();
 			}
 		});
 		btnPrevious.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -342,7 +246,7 @@ public class OrderForm {
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderForm.this.displayNextOrder();
+				SalesOrderForm.this.displayNextOrder();
 			}
 		});
 		btnNext.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -351,7 +255,7 @@ public class OrderForm {
 		JButton btnLast = new JButton("Last");
 		btnLast.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderForm.this.displayLastOrder();
+				SalesOrderForm.this.displayLastOrder();
 			}
 		});
 		btnLast.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -441,69 +345,31 @@ public class OrderForm {
 		txtNote.setRows(3);
 		txtNote.setColumns(30);
 		panel_4.add(txtNote);
+		table.getColumnModel().getColumn(0).setPreferredWidth(27);
+		table.getColumnModel().getColumn(1).setPreferredWidth(64);
+		table.getColumnModel().getColumn(2).setPreferredWidth(195);
+		table.getColumnModel().getColumn(3).setPreferredWidth(68);
+		table.getColumnModel().getColumn(4).setPreferredWidth(50);
+		table.getColumnModel().getColumn(5).setPreferredWidth(108);
+		table.addPropertyChangeListener(new PropertyChangeListener() {
 
-		JMenuBar menuBar = new JMenuBar();
-		frmOrderForm.setJMenuBar(menuBar);
-		
-		JMenu menuFile = new JMenu("File");
-		menuFile.setMnemonic('F');
-		menuBar.add(menuFile);
-		
-		JMenuItem menuItemPrint = new JMenuItem("Print");
-		menuItemPrint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					EngineConfig config = new EngineConfig();
-					Platform.startup(config);
-					final IReportEngineFactory FACTORY = (IReportEngineFactory) Platform
-					    .createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
-					IReportEngine engine = FACTORY.createReportEngine(config);
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ("tableCellEditor".equals(evt.getPropertyName()) && evt.getOldValue() != null) {
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					int selectedIndex = table.getSelectedRow();
+					DefaultCellEditor temp = (DefaultCellEditor) evt.getOldValue();
+					double quantity = (double) temp.getCellEditorValue();
+					double price = (double) dtm.getValueAt(selectedIndex, 3);
+					double lineTotal = price * quantity;
+					dtm.setValueAt(lineTotal, selectedIndex, 5);
 
-					// Open the report design
-					IReportRunnable design = null;
-					design = engine.openReportDesign("reports/test.rptdesign");
-					IRunAndRenderTask task = engine.createRunAndRenderTask(design);
-					task.setParameterValue("order_code", txtCode.getText());
-					task.validateParameters();
+					setTotalOrder(dtm);
 
-					PDFRenderOption options = new PDFRenderOption();
-					options.setOutputFileName("reports/test.pdf");
-					options.setOutputFormat("pdf");
-
-					task.setRenderOption(options);
-					task.run();
-					task.close();
-					engine.destroy();
-
-					if (Desktop.isDesktopSupported()) {
-						File myFile = new File("reports/test.pdf");
-						Desktop.getDesktop().open(myFile);
-					}
-
-				} catch (Exception EX) {
-					EX.printStackTrace();
-				} finally {
-					Platform.shutdown();
 				}
-				
 			}
+
 		});
-		menuFile.add(menuItemPrint);
-
-		JMenu menuMasterData = new JMenu("Master Data");
-		menuMasterData.setMnemonic('M');
-		menuBar.add(menuMasterData);
-
-		JMenuItem menuItemItem = new JMenuItem("Item");
-		menuItemItem.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				itemForm = new ItemForm();
-				itemForm.setVisible(true);
-			}
-		});
-		menuMasterData.add(menuItemItem);
 
 		displayLastOrder();
 
@@ -511,8 +377,8 @@ public class OrderForm {
 
 	private void displayFirstOrder() {
 		try {
-			PreparedStatement statement = CONNECTION
-			    .prepareStatement("select * from `order` t1 where t1.code = (select min(code)  from `order` t2);");
+			PreparedStatement statement = MainForm.CONNECTION
+					.prepareStatement("select * from `order` t1 where t1.code = (select min(code)  from `order` t2);");
 			displayOrder(statement);
 			isAddMode = false;
 			enableDisableElements();
@@ -523,8 +389,8 @@ public class OrderForm {
 
 	private void displayPrevOrder() {
 		try {
-			PreparedStatement statement = CONNECTION.prepareStatement(
-			    "select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < ?) limit 1;");
+			PreparedStatement statement = MainForm.CONNECTION.prepareStatement(
+					"select * from `order` t1 where t1.code = (select max(code)  from `order` t2 where t2.code < ?) limit 1;");
 			String currentCode = txtCode.getText();
 			statement.setString(1, currentCode);
 			displayOrder(statement);
@@ -537,8 +403,8 @@ public class OrderForm {
 
 	private void displayNextOrder() {
 		try {
-			PreparedStatement statement = CONNECTION.prepareStatement(
-			    "select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > ?) limit 1;");
+			PreparedStatement statement = MainForm.CONNECTION.prepareStatement(
+					"select * from `order` t1 where t1.code = (select min(code)  from `order` t2 where t2.code > ?) limit 1;");
 			String currentCode = txtCode.getText();
 			statement.setString(1, currentCode);
 			displayOrder(statement);
@@ -551,8 +417,8 @@ public class OrderForm {
 
 	private void displayLastOrder() {
 		try {
-			PreparedStatement statement = CONNECTION
-			    .prepareStatement("select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1");
+			PreparedStatement statement = MainForm.CONNECTION.prepareStatement(
+					"select * from `order` t1 where t1.code = (select max(code)  from `order` t2) limit 1");
 			displayOrder(statement);
 			isAddMode = false;
 			enableDisableElements();
@@ -566,15 +432,16 @@ public class OrderForm {
 		ResultSet resultSet = statement.executeQuery();
 		if (resultSet.next()) {
 			String code = resultSet.getString("code");
-			txtCode.setText(code); 
+			txtCode.setText(code);
 			txtDate.setText(resultSet.getString("date"));
 			txtNote.setText(resultSet.getString("note"));
 			resultSet.close();
 			statement.close();
 
 			// detail order detail query
-			statement = CONNECTION.prepareStatement("select line, itemcode, name, price, quantity, (quantity * price) total "
-			    + "from `order_detail` t1 where t1.code = ?");
+			statement = MainForm.CONNECTION
+					.prepareStatement("select line, itemcode, name, price, quantity, (quantity * price) total "
+							+ "from `order_detail` t1 where t1.code = ?");
 			statement.setString(1, code);
 			resultSet = statement.executeQuery();
 
@@ -625,5 +492,10 @@ public class OrderForm {
 			total = total + t;
 		}
 		txtTotal.setText(String.valueOf(total));
+	}
+
+	@Override
+	public String getDocumentCode() {
+		return txtCode.getText();
 	}
 }

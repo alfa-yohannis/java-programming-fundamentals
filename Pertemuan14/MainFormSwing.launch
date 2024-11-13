@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
     <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/Pertemuan14/src/edu/pradita/p14b/MainForm.java"/>
+        <listEntry value="/Pertemuan14/src/edu/pradita/p14/swing/MainForm.java"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="1"/>
@@ -11,7 +11,7 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.pradita.p14b.MainForm"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.pradita.p14.swing.MainForm"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="Pertemuan14"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Pertemuan14"/>
 </launchConfiguration>

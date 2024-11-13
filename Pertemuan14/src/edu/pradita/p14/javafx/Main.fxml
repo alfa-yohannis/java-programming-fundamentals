@@ -11,7 +11,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Print" onAction="#printReport" />
+                        <MenuItem mnemonicParsing="false" onAction="#printReport" text="Print" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
@@ -29,6 +29,6 @@
         </MenuBar>
     </top>
    <center>
-      <BorderPane fx:id="centerPane" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+      <BorderPane fx:id="centerPane" prefHeight="400.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

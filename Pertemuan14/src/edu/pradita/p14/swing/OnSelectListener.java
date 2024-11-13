@@ -1,4 +1,4 @@
-package edu.pradita.p14;
+package edu.pradita.p14.swing;
 
 public interface OnSelectListener {
 

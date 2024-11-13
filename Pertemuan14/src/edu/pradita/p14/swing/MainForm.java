@@ -1,4 +1,4 @@
-package edu.pradita.p14b;
+package edu.pradita.p14.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;

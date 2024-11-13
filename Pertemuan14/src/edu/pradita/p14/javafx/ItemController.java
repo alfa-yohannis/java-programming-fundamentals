@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ItemController {
+public class ItemController implements IForm{
 
 	@FXML
 	private TableView<Item> table;
@@ -71,6 +71,8 @@ public class ItemController {
 
 		// Load items into the table
 		loadItems();
+		
+		items.add(new Item("", "", 0.0, 0.0));
 	}
 
 	private void loadItems() {
@@ -113,7 +115,11 @@ public class ItemController {
 				statement.setString(2, item.getName());
 				statement.setDouble(3, item.getPrice());
 				statement.setDouble(4, item.getQuantity());
-				statement.executeUpdate();
+				
+			}
+			
+			if (items.size() == 0 || !"".equals(items.get(items.size() - 1).code.get().trim())) {
+				items.add(new Item("", "", 0.0, 0.0));
 			}
 
 			statement.close();
@@ -187,5 +193,10 @@ public class ItemController {
 		public void setQuantity(double quantity) {
 			this.quantity.set(quantity);
 		}
+	}
+
+	@Override
+	public String getDocumentCode() {
+		return null	;
 	}
 }

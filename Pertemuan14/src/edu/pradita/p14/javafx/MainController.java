@@ -1,23 +1,25 @@
 package edu.pradita.p14.javafx;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.awt.Desktop;
 
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.engine.api.*;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportEngineFactory;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 
 public class MainController {
 
@@ -34,6 +36,8 @@ public class MainController {
 	@FXML
 	private BorderPane centerPane;
 	public static Connection CONNECTION;
+	
+	private IForm currentForm;
 
 	public void initialize() {
 		try {
@@ -50,10 +54,7 @@ public class MainController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Item.fxml"));
 			Parent itemFormRoot = loader.load();
 			centerPane.setCenter(itemFormRoot);
-//            Stage itemFormStage = new Stage();
-//            itemFormStage.setTitle("Item");
-//            itemFormStage.setScene(new Scene(itemFormRoot));
-//            itemFormStage.show();
+			currentForm = loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 			showAlert("Error", "Could not open Item Form.");
@@ -66,6 +67,7 @@ public class MainController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SalesOrder.fxml"));
 			Parent salesOrderRoot = loader.load();
 			centerPane.setCenter(salesOrderRoot);
+			currentForm = loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 			showAlert("Error", "Could not open Sales Order Form.");
@@ -93,9 +95,9 @@ public class MainController {
 
 				IReportRunnable design = engine.openReportDesign("reports/test.rptdesign");
 				IRunAndRenderTask task = engine.createRunAndRenderTask(design);
-				task.setParameterValue("order_code", SalesOrderController.getCurrentOrderCode());
+				task.setParameterValue("order_code", currentForm.getDocumentCode());
 				PDFRenderOption options = new PDFRenderOption();
-				options.setOutputFileName("reports/test.pdf");
+				options.setOutputFileName("reports/document.pdf");
 				options.setOutputFormat("pdf");
 
 				task.setRenderOption(options);
@@ -104,7 +106,7 @@ public class MainController {
 				engine.destroy();
 
 				if (Desktop.isDesktopSupported()) {
-					File myFile = new File("reports/test.pdf");
+					File myFile = new File("reports/document.pdf");
 					Desktop.getDesktop().open(myFile);
 				}
 

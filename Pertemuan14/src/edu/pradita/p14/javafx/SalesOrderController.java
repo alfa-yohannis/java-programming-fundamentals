@@ -6,11 +6,17 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.sql.*;
 
-public class SalesOrderController {
+public class SalesOrderController implements IForm {
 
     @FXML private TextField txtCode;
 	@FXML
@@ -29,20 +35,29 @@ public class SalesOrderController {
     
 	private static String currentCode;
 
-    public void initialize() {
-        colLine.setCellValueFactory(cellData -> cellData.getValue().lineProperty().asObject());
-        colCode.setCellValueFactory(cellData -> cellData.getValue().itemCodeProperty());
-        colName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        colPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-        colQuantity.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
-        colTotal.setCellValueFactory(cellData -> cellData.getValue().totalProperty().asObject());
+	public void initialize() {
+	    colLine.setCellValueFactory(cellData -> cellData.getValue().lineProperty().asObject());
+	    colCode.setCellValueFactory(cellData -> cellData.getValue().itemCodeProperty());
+	    colName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+	    colPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+	    
+	    // Set colQuantity as editable
+	    colQuantity.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+	    colQuantity.setCellFactory(TextFieldTableCell.forTableColumn(new javafx.util.converter.DoubleStringConverter()));
+	    colQuantity.setOnEditCommit(event -> {
+	        OrderItem orderItem = event.getRowValue();
+	        double newQuantity = event.getNewValue();
+	        orderItem.setQuantity(newQuantity); // Update quantity in OrderItem
+	        calculateTotal(); // Recalculate total after quantity change
+	    });
+	    
+	    colTotal.setCellValueFactory(cellData -> cellData.getValue().totalProperty().asObject());
 
-        table.setItems(orderItems);
+	    table.setItems(orderItems);
+	    table.setEditable(true); // Enable editing in the table
 
-        
-
-        displayLastOrder();
-    }
+	    displayLastOrder();
+	}
 
     @FXML
     private void newOrder() {
@@ -140,12 +155,50 @@ public class SalesOrderController {
     @FXML
     private void addItem() {
         if (isAddMode) {
-            int line = orderItems.size() + 1;
-            orderItems.add(new OrderItem(line, "ITEM001", "Sample Item", 100.0, 1));
-            calculateTotal();
+            openSelectForm();
         }
     }
 
+    private void openSelectForm() {
+        try {
+            // Load SelectForm.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectForm.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set the callback
+            SelectFormController controller = loader.getController();
+
+            // Set query for SelectFormController to load items with quantity > 0
+            String query = "SELECT code, name, price FROM item WHERE quantity > 0";
+            controller.loadTableData(query); // Assuming loadItems(query) is a method in SelectFormController
+
+            // Set the OnSelectListener to handle selected item data
+            controller.setOnSelectListener(values -> {
+                if (values != null && values.length > 0) {
+                    String itemCode = (String) values[0];
+                    String itemName = (String) values[1];
+                    double itemPrice = ((Number) values[2]).doubleValue(); // Convert price to double
+                    double quantity = 1.0; // Default quantity
+
+                    int line = orderItems.size() + 1;
+                    orderItems.add(new OrderItem(line, itemCode, itemName, itemPrice, quantity));
+                    calculateTotal();
+                }
+            });
+
+            // Show SelectForm in a new modal window
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Select Item");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     @FXML
     private void removeItem() {
         if (isAddMode) {
@@ -161,40 +214,62 @@ public class SalesOrderController {
     private void confirmOrder() {
         if (isAddMode) {
             try {
-                PreparedStatement stmt = MainController.CONNECTION.prepareStatement(
-                        "INSERT INTO `order` (note) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-                stmt.setString(1, txtNote.getText());
-                stmt.executeUpdate();
-                ResultSet generatedKeys = stmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    String newCode = generatedKeys.getString(1);
-                    txtCode.setText(newCode);
-
-                    for (OrderItem item : orderItems) {
-                        PreparedStatement detailStmt = MainController.CONNECTION.prepareStatement(
-                                "INSERT INTO `order_detail` (code, line, itemcode, name, price, quantity) " +
-                                        "VALUES (?, ?, ?, ?, ?, ?)");
-                        detailStmt.setString(1, newCode);
-                        detailStmt.setInt(2, item.getLine());
-                        detailStmt.setString(3, item.getItemCode());
-                        detailStmt.setString(4, item.getName());
-                        detailStmt.setDouble(5, item.getPrice());
-                        detailStmt.setDouble(6, item.getQuantity());
-                        detailStmt.executeUpdate();
-                        detailStmt.close();
-                    }
-                    isAddMode = false;
-                    enableDisableElements();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order saved successfully.");
-                    alert.showAndWait();
+                // Step 1: Get the maximum existing order code and generate a new code
+                PreparedStatement maxCodeStmt = MainController.CONNECTION.prepareStatement("SELECT MAX(code) AS code FROM `order`;");
+                ResultSet maxCodeResultSet = maxCodeStmt.executeQuery();
+                String maxCode = null;
+                if (maxCodeResultSet.next()) {
+                    maxCode = maxCodeResultSet.getString("code");
                 }
-                generatedKeys.close();
-                stmt.close();
+                String newCode = maxCode != null ? String.valueOf(Integer.parseInt(maxCode) + 1) : "1";
+                maxCodeResultSet.close();
+                maxCodeStmt.close();
+
+                // Step 2: Insert the new order record with the generated code
+                PreparedStatement orderStmt = MainController.CONNECTION.prepareStatement(
+                        "INSERT INTO `order` (code, note) VALUES (?, ?);");
+                orderStmt.setString(1, newCode);
+                orderStmt.setString(2, txtNote.getText());
+                orderStmt.executeUpdate();
+                orderStmt.close();
+
+                // Step 3: Insert each OrderItem into the order_detail table
+                for (OrderItem item : orderItems) {
+                    PreparedStatement detailStmt = MainController.CONNECTION.prepareStatement(
+                            "INSERT INTO `order_detail` (code, line, itemcode, name, price, quantity) VALUES (?, ?, ?, ?, ?, ?);");
+                    detailStmt.setString(1, newCode);
+                    detailStmt.setInt(2, item.getLine());
+                    detailStmt.setString(3, item.getItemCode());
+                    detailStmt.setString(4, item.getName());
+                    detailStmt.setDouble(5, item.getPrice());
+                    detailStmt.setDouble(6, item.getQuantity());
+                    detailStmt.executeUpdate();
+                    detailStmt.close();
+
+                    // Step 4: Update the stock quantity in the item table
+                    PreparedStatement updateStockStmt = MainController.CONNECTION.prepareStatement(
+                            "UPDATE item SET quantity = quantity - ? WHERE code = ?;");
+                    updateStockStmt.setDouble(1, item.getQuantity());
+                    updateStockStmt.setString(2, item.getItemCode());
+                    updateStockStmt.executeUpdate();
+                    updateStockStmt.close();
+                }
+
+                // Step 5: Finalize the order and update the UI
+                isAddMode = false;
+                enableDisableElements();
+                displayLastOrder(); // Display the last order to confirm the save
+
+                // Show a success alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order saved successfully.");
+                alert.showAndWait();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+	
 
     private void calculateTotal() {
         double total = orderItems.stream().mapToDouble(OrderItem::getTotal).sum();
@@ -214,17 +289,6 @@ public class SalesOrderController {
         txtNote.clear();
         txtTotal.clear();
         orderItems.clear();
-    }
-    
-    public static String getCurrentOrderCode() {
-        try {
-        	return currentCode;
-//			return SalesOrderController.this.txtCode.getText();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // Assumes only one instance is in use
-		return null;
     }
     
     public class OrderItem {
@@ -315,4 +379,9 @@ public class SalesOrderController {
     		
     	}
     }
+
+	@Override
+	public String getDocumentCode() {
+		return txtCode.getText();
+	}	
 }

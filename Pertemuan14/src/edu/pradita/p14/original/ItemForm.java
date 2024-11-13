@@ -1,58 +1,94 @@
-package edu.pradita.p14b;
+package edu.pradita.p14.original;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
+
+import java.awt.Component;
 import java.awt.GridLayout;
+import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Point;
+
+import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+public class ItemForm extends JFrame {
 
-public class ItemForm extends JPanel implements IForm {
-
-	private static final long serialVersionUID = -5614073877284999276L;
+	private JPanel contentPane;
 	private JTable table;
+	private String query;
 
 	/** 
 	 * Create the frame.
 	 */
-	public ItemForm(MainForm mainForm) {
+	public ItemForm() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setAlwaysOnTop(true);
+		setTitle("Item Form");
 		setFont(new Font("Tahoma", Font.PLAIN, 16));
 		setBounds(100, 100, 350, 270);
-		this.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setLayout(new BorderLayout(0, 4));
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 4));
 
 		Point centerPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 		this.setLocation(centerPoint.x - (int) this.getSize().getWidth() / 2,
 		    centerPoint.y - (int) this.getSize().getHeight() / 2);
 
 		JPanel panel = new JPanel();
-		this.add(panel, BorderLayout.SOUTH);
+		contentPane.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new GridLayout(1, 2, 0, 0));
 
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ItemForm.this.setVisible(false);
+				ItemForm.this.dispose();
+			}
+		});
+		btnClose.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnClose.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		btnClose.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(btnClose);
+
 		JScrollPane scrollPane = new JScrollPane();
-		this.add(scrollPane, BorderLayout.CENTER);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
 		    new String[] { "Code", "Name", "Price", "Quantity" }) {
-			private static final long serialVersionUID = 77319703134386250L;
-			Class<?>[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class };
+			Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class };
 
-			public Class<?> getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
@@ -130,7 +166,7 @@ public class ItemForm extends JPanel implements IForm {
 				try {
 					String query = "UPDATE item SET code = ?, name = ?, price = ?, quantity = ? " 
 				+ " WHERE code = ?";
-					PreparedStatement statement = MainForm.CONNECTION.prepareStatement(query);
+					PreparedStatement statement = OrderForm.CONNECTION.prepareStatement(query);
 					statement.setString(1, code);
 					statement.setString(2, name);
 					statement.setDouble(3, price);
@@ -143,7 +179,7 @@ public class ItemForm extends JPanel implements IForm {
 					else {
 						statement.close();
 						query = "INSERT INTO item(code, name, price, quantity) VALUES(?, ?, ?, ?);";
-						statement = MainForm.CONNECTION.prepareStatement(query);
+						statement = OrderForm.CONNECTION.prepareStatement(query);
 						statement.setString(1, code);
 						statement.setString(2, name);
 						statement.setDouble(3, price);
@@ -168,7 +204,7 @@ public class ItemForm extends JPanel implements IForm {
 	private void updateTable() {
 		try {
 			String query = "SELECT code, name, price, quantity FROM item";
-			PreparedStatement statement = MainForm.CONNECTION.prepareStatement(query);
+			PreparedStatement statement = OrderForm.CONNECTION.prepareStatement(query);
 			ResultSet resultSet = statement.executeQuery();
 
 			DefaultTableModel dtm = (DefaultTableModel) table.getModel();
@@ -195,10 +231,5 @@ public class ItemForm extends JPanel implements IForm {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public String getDocumentCode() {
-		return null;
 	}
 }
